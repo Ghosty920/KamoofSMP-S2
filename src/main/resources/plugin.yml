@@ -1,0 +1,10 @@
+name: KamoofSMP
+authors: [Ghosty, Solme]
+version: ${version}
+description: Le KamoofSMP Saison 2 de Sohran
+website: https://modrinth.com/plugin/kamoof
+main: me.ghosty.kamoof.KamoofSMP
+commands:
+  kamoofsmp:
+    description: La commande admin du KamoofSMP
+    permission: kamoofsmp.admin
