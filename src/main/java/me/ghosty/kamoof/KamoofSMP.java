@@ -3,6 +3,7 @@ package me.ghosty.kamoof;
 import lombok.Getter;
 import me.ghosty.kamoof.commands.KamoofCMD;
 import me.ghosty.kamoof.features.disguise.DisguiseListener;
+import me.ghosty.kamoof.features.ritual.RitualSetup;
 import me.ghosty.kamoof.utils.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -15,6 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 
 public final class KamoofSMP extends JavaPlugin {
+	
+	public static final String PREFIX = "§a§l[KamoofSMP] §r";
 	
 	@Getter
 	private static KamoofSMP instance;
@@ -30,9 +33,12 @@ public final class KamoofSMP extends JavaPlugin {
 		super.onEnable();
 		
 		instance = this;
+		saveDefaultConfig();
 		PluginManager pm = Bukkit.getPluginManager();
 		
-		pm.registerEvents(new DisguiseListener());
+		pm.registerEvents(new DisguiseListener(), this);
+		
+		pm.registerEvents(new RitualSetup(), this);
 		
 		try {
 			File file = new File(getDataFolder() + File.separator + "data.yml");

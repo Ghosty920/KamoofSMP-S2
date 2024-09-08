@@ -25,9 +25,9 @@ public final class SkullManager {
 		} catch (Throwable exc) {
 			meta.setDisplayName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
 		}
-		meta.setLore(Placeholder.apply(KamoofSMP.config().getStringList("head-lore"), Map.of("player", player));
+		meta.setLore(Placeholder.apply(KamoofSMP.config().getStringList("drophead.lore"), Map.of("player", player)));
 		
-		boolean stackable = KamoofSMP.config().getBoolean("options.stackable");
+		boolean stackable = KamoofSMP.config().getBoolean("drophead.stackable");
 		meta.getPersistentDataContainer().set(keyTimestamp, PersistentDataType.LONG, stackable ? -1L : System.currentTimeMillis());
 		meta.getPersistentDataContainer().set(keyPlayer, PersistentDataType.STRING, player);
 		
