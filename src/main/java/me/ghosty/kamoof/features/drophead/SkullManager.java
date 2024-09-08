@@ -1,11 +1,14 @@
 package me.ghosty.kamoof.features.drophead;
 
 import lombok.experimental.UtilityClass;
-import me.ghosty.kamoofsmp.KamoofSMP;
+import me.ghosty.kamoof.KamoofSMP;
+import me.ghosty.kamoof.utils.Placeholder;
 import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.Map;
 
 @UtilityClass
 public final class SkullManager {
@@ -18,11 +21,11 @@ public final class SkullManager {
 		SkullMeta meta = (SkullMeta) item.getItemMeta();
 		meta.setOwningPlayer(Bukkit.getOfflinePlayer(player));
 		try {
-			meta.setItemName(KamoofSMP.config().getString("head-name").replace("%player%", player));
+			meta.setItemName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
 		} catch (Throwable exc) {
-			meta.setDisplayName(KamoofSMP.config().getString("head-name").replace("%player%", player));
+			meta.setDisplayName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
 		}
-		meta.setLore(KamoofSMP.config().getStringList("head-lore"));
+		meta.setLore(Placeholder.apply(KamoofSMP.config().getStringList("head-lore"), Map.of("player", player));
 		
 		boolean stackable = KamoofSMP.config().getBoolean("options.stackable");
 		meta.getPersistentDataContainer().set(keyTimestamp, PersistentDataType.LONG, stackable ? -1L : System.currentTimeMillis());

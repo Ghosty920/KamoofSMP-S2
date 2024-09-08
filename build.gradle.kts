@@ -15,7 +15,8 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-    compileOnly("xyz.haoshoku.nick:nickapi:7.0-SNAPSHOT")
+//    compileOnly("xyz.haoshoku.nick:nickapi:7.0-SNAPSHOT")
+    compileOnly("xyz/haoshoku/nick:NickAPI:v6.7")
 
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")

@@ -25,6 +25,14 @@ public class KamoofCMD implements CommandExecutor, TabCompleter {
 		
 		if (!player.hasPermission("kamoofsmp.admin")) {
 			return showCredits(sender);
+		} else if(args.length == 0)
+			return showArgs(sender);
+		
+		switch(args[0].toLowerCase()) {
+			case "info":
+				return showCredits(sender);
+			case "givehead":
+				Skull
 		}
 		
 		player.getWorld().dropItem(player.getLocation().add(0, 5, 0), RitualBook.getBook(UUID.randomUUID()));
@@ -35,7 +43,7 @@ public class KamoofCMD implements CommandExecutor, TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if(sender.hasPermission("kamoofsmp.admin")) {
-			return Arrays.asList("info", "givehead", "disguise", "undisguise");
+			return Arrays.asList("info", "givehead", "disguise", "undisguise", "reload");
 		}
 		return List.of();
 	}
