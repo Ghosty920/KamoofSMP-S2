@@ -1,6 +1,7 @@
 package me.ghosty.kamoof.features.ritual;
 
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.joml.Vector2d;
 
 import java.util.Arrays;
@@ -19,26 +20,9 @@ public final class RitualHandler {
 		new Vector2d(4, 4)
 	);
 	
-	public static void doStuff() {
-		World world = Bukkit.getWorlds().getFirst();
-		
-		double StartX = 0;
-		double StartY = 100;
-		double StartZ = 0;
-		int particleCount = 100; // Nombre de particules à générer
-		
-		// Création des particules
-		for (int i = 0; i < particleCount; i++) {
-			double ratio = (double) i / (particleCount - 1);
-			double x = StartX + 0.5 + -4 * ratio;
-			double y = StartY + 0.25 + 0 * ratio;
-			double z = StartZ + 6.5 + -2 * ratio;
-			world.spawnParticle(Particle.DUST, x, y, z, 1, 0, 0, 0, 0, (new Particle.DustOptions(Color.RED, 1)), true);
-		}
-	}
-	
-	public static void doStuff2() {
-		World world = Bukkit.getWorlds().getFirst();
+	public static void doStuff(Player player) {
+//		World world = Bukkit.getWorlds().getFirst();
+		World world = player.getWorld();
 		
 		double startX = 0.5, startY = 100, startZ = 0.5;
 		int particleCount = 100;

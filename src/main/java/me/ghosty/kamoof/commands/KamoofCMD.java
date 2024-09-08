@@ -49,11 +49,7 @@ public class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "test": {
-				RitualHandler.doStuff();
-				return true;
-			}
-			case "test2": {
-				RitualHandler.doStuff2();
+				RitualHandler.doStuff(player);
 				return true;
 			}
 			case "book": {
