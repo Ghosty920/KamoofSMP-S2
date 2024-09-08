@@ -1,0 +1,9 @@
+drop-head:
+  # Sur true, les têtes seront drop à la mort, sur false le cas contraire
+  # Ce processus peut être remplacé par un autre plugin ou un datapack
+  enabled: true
+  # Le nom des têtes
+  name: %player%
+  # La description des têtes
+  lore:
+    - 

@@ -1,10 +1,15 @@
 name: KamoofSMP
 authors: [Ghosty, Solme]
 version: ${version}
+api-version: 1.21
 description: Le KamoofSMP Saison 2 de Sohran
 website: https://modrinth.com/plugin/kamoof
+depend: [NickAPI]
 main: me.ghosty.kamoof.KamoofSMP
 commands:
   kamoofsmp:
     description: La commande admin du KamoofSMP
+    aliases: [kamoof]
+  givehead:
+    description: Se donner n'importe quelle tête
     permission: kamoofsmp.admin

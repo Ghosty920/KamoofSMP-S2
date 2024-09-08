@@ -15,14 +15,12 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
-//    compileOnly("xyz/haoshoku/nick:NickAPI:v6.7")
+    compileOnly("xyz.haoshoku.nick:nickapi:7.0-SNAPSHOT")
 
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
-
-    implementation(project(":NickAPI"))
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
