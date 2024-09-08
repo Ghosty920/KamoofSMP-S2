@@ -1,8 +1,7 @@
 package me.ghosty.kamoof.features.ritual;
 
 import com.google.common.base.Joiner;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
@@ -12,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.profile.PlayerProfile;
+import org.joml.Vector2d;
 
 public final class RitualSetup implements Listener {
 	
@@ -36,7 +36,11 @@ public final class RitualSetup implements Listener {
 			return;
 		event.setCancelled(true);
 		
-		player.sendMessage("ur beautiful ma vie!!!");
+		Location loc = event.getBlockPlaced().getLocation();
+		
+		for (Vector2d offset : RitualHandler.offsets) {
+			loc.getWorld().spawnParticle(Particle.DUST, loc.getX() + 0.5 + offset.x, loc.getY() + 0.5, loc.getZ() + 0.5 + offset.y, 3, 0, 0, 0, 0, (new Particle.DustOptions(Color.RED, 2)), true);
+		}
 	}
 	
 }
