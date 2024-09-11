@@ -1,17 +1,18 @@
 package me.ghosty.kamoof.features.ritual;
 
-import com.google.common.base.Joiner;
+import me.ghosty.kamoof.KamoofSMP;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.profile.PlayerProfile;
 import org.joml.Vector2d;
+
+import java.util.ArrayList;
 
 public final class RitualSetup implements Listener {
 	
@@ -38,9 +39,28 @@ public final class RitualSetup implements Listener {
 		
 		Location loc = event.getBlockPlaced().getLocation();
 		
+		ArrayList<Integer> entities = new ArrayList<>();
 		for (Vector2d offset : RitualHandler.offsets) {
-			player.spawnParticle(Particle.DUST, loc.getX() + 0.5 + offset.x, loc.getY() + 0.5, loc.getZ() + 0.5 + offset.y, 3, 0, 0, 0, 0, (new Particle.DustOptions(Color.RED, 2)), true);
+			double x = loc.getX() + offset.x + 0.5, z = loc.getZ() + offset.y + 0.5;
+			player.spawnParticle(Particle.DUST, x, loc.getY() + 0.5, z, 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.YELLOW, 2)), true);
+		
+			Location location = new Location(player.getWorld(), x, loc.getY(), z);
+			ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+			entity.setArms(false);
+			entity.setBasePlate(false);
+			entity.setVisible(false);
+			entity.setCollidable(false);
+			entity.setInvulnerable(true);
+			entity.setGravity(false);
+			entity.setAI(false);
+			entities.add(entity.getEntityId());
 		}
+		
+		player.sendMessage(KamoofSMP.PREFIX + String.format("§aNouveau lieu de Rituel: %s %s %s", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+		KamoofSMP.getInstance().reloadConfig();
+		KamoofSMP.config().set("ritual.data.location", loc.add(0.5, 0.5, 0.5));
+		KamoofSMP.config().set("ritual.data.entities", entities);
+		KamoofSMP.getInstance().saveConfig();
 	}
 	
 }
