@@ -39,7 +39,7 @@ public final class UpdateChecker implements Listener {
 		try {
 			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/kamoofsmp2/version",
 				new HashMap<>() {{
-					put("User-Agent", "github: @Ghosty920/KamoofSMP2/v" + currentVersion);
+					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
 				}}).response();
 			JsonObject object = JsonParser.parseString(data).getAsJsonArray().get(0).getAsJsonObject();
 			newVersion = object.get("version_number").getAsString().trim().toLowerCase();

@@ -126,7 +126,7 @@ public final class RitualHandler {
 	}
 	
 	public static void setPacte(Player player, String pacte) {
-		KamoofSMP.getData().set("pacte." + DisguiseManager.getUUID(player).toString(), pacte);
+		KamoofSMP.getData().set("pacte." + player.getUniqueId(), pacte);
 		KamoofSMP.saveData();
 		switch (pacte) {
 			case "1" -> {
@@ -141,6 +141,6 @@ public final class RitualHandler {
 	}
 	
 	public static String getPacte(Player player) {
-		return KamoofSMP.getData().getString("pacte." + DisguiseManager.getUUID(player).toString());
+		return KamoofSMP.getData().getString("pacte." + player.getUniqueId());
 	}
 }

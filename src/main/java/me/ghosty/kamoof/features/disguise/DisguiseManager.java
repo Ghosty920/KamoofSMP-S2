@@ -2,12 +2,8 @@ package me.ghosty.kamoof.features.disguise;
 
 import lombok.experimental.UtilityClass;
 import me.ghosty.kamoof.utils.Reflection;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import xyz.haoshoku.nick.api.NickAPI;
-import xyz.haoshoku.nick.user.NickHandler;
-
-import java.util.UUID;
 
 @UtilityClass
 public final class DisguiseManager {
@@ -35,7 +31,7 @@ public final class DisguiseManager {
 	private static void resetGameProfileName(Player player) {
 		try {
 			NickAPI.resetGameProfileName(player);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			Reflection.getMethod(NickAPI.class, "resetProfileName", Player.class).invoke(null, player);
 		}
 	}
@@ -43,7 +39,7 @@ public final class DisguiseManager {
 	private static void setGameProfileName(Player player, String name) {
 		try {
 			NickAPI.setGameProfileName(player, name);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			Reflection.getMethod(NickAPI.class, "setProfileName", Player.class, String.class).invoke(null, player, name);
 		}
 	}
@@ -51,15 +47,9 @@ public final class DisguiseManager {
 	private static void setNick(Player player, String name) {
 		try {
 			NickAPI.nick(player, name);
-		} catch (Exception exc) {
+		} catch (Throwable exc) {
 			Reflection.getMethod(NickAPI.class, "setNick", Player.class, String.class).invoke(null, player, name);
 		}
-	}
-	
-	public static UUID getUUID(OfflinePlayer player) {
-		if(!(player instanceof Player online))
-			return player.getUniqueId();
-		return NickHandler.getUser(online).getUuid();
 	}
 	
 }

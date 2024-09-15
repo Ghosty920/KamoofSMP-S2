@@ -39,11 +39,24 @@ public final class DisguiseListener implements Listener {
 			}
 		}
 		
-		String name = target.getName();
-		if (target instanceof Player targetP)
-			name = NickAPI.getOriginalName(targetP);
-		if (name == null)
-			name = SkullManager.getName(event.getItem());
+		String name = "";
+		switch (NickVersion.get()) {
+			case v6 -> {
+				name = target.getName();
+				if (target instanceof Player targetP)
+					name = NickAPI.getOriginalName(targetP);
+				if (name == null)
+					name = SkullManager.getName(event.getItem());
+			}
+			case v7 -> {
+				name = SkullManager.getName(event.getItem());
+				if (name == null) {
+					name = target.getName();
+					if (target instanceof Player targetP)
+						name = NickAPI.getOriginalName(targetP);
+				}
+			}
+		}
 		
 		DisguiseManager.disguise(player, name);
 		Message.send(player, "messages.disguised", Map.of("player", NickAPI.getOriginalName(player), "nick", name));
@@ -60,7 +73,7 @@ public final class DisguiseListener implements Listener {
 		DisguiseManager.undisguise(player);
 		Message.send(player, "messages.lostdisguise", Map.of("player", NickAPI.getOriginalName(player), "nick", disguise));
 		
-		DisguiseRestaurer.set(player.getName(), null);
+		DisguiseRestaurer.set(player.getUniqueId(), null);
 	}
 	
 }

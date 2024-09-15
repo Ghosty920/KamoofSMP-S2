@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.Map;
+import java.util.UUID;
 
 public final class DisguiseRestaurer implements Listener {
 	
@@ -21,15 +22,12 @@ public final class DisguiseRestaurer implements Listener {
 		enabled = true;
 	}
 	
-	public static String get(String name) {
-		return KamoofSMP.getData().getString("restaurer." + name);
+	public static String get(UUID uuid) {
+		return KamoofSMP.getData().getString("restaurer." + uuid);
 	}
 	
-	public static void set(String name, String disguise) {
-		if (name.equalsIgnoreCase(disguise))
-			KamoofSMP.getData().set("restaurer." + name, null);
-		else
-			KamoofSMP.getData().set("restaurer." + name, disguise);
+	public static void set(UUID uuid, String disguise) {
+		KamoofSMP.getData().set("restaurer." + uuid, disguise);
 		KamoofSMP.saveData();
 	}
 	
@@ -37,16 +35,19 @@ public final class DisguiseRestaurer implements Listener {
 		if (!enabled)
 			return;
 		
-		Bukkit.getOnlinePlayers().forEach(player -> {
-			String name = player.getName();
-			String disguise = get(name);
-			if (disguise != null) {
-				set(name, null);
-				DisguiseManager.disguise(player, disguise);
-			}
-		});
+		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
+			Bukkit.getOnlinePlayers().forEach(player -> {
+				String name = player.getName();
+				String disguise = get(player.getUniqueId());
+				if (disguise != null) {
+					set(player.getUniqueId(), null);
+					if (!name.equalsIgnoreCase(disguise))
+						DisguiseManager.disguise(player, disguise);
+				}
+			});
+			KamoofSMP.saveData();
+		}, 1L);
 		
-		KamoofSMP.saveData();
 	}
 	
 	public static void onDisable() {
@@ -54,8 +55,8 @@ public final class DisguiseRestaurer implements Listener {
 			return;
 		
 		Bukkit.getOnlinePlayers().forEach(player -> {
-			if (NickAPI.isNicked(player))
-				set(NickAPI.getOriginalName(player), NickAPI.getName(player));
+			if (NickAPI.isNicked(player) && !NickAPI.getOriginalName(player).equalsIgnoreCase(NickAPI.getName(player)))
+				set(player.getUniqueId(), NickAPI.getName(player));
 		});
 		
 		KamoofSMP.saveData();
@@ -65,10 +66,11 @@ public final class DisguiseRestaurer implements Listener {
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		String name = player.getName();
-		String disguise = get(name);
+		UUID uuid = player.getUniqueId();
+		String disguise = get(uuid);
 		if (disguise == null)
 			return;
-		set(name, null);
+		set(uuid, null);
 		DisguiseManager.disguise(player, disguise);
 		
 		labelJoinMessage:
@@ -91,7 +93,7 @@ public final class DisguiseRestaurer implements Listener {
 		try {
 			if (!NickAPI.isNicked(player))
 				return;
-			set(NickAPI.getOriginalName(player), NickAPI.getName(player));
+			set(player.getUniqueId(), NickAPI.getName(player));
 		} catch (Throwable ignored) {
 		}
 	}

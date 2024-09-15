@@ -21,7 +21,11 @@ public final class SkullManager {
 	public static ItemStack getSkull(String player) {
 		ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 		SkullMeta meta = (SkullMeta) item.getItemMeta();
-		meta.setOwningPlayer(Bukkit.getOfflinePlayer(player));
+		
+		OfflinePlayer target = Bukkit.getOfflinePlayer(player);
+		meta.setOwningPlayer(target);
+//		meta.setOwnerProfile(Bukkit.createPlayerProfile(offlinePlayer.getUniqueId()));
+		
 		meta.setItemName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
 		meta.setLore(Placeholder.apply(KamoofSMP.config().getStringList("drophead.lore"), Map.of("player", player)));
 		
@@ -41,6 +45,9 @@ public final class SkullManager {
 		return meta.getOwningPlayer();
 	}
 	
+	/**
+	 * looks shit but works fine for now
+	 */
 	public static String getName(ItemStack item) {
 		if (item == null || !item.hasItemMeta())
 			return null;
@@ -49,9 +56,12 @@ public final class SkullManager {
 		String name = meta.getPersistentDataContainer().get(keyPlayer, PersistentDataType.STRING);
 		if(name != null)
 			return name;
-		if(meta.getOwningPlayer() instanceof Player player)
+		if(meta.getOwningPlayer() != null && meta.getOwningPlayer() instanceof Player player)
 			return NickAPI.getOriginalName(player);
 		name = meta.getOwnerProfile().getName();
+		if(name != null)
+			return name;
+		name = meta.getOwningPlayer().getName();
 		return name;
 	}
 }
