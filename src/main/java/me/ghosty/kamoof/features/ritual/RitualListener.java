@@ -3,17 +3,16 @@ package me.ghosty.kamoof.features.ritual;
 import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.features.drophead.SkullManager;
 import me.ghosty.kamoof.utils.Message;
-import me.ghosty.kamoof.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginManager;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
@@ -34,6 +33,10 @@ public final class RitualListener implements Listener {
 		if (!contains)
 			return;
 		if (event.getPlayerItem().getType() != Material.PLAYER_HEAD) {
+			if (entity.getEquipment() != null && entity.getEquipment().getHelmet() != null
+				&& entity.getEquipment().getHelmet().getType() == Material.PLAYER_HEAD
+				&& event.getPlayerItem().getType() == Material.AIR)
+				return;
 			event.setCancelled(true);
 			return;
 		}
@@ -55,6 +58,7 @@ public final class RitualListener implements Listener {
 				continue;
 			}
 			String comparator = SkullManager.getName(helmet);
+			
 			if (comparable.equalsIgnoreCase(comparator)) {
 				dupes.add(stand);
 			}
@@ -75,25 +79,39 @@ public final class RitualListener implements Listener {
 	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
 		String pacte = RitualHandler.getPacte(player);
-		if(pacte == null)
+		if (pacte == null)
 			return;
-		if(pacte.equalsIgnoreCase("1")) {
+		if (pacte.equalsIgnoreCase("1")) {
 			pacte = "bloody";
 			player.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(RitualHandler.healthBoostModifier);
-		} else if(pacte.equalsIgnoreCase("2")) {
+		} else if (pacte.equalsIgnoreCase("2")) {
 			pacte = "forgotten";
 		} else
 			return;
-		Message.send(player, "messages.death-"+pacte, Map.of("player", NickAPI.getOriginalName(player)));
+		Message.send(player, "messages.death-" + pacte, Map.of("player", NickAPI.getOriginalName(player)));
 		RitualHandler.setPacte(player, null);
 	}
 	
 	@EventHandler
 	public void onMilk(PlayerItemConsumeEvent event) {
-		event.getPlayer().sendMessage(Arrays.toString(event.getPlayer().getActivePotionEffects().toArray()));
+		Player player = event.getPlayer();
 		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
-		
+			if (!event.getPlayer().isOnline())
+				return;
+			String pacte = RitualHandler.getPacte(player);
+			if (pacte == null || !pacte.equalsIgnoreCase("2"))
+				return;
+			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1));
 		}, 1L);
+	}
+	
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		String pacte = RitualHandler.getPacte(player);
+		if (pacte == null || !pacte.equalsIgnoreCase("2"))
+			return;
+		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1));
 	}
 	
 }

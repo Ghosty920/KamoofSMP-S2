@@ -71,14 +71,14 @@ public final class KamoofSMP extends JavaPlugin {
 			pm.registerEvents(new RitualSetup(), this);
 			pm.registerEvents(new RitualListener(), this);
 		}
-		if(getConfig().getBoolean("drophead.enabled"))
-			pm.registerEvents(new HeadDropper(), this);
 		if(getConfig().getBoolean("autoupdate.fetch"))
 			pm.registerEvents(new UpdateChecker(), this);
 		if(getConfig().getBoolean("restaure.enabled"))
 			pm.registerEvents(new DisguiseRestaurer(), this);
 		if(getConfig().getBoolean("macelimiter.enabled"))
 			pm.registerEvents(new MaceLimiter(), this);
+		
+		pm.registerEvents(new HeadDropper(), this);
 		
 		registerCommand("kamoofsmp", new KamoofCMD());
 		registerCommand("givehead", new GiveHeadCMD());

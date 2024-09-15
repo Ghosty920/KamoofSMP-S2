@@ -37,13 +37,13 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 					return true;
 			}
 			
-			if (!RitualHandler.isValidUUID(uuid))
-				return true;
-			
 			if(RitualHandler.getPacte(player) != null) {
 				Message.send(player, "messages.already-chose", Map.of("player", NickAPI.getOriginalName(player)));
 				return true;
 			}
+			
+			if (!RitualHandler.isValidUUID(uuid))
+				return true;
 			
 			book.setAmount(0);
 			RitualHandler.setPacte(player, args[1]);
