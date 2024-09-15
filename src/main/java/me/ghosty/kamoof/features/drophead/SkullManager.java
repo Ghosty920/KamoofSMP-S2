@@ -38,8 +38,6 @@ public final class SkullManager {
 			return null;
 		if (!(item.getItemMeta() instanceof SkullMeta meta))
 			return null;
-		if (!meta.getPersistentDataContainer().has(keyTimestamp, PersistentDataType.LONG))
-			return null;
 		return meta.getOwningPlayer();
 	}
 	
