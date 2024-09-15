@@ -11,6 +11,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.haoshoku.nick.api.NickAPI;
@@ -35,7 +36,8 @@ public final class RitualListener implements Listener {
 		if (event.getPlayerItem().getType() != Material.PLAYER_HEAD) {
 			if (entity.getEquipment() != null && entity.getEquipment().getHelmet() != null
 				&& entity.getEquipment().getHelmet().getType() == Material.PLAYER_HEAD
-				&& event.getPlayerItem().getType() == Material.AIR)
+				&& event.getPlayerItem().getType() == Material.AIR
+				&& !entity.getPersistentDataContainer().getOrDefault(RitualHandler.key, PersistentDataType.BOOLEAN, false))
 				return;
 			event.setCancelled(true);
 			return;

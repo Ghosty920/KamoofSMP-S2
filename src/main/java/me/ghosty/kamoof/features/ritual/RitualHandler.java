@@ -92,7 +92,7 @@ public final class RitualHandler {
 		entity.setInvulnerable(true);
 		entity.setGravity(false);
 		entity.setAI(false);
-		entity.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
+		entity.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, false);
 		return entity;
 	}
 	

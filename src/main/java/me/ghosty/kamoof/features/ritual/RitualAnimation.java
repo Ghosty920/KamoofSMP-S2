@@ -1,13 +1,24 @@
 package me.ghosty.kamoof.features.ritual;
 
+import lombok.SneakyThrows;
 import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.utils.Message;
 import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.event.block.CrafterCraftEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.profile.PlayerProfile;
+import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
 
-import java.util.ArrayList;
+import java.net.URL;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import static me.ghosty.kamoof.features.ritual.RitualHandler.offsets;
@@ -20,6 +31,7 @@ public final class RitualAnimation {
 	private static final Particle.DustOptions aquaDust = new Particle.DustOptions(Color.AQUA, 1);
 	private static boolean stopped = false;
 	
+	@SneakyThrows
 	public static void execute(Location location) {
 		final World world = location.getWorld();
 		final double startX = location.getBlockX() + 0.5, startY = location.getBlockY() + 0.25, startZ = location.getBlockZ() + 0.5;
@@ -32,6 +44,23 @@ public final class RitualAnimation {
 		var ref = new Object() {
 			int currentOffset = 0;
 		};
+		
+		// Modification des têtes
+		PlayerProfile newProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+		PlayerTextures textures = newProfile.getTextures();
+		textures.setSkin(new URL("http://textures.minecraft.net/texture/f8912bc1ad3ddbe39a19b734a42d8548964bb0a9ce58a52f1a6ae37121524"));
+		newProfile.setTextures(textures);
+		for (ArmorStand entity : RitualHandler.armorStands) {
+			entity.getPersistentDataContainer().set(RitualHandler.key, PersistentDataType.BOOLEAN, true);
+			if(entity.getEquipment() == null || entity.getEquipment().getHelmet() == null)
+				continue;
+			ItemStack stack = entity.getEquipment().getHelmet();
+			if(!stack.hasItemMeta() || !(stack.getItemMeta() instanceof SkullMeta meta))
+				continue;
+			meta.setOwnerProfile(newProfile);
+			stack.setItemMeta(meta);
+			entity.getEquipment().setHelmet(stack, true);
+		}
 		
 		// Modification du temps
 		boolean hasDayCycle = world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE);
@@ -57,7 +86,8 @@ public final class RitualAnimation {
 				return;
 			}
 			
-			spawnSphere(world, startX, startY + height/2, startZ);
+			double radius = KamoofSMP.config().getDouble("ritual.animation.sphere.radius");
+			spawnSphere(world, startX, startY + height/2, startZ, radius);
 			
 			Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
 				stopped = true;
@@ -65,6 +95,7 @@ public final class RitualAnimation {
 				world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, hasDayCycle);
 				Bukkit.spigot().broadcast(Message.toBaseComponent(KamoofSMP.config().getString("messages.ritualdone")));
 				world.dropItemNaturally(centeredLoc, RitualBook.getBook(RitualHandler.addNewUUID()));
+				world.strikeLightning(centeredLoc.add(0, radius, 0));
 			}, 200L);
 		};
 		
@@ -95,6 +126,22 @@ public final class RitualAnimation {
 					drawCircle(world, aX, endY, aZ, 1.5, 40);
 					drawLine(world, endY, aX, aZ, bX, bZ);
 				}
+				
+				var ref2 = new Object() {
+					int i = 0;
+				};
+				Location lightningLoc = centeredLoc.add(0, height*1.5, 0);
+				Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task3) -> {
+					if(ref2.i >= 25) {
+						task3.cancel();
+						return;
+					}
+					ref2.i++;
+					
+					world.strikeLightning(lightningLoc);
+//					world.strikeLightning(lightningLoc);
+					
+				}, 15L, 2L);
 				
 				Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), part4, 60L);
 			}, 20L);
@@ -217,8 +264,7 @@ public final class RitualAnimation {
 	 * @param y      Position Y
 	 * @param z      Position Z
 	 */
-	private static void spawnSphere(World world, double x, double y, double z) {
-		double radius = KamoofSMP.config().getDouble("ritual.animation.sphere.radius");
+	private static void spawnSphere(World world, double x, double y, double z, double radius) {
 		int particles = KamoofSMP.config().getInt("ritual.animation.sphere.particles");
 		double lavaChance = KamoofSMP.config().getDouble("ritual.animation.sphere.lava-chance") / 100;
 		
