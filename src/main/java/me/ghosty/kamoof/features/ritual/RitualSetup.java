@@ -38,29 +38,7 @@ public final class RitualSetup implements Listener {
 		event.setCancelled(true);
 		
 		Location loc = event.getBlockPlaced().getLocation();
-		
-		ArrayList<Integer> entities = new ArrayList<>();
-		for (Vector2d offset : RitualHandler.offsets) {
-			double x = loc.getX() + offset.x + 0.5, z = loc.getZ() + offset.y + 0.5;
-			player.spawnParticle(Particle.DUST, x, loc.getY() + 0.5, z, 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.YELLOW, 2)), true);
-		
-			Location location = new Location(player.getWorld(), x, loc.getY(), z);
-			ArmorStand entity = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
-			entity.setArms(false);
-			entity.setBasePlate(false);
-			entity.setVisible(false);
-			entity.setCollidable(false);
-			entity.setInvulnerable(true);
-			entity.setGravity(false);
-			entity.setAI(false);
-			entities.add(entity.getEntityId());
-		}
-		
-		player.sendMessage(KamoofSMP.PREFIX + String.format("§aNouveau lieu de Rituel: %s %s %s", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
-		KamoofSMP.getInstance().reloadConfig();
-		KamoofSMP.config().set("ritual.data.location", loc.add(0.5, 0.5, 0.5));
-		KamoofSMP.config().set("ritual.data.entities", entities);
-		KamoofSMP.getInstance().saveConfig();
+		RitualHandler.setRitual(loc, player);
 	}
 	
 }

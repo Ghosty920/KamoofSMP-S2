@@ -8,8 +8,13 @@ depend: [NickAPI]
 main: me.ghosty.kamoof.KamoofSMP
 commands:
   kamoofsmp:
-    description: La commande admin du KamoofSMP
+    description: La commande principale du KamoofSMP
     aliases: [kamoof]
   givehead:
     description: Se donner n'importe quelle tête
     permission: kamoofsmp.admin
+  undisguise:
+    description: Retirer son déguisement
+permissions:
+  kamoofsmp.admin:
+    description: Admin du KamoofSMP

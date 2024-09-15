@@ -1,10 +1,15 @@
 package me.ghosty.kamoof;
 
 import lombok.Getter;
-import me.ghosty.kamoof.commands.KamoofCMD;
+import lombok.SneakyThrows;
+import me.ghosty.kamoof.commands.*;
+import me.ghosty.kamoof.features.autoupdate.UpdateChecker;
 import me.ghosty.kamoof.features.disguise.DisguiseListener;
-import me.ghosty.kamoof.features.ritual.RitualSetup;
-import me.ghosty.kamoof.utils.Metrics;
+import me.ghosty.kamoof.features.disguise.DisguiseRestaurer;
+import me.ghosty.kamoof.features.drophead.HeadDropper;
+import me.ghosty.kamoof.features.macelimiter.MaceLimiter;
+import me.ghosty.kamoof.features.ritual.*;
+import me.ghosty.kamoof.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
@@ -22,10 +27,19 @@ public final class KamoofSMP extends JavaPlugin {
 	@Getter
 	private static KamoofSMP instance;
 	@Getter
-	private static YamlConfiguration dataConfig;
+	private static YamlConfiguration data;
+	private static File dataFile;
 	
 	public static FileConfiguration config() {
 		return instance.getConfig();
+	}
+	
+	@SneakyThrows
+	public static void saveData() {
+		if(data == null)
+			return;
+		data.save(dataFile);
+		data = YamlConfiguration.loadConfiguration(dataFile);
 	}
 	
 	@Override
@@ -36,36 +50,61 @@ public final class KamoofSMP extends JavaPlugin {
 		saveDefaultConfig();
 		PluginManager pm = Bukkit.getPluginManager();
 		
-		pm.registerEvents(new DisguiseListener(), this);
-		
-		pm.registerEvents(new RitualSetup(), this);
+		Lang.init();
 		
 		try {
-			File file = new File(getDataFolder() + File.separator + "data.yml");
-			if (!file.exists()) {
-				file.getParentFile().mkdirs();
-				file.createNewFile();
+			dataFile = new File(getDataFolder() + File.separator + "data.yml");
+			if (!dataFile.exists()) {
+				dataFile.getParentFile().mkdirs();
+				dataFile.createNewFile();
 			}
-			dataConfig = YamlConfiguration.loadConfiguration(file);
+			data = YamlConfiguration.loadConfiguration(dataFile);
 		} catch (Throwable exc) {
 			exc.printStackTrace();
-			Bukkit.getConsoleSender().sendMessage("§cImpossible de charger le fichier data.\n§cSupport: https://discord.gg/akgp49Q76M");
+			log(Lang.DATA_FILE_FAILED.get());
 		}
 		
-		registerCommand("kamoofsmp", new KamoofCMD());
+		pm.registerEvents(new DisguiseListener(), this);
 		
-		new Metrics(this, 23302);
+		if(getConfig().getBoolean("ritual.enabled")) {
+			RitualHandler.load();
+			pm.registerEvents(new RitualSetup(), this);
+			pm.registerEvents(new RitualListener(), this);
+		}
+		if(getConfig().getBoolean("drophead.enabled"))
+			pm.registerEvents(new HeadDropper(), this);
+		if(getConfig().getBoolean("autoupdate.fetch"))
+			pm.registerEvents(new UpdateChecker(), this);
+		if(getConfig().getBoolean("restaure.enabled"))
+			pm.registerEvents(new DisguiseRestaurer(), this);
+		if(getConfig().getBoolean("macelimiter.enabled"))
+			pm.registerEvents(new MaceLimiter(), this);
+		
+		registerCommand("kamoofsmp", new KamoofCMD());
+		registerCommand("givehead", new GiveHeadCMD());
+		registerCommand("undisguise", new UndisguiseCMD());
+		
+		DisguiseRestaurer.onEnable();
+		
+		if(getConfig().getBoolean("metrics"))
+			new Metrics(this, 23302);
 	}
 	
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		
+		DisguiseRestaurer.onDisable();
 	}
 	
 	private void registerCommand(String name, CommandExecutor cmd) {
 		getCommand(name).setExecutor(cmd);
 		if (cmd instanceof TabCompleter tc)
 			getCommand(name).setTabCompleter(tc);
+	}
+	
+	public static void log(String msg, Object... args) {
+		Bukkit.getConsoleSender().sendMessage(String.format(msg, args));
 	}
 	
 }

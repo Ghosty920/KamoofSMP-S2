@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "me.ghosty"
-version = "2.0.0"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -20,7 +20,7 @@ dependencies {
 
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
+//    implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
 
     compileOnly("org.projectlombok:lombok:1.18.34")

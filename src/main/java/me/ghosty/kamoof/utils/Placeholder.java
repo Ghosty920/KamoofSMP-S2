@@ -7,7 +7,9 @@ import java.util.*;
 @UtilityClass
 public final class Placeholder {
 	
-	public static String apply(final String string, final Map<String, Object> placeholders) {
+	public static String apply(String string, Map<String, Object> placeholders) {
+		if(placeholders == null || placeholders.isEmpty())
+			return string;
 		String result = string;
 		final String[] keys = placeholders.keySet().toArray(new String[0]);
 		final Object[] values = placeholders.values().toArray();
@@ -17,6 +19,8 @@ public final class Placeholder {
 	}
 	
 	public static String[] apply(String[] strings, Map<String, Object> placeholders) {
+		if(placeholders == null || placeholders.isEmpty())
+			return strings;
 		String[] results = new String[strings.length];
 		final String[] keys = placeholders.keySet().toArray(new String[0]);
 		final Object[] values = placeholders.values().toArray();
@@ -30,6 +34,8 @@ public final class Placeholder {
 	}
 	
 	public static ArrayList<String> apply(List<String> strings, Map<String, Object> placeholders) {
+		if(placeholders == null || placeholders.isEmpty())
+			return new ArrayList<>(strings);
 		ArrayList<String> results = new ArrayList<>(strings.size());
 		final String[] keys = placeholders.keySet().toArray(new String[0]);
 		final Object[] values = placeholders.values().toArray();

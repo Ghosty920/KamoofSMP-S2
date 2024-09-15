@@ -1,10 +1,13 @@
 package me.ghosty.kamoof.features.disguise;
 
 import lombok.experimental.UtilityClass;
-import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.utils.Reflection;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import xyz.haoshoku.nick.api.NickAPI;
+import xyz.haoshoku.nick.user.NickHandler;
+
+import java.util.UUID;
 
 @UtilityClass
 public final class DisguiseManager {
@@ -12,11 +15,10 @@ public final class DisguiseManager {
 	public static void disguise(Player player, String name) {
 		player.setDisplayName(player.getDisplayName().replace(player.getName(), name));
 		
-		NickAPI.nick(player, name);
+		setNick(player, name);
 		NickAPI.setSkin(player, name);
 		NickAPI.setUniqueId(player, name);
-//		if (KamoofSMP.config().getBoolean("options.gameprofile"))
-			NickAPI.setGameProfileName(player, name);
+		setGameProfileName(player, name);
 		NickAPI.refreshPlayer(player);
 	}
 	
@@ -26,33 +28,38 @@ public final class DisguiseManager {
 		NickAPI.resetNick(player);
 		NickAPI.resetSkin(player);
 		NickAPI.resetUniqueId(player);
-//		if (KamoofSMP.config().getBoolean("options.gameprofile"))
-			NickAPI.resetGameProfileName(player);
+		resetGameProfileName(player);
 		NickAPI.refreshPlayer(player);
 	}
 	
 	private static void resetGameProfileName(Player player) {
 		try {
-			Reflection.getMethod(NickAPI.class, "resetProfileName", Player.class).invoke(null, player);
-		} catch(Exception exc) {
 			NickAPI.resetGameProfileName(player);
+		} catch (Exception exc) {
+			Reflection.getMethod(NickAPI.class, "resetProfileName", Player.class).invoke(null, player);
 		}
 	}
 	
 	private static void setGameProfileName(Player player, String name) {
 		try {
-			Reflection.getMethod(NickAPI.class, "setProfileName", Player.class, String.class).invoke(null, player, name);
-		} catch(Exception exc) {
 			NickAPI.setGameProfileName(player, name);
+		} catch (Exception exc) {
+			Reflection.getMethod(NickAPI.class, "setProfileName", Player.class, String.class).invoke(null, player, name);
 		}
 	}
 	
 	private static void setNick(Player player, String name) {
 		try {
-			Reflection.getMethod(NickAPI.class, "setNick", Player.class, String.class).invoke(null, player, name);
-		} catch(Exception exc) {
 			NickAPI.nick(player, name);
+		} catch (Exception exc) {
+			Reflection.getMethod(NickAPI.class, "setNick", Player.class, String.class).invoke(null, player, name);
 		}
+	}
+	
+	public static UUID getUUID(OfflinePlayer player) {
+		if(!(player instanceof Player online))
+			return player.getUniqueId();
+		return NickHandler.getUser(online).getUuid();
 	}
 	
 }

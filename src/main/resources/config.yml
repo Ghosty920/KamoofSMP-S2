@@ -1,9 +1,150 @@
-drop-head:
-  # Sur true, les têtes seront drop à la mort, sur false le cas contraire
+# INFORMATIONS:
+#
+# 1.
+# Certains des messages sont compatibles avec MiniMessage (quand indiqué)
+# Guide complet: https://docs.advntr.dev/minimessage/format
+# Vous pouvez les prévisualiser avec le site suivant: https://webui.advntr.dev/
+#
+# 2.
+# Certains paramètres sont disponibles dans la configuration de NickAPI uniquement
+# (comme le GameProfile, ou le TabComplete), trouvables dans plugins/NickAPI/config.yml
+#
+# 3.
+# Quand un paramètre est sur 'true' ou sur 'false', sachez que cela
+# veut juste dire 'activé' et 'désactivé'. Aucune autre valeur n'est acceptée
+# et vous DEVEZ le mettre en anglais !
+#
+# 4.
+# Merci d'utiliser ce plugin ! Si jamais vous avez besoin d'aide, vous avez
+# un problème, ou juste envie de nous parler, tout se passe sur mon discord !
+# https://discord.gg/akgp49Q76M
+
+# Language of the plugin/Langue du plugin
+# Mostly applied to admin stuff/En majorité appliqué aux trucs admins
+# Values: french / english
+language: french
+
+
+drophead:
+  # Le fait de drop les têtes à la mort
   # Ce processus peut être remplacé par un autre plugin ou un datapack
   enabled: true
   # Le nom des têtes
-  name: %player%
+  name: "§e%player%"
   # La description des têtes
   lore:
-    - 
+    - "§8Fais §lClick-Droit §8avec cette tête pour te déguiser en le joueur qu'elle représente"
+  # Ceci rend la possibilité aux têtes d'être stackable
+  # Cela fonctionne mieux avec https://modrinth.com/datapack/stackable-heads
+  stackable: false
+
+
+disguise:
+  # Le fait de pouvoir poser les têtes
+  place-head: true
+
+
+restaure:
+  # Le fait de récupérer son skin au déco/reco
+  enabled: true
+  # Les message à envoyer à la reconnection, comme si le joueur venait
+  # de se déguiser. Laisser vide si inutilisé
+  # %player% = Nom original, %nick% = Déguisement
+  message: ""
+
+
+ritual:
+  # Le fait de pouvoir faire un rituel pour être proposé un pacte
+  # Recréé du stream de Sohran: https://youtu.be/bwUXg9q5gBA (vidéo segmentée)
+  enabled: true
+  # Le nombre maximum de têtes identiques autorisés
+  dupelimit: 1
+  # Le nom de l'item drop à la fin du rituel
+  name: "§4Pacte Démonique"
+  # Le contenu des 2 pages pour effectuer les différents pactes
+  # %command1% = Pacte Ensanglanté, %command2% = Pacte Oublié
+  pages:
+    - "<dark_red>Pacte Ensanglanté<br><br><red>Ce pacte te permet d'augmenter ta vie de <dark_red>5 <red>coeurs t'est proposé, mais ta prochaine mort te coûtera 3 têtes...<br><dark_red><b>Vas-tu l'accepter ?<br><br><click:run_command:%command1%><red><b>[Accepter le Pacte]"
+    - "<dark_gray>Pacte Oublié<br><br><gray>Ce pacte te permet de ne <dark_gray><b>pas laisser de tête</b> <gray>derrière toi à ta mort, cependant durant le restant de cette vie tu seras plus faible<br><dark_gray><b>Vas-tu l'accepter ?<br><br><click:run_command:%command2%>[Accepter le Pacte]"
+  pactes:
+    bloody:
+      # Le boost de pv du Pacte Ensanglanté
+      # HP = 2 x Cœurs, autrement dit 10 = 5 Cœurs
+      hpboost: 10
+      # Le nombre de têtes qui tomberont à la mort
+      # Ceci est activé même quand drophead ne l'est pas
+      heads: 3
+    forgotten:
+      # Le niveau de Weakness du Pacte Oublié
+      weakness: 2
+  # Les différents paramètres de l'animation du rituel
+  animation:
+    # Le temps augmenté dans le monde toutes les 150ms
+    # Veuillez utiliser un diviseur de 18000: https://fr.numberempire.com/18000
+    time-incr: 250
+    sphere:
+      # Rayon de la grande sphère bleue
+      radius: 2
+      # Le nombre de particules la constituant
+      particles: 750
+      # Le pourcentage de chance d'avoir une particule de lave
+      lava-chance: 5
+
+
+# Information:
+# Il n'y a pas de moyen de bloquer la mise de la mace dans l'enderchest (pour le moment?)
+# si vous ne souhaitez pas que cela arrive, utilisez un plugin tierce, ou demandez juste à vos joueurs
+macelimiter:
+  # Empêche trop de masses d'être craftées
+  # Ceci ne s'applique pas à celles déjà existantes
+  enabled: true
+  # Limite de masses créables
+  limit: 1
+
+
+# Ceci ne change pas avec le paramètre language, et doit être modifié manuellement
+# Ils utilisent MiniMessage
+messages:
+  # Tu viens de te déguiser
+  # %player% = Nom original, %nick% = Déguisement
+  disguised: "<green>Tu es maintenant déguisé en <yellow>%nick%<br><click:run_command:/undisguise><yellow><b>[CLIQUE ICI]</b> <aqua>Pour Retirer ton déguisement ou fais la commande /undisguise</click>"
+  # Tu viens de mourir en étant déguisé
+  # %player% = Nom original, %nick% = Déguisement
+  lostdisguise: "<red>Tu as perdu ton déguisement en mourrant (rip bozo)"
+  # Tu viens de retirer ton déguisement avec /undisguise
+  # %player% = Nom original, %nick% = Déguisement
+  undisguise: "<green>Tu as bien retiré ton déguisement"
+  # Tu essayes de faire /undisguise sans déguisement
+  # %player% = Nom du joueur
+  nodisguise: "<red>Tu n'as pas de déguisement"
+  # Le rituel viens de se terminer. Ce message est envoyé à tous les joueurs
+  ritualdone: "<dark_red>Le Pacte des têtes a été achevé. CRAIGNEZ SON POUVOIR SI VOUS L'OSEZ !!"
+  # Tu as choisi le Pacte Ensanglanté
+  # %player% = Nom du joueur
+  chose-bloody: "<red>Tu as accepté le pacte, voici ton dû, <b>5</b> coeurs supplémentaires, enfin, <dark_red><b>jusqu'à ta prochaine mort"
+  # Tu as choisi le Pacte Oublié
+  # %player% = Nom du joueur
+  # Si quelqu'un a le vrai message, merci de nous contacter sur discord
+  chose-forgotten: "<gray>Tu as accepté le pacte, voici ton dû, faiblesse <b>2</b>, mais <dark_gray><b>ta tête ne tombera pas"
+  # Tu as déjà un pacte mais tu essayes d'en choisir un
+  # %player% = Nom du joueur
+  # Si quelqu'un a le vrai message, merci de nous contacter sur discord
+  already-chose: "<red>Tu as déjà choisi un pacte"
+  # Tu es mort avec le Pacte Ensanglanté
+  # %player% = Nom du joueur
+  death-bloody: "<red>Tu as perdu les effets de ton pacte, si tu es capable de mourir avec ce don, alors peut-être que tu n'es pas <dark_red><b>méritant de ce pouvoir"
+  # Tu es mort avec le Pacte Oublié
+  # %player% = Nom du joueur
+  # Si quelqu'un a le vrai message, merci de nous contacter sur discord
+  death-forgotten: "<gray>Tu as perdu les effets de ton pacte, mais avec cela <dark_gray><b>ta tête n'est pas tombée"
+
+
+# L'auto-update est un module permettant de check automatiquement pour une nouvelle mise à jour du plugin
+# Ceci Ne fait Pas lag le serveur et est utilisé pour corriger des bugs, ou ajouter des fonctionnalités
+autoupdate:
+  # Permettre au plugin de vérifier automatiquement pour des mises à jour, et prévenir les admins & la console
+  fetch: true
+  # Tenter de télécharger et de remplacer automatiquement le plugin, sans action de votre part
+  download: true
+
+metrics: true

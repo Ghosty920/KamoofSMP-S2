@@ -2,16 +2,20 @@ package me.ghosty.kamoof.commands;
 
 import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.features.ritual.*;
+import me.ghosty.kamoof.utils.Lang;
 import me.ghosty.kamoof.utils.Message;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
 
 import static me.ghosty.kamoof.KamoofSMP.PREFIX;
 
-public class KamoofCMD implements CommandExecutor, TabCompleter {
+public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -20,8 +24,29 @@ public class KamoofCMD implements CommandExecutor, TabCompleter {
 			return true;
 		}
 		
-		if (args.length != 0 && args[0].equalsIgnoreCase("pacte")) {
+		if (args.length == 2 && args[0].equalsIgnoreCase("pacte")) {
 			System.out.println(Arrays.toString(args));
+			if (!args[1].equalsIgnoreCase("1") && !args[1].equalsIgnoreCase("2"))
+				return true;
+			
+			ItemStack book = player.getInventory().getItemInMainHand();
+			UUID uuid;
+			if ((uuid = RitualBook.getUUID(book)) == null) {
+				book = player.getInventory().getItemInOffHand();
+				if ((uuid = RitualBook.getUUID(book)) == null)
+					return true;
+			}
+			
+			if (!RitualHandler.isValidUUID(uuid))
+				return true;
+			
+			if(RitualHandler.getPacte(player) != null) {
+				Message.send(player, "messages.already-chose", Map.of("player", NickAPI.getOriginalName(player)));
+				return true;
+			}
+			
+			book.setAmount(0);
+			RitualHandler.setPacte(player, args[1]);
 			return true;
 		}
 		
@@ -32,71 +57,78 @@ public class KamoofCMD implements CommandExecutor, TabCompleter {
 		
 		switch (args[0].toLowerCase()) {
 			case "info": {
-				return showCredits(sender);
+				return showCredits(player);
 			}
 			case "givehead": {
-				return true;
-			}
-			case "disguise": {
-				return true;
-			}
-			case "undisguise": {
+				if (args.length < 2) {
+					player.sendMessage(PREFIX + String.format("§cUsage: /%s givehead <username>", label.toLowerCase()));
+					return true;
+				}
+				GiveHeadCMD.execute(player, args[1]);
 				return true;
 			}
 			case "reload": {
 				KamoofSMP.getInstance().reloadConfig();
-				player.sendMessage(PREFIX + "§aConfig rechargée.");
+				Lang.init();
+				Lang.CONFIG_RELOADED.send(player);
 				return true;
 			}
 			case "test": {
-				RitualHandler.doStuff(player);
+				RitualHandler.runAnimation(player);
 				return true;
 			}
 			case "book": {
-				player.getWorld().dropItem(player.getLocation().add(0, 5, 0), RitualBook.getBook(UUID.randomUUID()));
-				Bukkit.spigot().broadcast(Message.toBaseComponent("<dark_red>Le Pacte des têtes a été achevé. CRAIGNEZ SON POUVOIR SI VOUS L'OSEZ !!"));
+				player.getInventory().addItem(RitualBook.getBook(RitualHandler.addNewUUID()));
 				return true;
 			}
 			case "setup": {
-				if(player.getInventory().addItem(RitualSetup.getItem()).isEmpty())
-					player.sendMessage(PREFIX + "§aItem Setup donné !");
+				if (player.getInventory().addItem(RitualSetup.getItem()).isEmpty())
+					Lang.SETUP_GIVEN.send(player);
 				else
-					player.sendMessage(PREFIX + "§cInventaire plein !");
+					Lang.INVENTORY_FULL.send(player);
+				return true;
+			}
+			default: {
+				return showArgs(player);
 			}
 		}
-		
-		return true;
 	}
 	
+	/**
+	 * TODO: disguise & undisguise
+	 */
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (sender.hasPermission("kamoofsmp.admin")) {
-			return Arrays.asList("info", "givehead", "disguise", "undisguise", "reload", "setup");
+			if (args.length <= 1) {
+				return Arrays.asList("info", "givehead", "reload", "setup");
+			}
+			if (args[0].equalsIgnoreCase("givehead")) {
+				ArrayList<String> values = new ArrayList<>();
+				for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+					if (player == null || player.getName() == null)
+						continue;
+					values.add(player.getName());
+				}
+				if (args.length == 2) {
+					String toCheck = args[1].toLowerCase().trim();
+					values.removeIf(player -> !player.toLowerCase().trim().contains(toCheck));
+				}
+				return values;
+			}
 		}
 		return List.of();
 	}
 	
 	private boolean showArgs(CommandSender sender) {
-		sender.sendMessage("§2KamoofSMP Version 2.0",
-			"§a§lArguments:",
-			"§a- info: Des infos sur le plugin",
-			"§a- givehead: (Se) Donner n'importe quelle tête",
-			"§a- disguise: (Se) Déguiser avec n'importe quel pseudo",
-			"§a- undisguise: Retirer son/un déguisement",
-			"§a- reload: Recharger la configuration",
-			"§a- setup: Placer le rituel"
-		);
+		String version = KamoofSMP.getInstance().getDescription().getVersion();
+		Lang.MAIN_ARGUMENTS.sendMM(sender, version);
 		return true;
 	}
 	
 	private boolean showCredits(CommandSender sender) {
-		sender.sendMessage(
-			"§2KamoofSMP Version 2.0",
-			"§a- Systèmes par Ghosty920",
-			"§a- Rituel par Solme",
-			"§aBasé sur le plugin d'Arcane pour le SohranSMP"
-		);
+		String version = KamoofSMP.getInstance().getDescription().getVersion();
+		Lang.CREDITS.sendMM(sender, version);
 		return true;
 	}
-	
 }

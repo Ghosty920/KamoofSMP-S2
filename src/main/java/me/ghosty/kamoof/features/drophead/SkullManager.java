@@ -4,9 +4,11 @@ import lombok.experimental.UtilityClass;
 import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.utils.Placeholder;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.Map;
 
@@ -20,11 +22,7 @@ public final class SkullManager {
 		ItemStack item = new ItemStack(Material.PLAYER_HEAD);
 		SkullMeta meta = (SkullMeta) item.getItemMeta();
 		meta.setOwningPlayer(Bukkit.getOfflinePlayer(player));
-		try {
-			meta.setItemName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
-		} catch (Throwable exc) {
-			meta.setDisplayName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
-		}
+		meta.setItemName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
 		meta.setLore(Placeholder.apply(KamoofSMP.config().getStringList("drophead.lore"), Map.of("player", player)));
 		
 		boolean stackable = KamoofSMP.config().getBoolean("drophead.stackable");
@@ -50,6 +48,12 @@ public final class SkullManager {
 			return null;
 		if (!(item.getItemMeta() instanceof SkullMeta meta))
 			return null;
-		return meta.getPersistentDataContainer().get(keyPlayer, PersistentDataType.STRING);
+		String name = meta.getPersistentDataContainer().get(keyPlayer, PersistentDataType.STRING);
+		if(name != null)
+			return name;
+		if(meta.getOwningPlayer() instanceof Player player)
+			return NickAPI.getOriginalName(player);
+		name = meta.getOwnerProfile().getName();
+		return name;
 	}
 }
