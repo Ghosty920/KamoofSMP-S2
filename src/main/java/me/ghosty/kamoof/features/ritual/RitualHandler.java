@@ -52,7 +52,17 @@ public final class RitualHandler {
 	}
 	
 	public static void runAnimation(Player player) {
-		RitualAnimation.execute(location);
+		for (ArmorStand entity : armorStands) {
+			entity.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
+		}
+		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), (task) -> {
+			for (ArmorStand entity : armorStands) {
+				// could happen fsr
+				if(entity.getEquipment() == null || entity.getEquipment().getHelmet() == null)
+					return;
+			}
+			RitualAnimation.execute(location);
+		}, 5L);
 	}
 	
 	public static void setRitual(Location loc, Player player) {

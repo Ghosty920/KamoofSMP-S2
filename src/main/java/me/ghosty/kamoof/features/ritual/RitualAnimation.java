@@ -46,20 +46,17 @@ public final class RitualAnimation {
 		};
 		
 		// Modification des têtes
-		PlayerProfile newProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
-		PlayerTextures textures = newProfile.getTextures();
+		ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+		SkullMeta meta = (SkullMeta) skull.getItemMeta();
+		PlayerProfile ownerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+		PlayerTextures textures = ownerProfile.getTextures();
 		textures.setSkin(new URL("http://textures.minecraft.net/texture/f8912bc1ad3ddbe39a19b734a42d8548964bb0a9ce58a52f1a6ae37121524"));
-		newProfile.setTextures(textures);
+		ownerProfile.setTextures(textures);
+		meta.setOwnerProfile(ownerProfile);
+		skull.setItemMeta(meta);
 		for (ArmorStand entity : RitualHandler.armorStands) {
 			entity.getPersistentDataContainer().set(RitualHandler.key, PersistentDataType.BOOLEAN, true);
-			if(entity.getEquipment() == null || entity.getEquipment().getHelmet() == null)
-				continue;
-			ItemStack stack = entity.getEquipment().getHelmet();
-			if(!stack.hasItemMeta() || !(stack.getItemMeta() instanceof SkullMeta meta))
-				continue;
-			meta.setOwnerProfile(newProfile);
-			stack.setItemMeta(meta);
-			entity.getEquipment().setHelmet(stack, true);
+			entity.getEquipment().setHelmet(skull, true);
 		}
 		
 		// Modification du temps
@@ -96,6 +93,11 @@ public final class RitualAnimation {
 				Bukkit.spigot().broadcast(Message.toBaseComponent(KamoofSMP.config().getString("messages.ritualdone")));
 				world.dropItemNaturally(centeredLoc, RitualBook.getBook(RitualHandler.addNewUUID()));
 				world.strikeLightning(centeredLoc.add(0, radius, 0));
+				
+				for (ArmorStand entity : RitualHandler.armorStands) {
+					entity.getPersistentDataContainer().set(RitualHandler.key, PersistentDataType.BOOLEAN, false);
+					entity.getEquipment().setHelmet(null, true);
+				}
 			}, 200L);
 		};
 		
