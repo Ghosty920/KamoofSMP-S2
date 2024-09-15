@@ -64,8 +64,8 @@ public final class RitualListener implements Listener {
 			}
 		}
 		if (dupes.size() >= KamoofSMP.config().getInt("ritual.dupelimit")) {
-			dupes.forEach(stand -> player.spawnParticle(Particle.DUST, stand.getLocation().add(0, 1.45 + 0.25, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true));
-			player.spawnParticle(Particle.DUST, entity.getLocation().add(0, 1.45 + 0.25, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true);
+			dupes.forEach(stand -> player.spawnParticle(Particle.DUST, stand.getLocation().add(0, 1.45 + 0.25 + 0.2, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true));
+			player.spawnParticle(Particle.DUST, entity.getLocation().add(0, 1.45 + 0.25 + 0.2, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true);
 			canRunRitual = false;
 			event.setCancelled(false);
 		}

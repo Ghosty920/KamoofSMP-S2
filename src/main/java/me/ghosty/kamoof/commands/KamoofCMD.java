@@ -82,7 +82,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "setup": {
-				if (player.getInventory().addItem(RitualSetup.getItem()).isEmpty())
+				if (player.getInventory().addItem(RitualSetup.getItems()).isEmpty())
 					Lang.SETUP_GIVEN.send(player);
 				else
 					Lang.INVENTORY_FULL.send(player);

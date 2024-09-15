@@ -57,7 +57,7 @@ public final class RitualAnimation {
 				return;
 			}
 			
-			spawnSphere(world, startX, startY + height/2, startX);
+			spawnSphere(world, startX, startY + height/2, startZ);
 			
 			Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
 				stopped = true;

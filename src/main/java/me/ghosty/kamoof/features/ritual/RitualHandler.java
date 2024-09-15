@@ -3,11 +3,13 @@ package me.ghosty.kamoof.features.ritual;
 import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.features.disguise.DisguiseManager;
 import me.ghosty.kamoof.utils.Message;
+import me.ghosty.kamoof.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.EquipmentSlotGroup;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.joml.Vector2d;
@@ -31,10 +33,11 @@ public final class RitualHandler {
 	static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofSMP.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
 	public static boolean setup = false;
 	public static Location location;
+	public static final NamespacedKey key = new NamespacedKey("kamoofsmp", "ritualstand");
 	
 	public static void load() {
 		setup = false;
-		location = KamoofSMP.config().getLocation("ritual.data.location");
+		location = KamoofSMP.getData().getLocation("ritual.data.location");
 		if (location == null)
 			return;
 		for (int x = -1; x <= 1; x++)
@@ -42,17 +45,14 @@ public final class RitualHandler {
 				location.getWorld().loadChunk(location.getBlockX() / 16 + x, location.getBlockZ() / 16 + z);
 		
 		armorStands.clear();
-		List<Integer> entities = KamoofSMP.getData().getIntegerList("ritual.data.entities");
-		System.out.println(Arrays.toString(entities.toArray()));
 		for (ArmorStand entity : location.getWorld().getEntitiesByClass(ArmorStand.class)) {
-			if (entities.contains(entity.getEntityId()))
+			if (entity.getPersistentDataContainer().has(key))
 				armorStands.add(entity);
-			System.out.println(entity.getEntityId());
 		}
 	}
 	
 	public static void runAnimation(Player player) {
-		RitualAnimation.execute(new Location(player.getWorld(), 0, 100, 0));
+		RitualAnimation.execute(location);
 	}
 	
 	public static void setRitual(Location loc, Player player) {
@@ -78,11 +78,8 @@ public final class RitualHandler {
 		entities.add(entity.getEntityId());
 		armorStands.add(entity);
 		
-		System.out.println(Arrays.toString(entities.toArray()));
-		
 		player.sendMessage(KamoofSMP.PREFIX + String.format("§aNouveau lieu de Rituel: %s %s %s", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
 		KamoofSMP.getData().set("ritual.data.location", loc.add(0.5, 0.5, 0.5));
-		KamoofSMP.getData().set("ritual.data.entities", entities);
 		KamoofSMP.saveData();
 	}
 	
@@ -95,6 +92,7 @@ public final class RitualHandler {
 		entity.setInvulnerable(true);
 		entity.setGravity(false);
 		entity.setAI(false);
+		entity.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
 		return entity;
 	}
 	
