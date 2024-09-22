@@ -26,7 +26,11 @@ public final class RitualSetup implements Listener {
 	public static ItemStack[] getItems() {
 		ItemStack item1 = new ItemStack(Material.NETHER_WART_BLOCK);
 		ItemMeta meta1 = item1.getItemMeta();
-		meta1.setItemName("§c§lSetup Rituel");
+		try {
+			meta1.setItemName("§c§lSetup Rituel");
+		} catch (Throwable exc) {
+			meta1.setDisplayName("§c§lSetup Rituel");
+		}
 		meta1.addEnchant(Enchantment.UNBREAKING, 1, true);
 		meta1.getPersistentDataContainer().set(keyItem, PersistentDataType.BOOLEAN, true);
 		meta1.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -34,7 +38,11 @@ public final class RitualSetup implements Listener {
 		
 		ItemStack item2 = new ItemStack(Material.BLAZE_ROD);
 		ItemMeta meta2 = item2.getItemMeta();
-		meta2.setItemName("§b§lPlace Rituel");
+		try {
+			meta2.setItemName("§b§lPlace Rituel");
+		} catch (Throwable exc) {
+			meta2.setDisplayName("§b§lPlace Rituel");
+		}
 		meta2.addEnchant(Enchantment.UNBREAKING, 1, true);
 		meta2.getPersistentDataContainer().set(keyItem, PersistentDataType.BOOLEAN, true);
 		meta2.addItemFlags(ItemFlag.HIDE_ENCHANTS);

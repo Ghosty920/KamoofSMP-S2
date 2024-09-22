@@ -26,7 +26,11 @@ public final class SkullManager {
 		meta.setOwningPlayer(target);
 //		meta.setOwnerProfile(Bukkit.createPlayerProfile(offlinePlayer.getUniqueId()));
 		
-		meta.setItemName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
+		try {
+			meta.setItemName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
+		} catch (Throwable exc) {
+			meta.setDisplayName(Placeholder.apply(KamoofSMP.config().getString("drophead.name"), Map.of("player", player)));
+		}
 		meta.setLore(Placeholder.apply(KamoofSMP.config().getStringList("drophead.lore"), Map.of("player", player)));
 		
 		boolean stackable = KamoofSMP.config().getBoolean("drophead.stackable");

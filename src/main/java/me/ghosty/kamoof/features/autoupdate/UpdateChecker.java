@@ -37,7 +37,7 @@ public final class UpdateChecker implements Listener {
 	
 	public boolean checkForUpdate() {
 		try {
-			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/kamoofsmp2/version",
+			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/sPh907Ai/version",
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
 				}}).response();

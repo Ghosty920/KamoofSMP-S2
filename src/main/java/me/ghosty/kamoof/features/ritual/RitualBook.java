@@ -23,7 +23,11 @@ public final class RitualBook {
 		ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
 		BookMeta meta = (BookMeta) item.getItemMeta();
 		meta.setGeneration(BookMeta.Generation.TATTERED);
-		meta.setItemName(KamoofSMP.config().getString("ritual.name"));
+		try {
+			meta.setItemName(KamoofSMP.config().getString("ritual.name"));
+		} catch (Throwable exc) {
+			meta.setDisplayName(KamoofSMP.config().getString("ritual.name"));
+		}
 		meta.setTitle(null);
 		meta.setFireResistant(true);
 		meta.spigot().setPages(getPages());
@@ -33,11 +37,11 @@ public final class RitualBook {
 	}
 	
 	public static UUID getUUID(ItemStack item) {
-		if(item == null || !item.hasItemMeta())
+		if (item == null || !item.hasItemMeta())
 			return null;
 		ItemMeta meta = item.getItemMeta();
 		String uuid = meta.getPersistentDataContainer().get(keyUuid, PersistentDataType.STRING);
-		if(uuid == null)
+		if (uuid == null)
 			return null;
 		return UUID.fromString(uuid);
 	}
