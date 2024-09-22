@@ -9,7 +9,7 @@
 [![Modrinth](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/available/modrinth_vector.svg)](https://modrinth.com/plugin/kamoofsmp2)
 [![Discord](https://raw.githubusercontent.com/intergrav/devins-badges/v3/assets/cozy/social/discord-plural_vector.svg)](https://discord.gg/akgp49Q76M)
 
-**Plugin uniquement téléchargeable sur Modrinth: https://modrinth.com/plugin/kamoofsmp2**
+**[Téléchargeable sur GitHub également !](https://github.com/Ghosty920/KamoofSMP-S2/releases/latest)**
 
 </div>
 <br>
