@@ -7,6 +7,7 @@ import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.*;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemFlag;
@@ -21,7 +22,7 @@ import java.util.Random;
 public final class RitualSetup implements Listener {
 	
 	private static final NamespacedKey keyItem = new NamespacedKey("kamoofsmp", "setupitem");
-	private static Structure structure;
+	private static Structure structure, structureUG;
 	
 	public static ItemStack[] getItems() {
 		ItemStack item1 = new ItemStack(Material.NETHER_WART_BLOCK);
@@ -48,7 +49,19 @@ public final class RitualSetup implements Listener {
 		meta2.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		item2.setItemMeta(meta2);
 		
-		return new ItemStack[]{item1, item2};
+		ItemStack item3 = new ItemStack(Material.BREEZE_ROD);
+		ItemMeta meta3 = item3.getItemMeta();
+		try {
+			meta3.setItemName("§b§lPlace Rituel §7(Underground)");
+		} catch (Throwable exc) {
+			meta3.setDisplayName("§b§lPlace Rituel §7(Underground)");
+		}
+		meta3.addEnchant(Enchantment.UNBREAKING, 1, true);
+		meta3.getPersistentDataContainer().set(keyItem, PersistentDataType.BOOLEAN, true);
+		meta3.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		item3.setItemMeta(meta3);
+		
+		return new ItemStack[]{item1, item2, item3};
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -72,16 +85,33 @@ public final class RitualSetup implements Listener {
 	public void onUseItem(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		ItemStack item = event.getItem();
-		if (item == null || !item.hasItemMeta() || item.getType() != Material.BLAZE_ROD || !item.getItemMeta().getPersistentDataContainer().has(keyItem, PersistentDataType.BOOLEAN))
+		if (item == null || !item.hasItemMeta() || (item.getType() != Material.BLAZE_ROD && item.getType() != Material.BREEZE_ROD) || !item.getItemMeta().getPersistentDataContainer().has(keyItem, PersistentDataType.BOOLEAN))
 			return;
 		
 		event.setCancelled(true);
 		
-		if (structure == null) {
-			InputStream inputStream = getClass().getResourceAsStream("/ritual.nbt");
-			structure = Bukkit.getStructureManager().loadStructure(inputStream);
+		if (!player.hasPermission("kamoofsmp.admin"))
+			return;
+		
+		if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+			return;
+		
+		switch (item.getType()) {
+			case BLAZE_ROD -> {
+				if (structure == null) {
+					InputStream inputStream = getClass().getResourceAsStream("/ritual.nbt");
+					structure = Bukkit.getStructureManager().loadStructure(inputStream);
+				}
+				structure.place(event.getClickedBlock().getLocation().add(-9, 0, -9), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
+			}
+			case BREEZE_ROD -> {
+				if (structureUG == null) {
+					InputStream inputStream = getClass().getResourceAsStream("/ritualug.nbt");
+					structureUG = Bukkit.getStructureManager().loadStructure(inputStream);
+				}
+				structureUG.place(event.getClickedBlock().getLocation().add(-10, -6, -10), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
+			}
 		}
-		structure.place(player.getLocation().add(-10, -8, -10), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
 	}
 	
 }

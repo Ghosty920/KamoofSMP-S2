@@ -16,7 +16,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import xyz.haoshoku.nick.api.NickAPI;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
 
 public final class RitualListener implements Listener {
 	
@@ -39,6 +40,15 @@ public final class RitualListener implements Listener {
 				&& event.getPlayerItem().getType() == Material.AIR
 				&& !entity.getPersistentDataContainer().getOrDefault(RitualHandler.key, PersistentDataType.BOOLEAN, false))
 				return;
+			event.setCancelled(true);
+			return;
+		}
+		
+		long minTime = KamoofSMP.config().getInt("ritual.min-time"),
+			maxTime = KamoofSMP.config().getInt("ritual.max-time"),
+			time = player.getWorld().getTime();
+		if(time < minTime || time > maxTime) {
+			Message.send(player, "messages.ritual-wrong-time", Map.of("player", NickAPI.getOriginalName(player)));
 			event.setCancelled(true);
 			return;
 		}

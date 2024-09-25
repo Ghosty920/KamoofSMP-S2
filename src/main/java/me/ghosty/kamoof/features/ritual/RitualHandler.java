@@ -1,9 +1,7 @@
 package me.ghosty.kamoof.features.ritual;
 
 import me.ghosty.kamoof.KamoofSMP;
-import me.ghosty.kamoof.features.disguise.DisguiseManager;
 import me.ghosty.kamoof.utils.Message;
-import me.ghosty.kamoof.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -58,7 +56,7 @@ public final class RitualHandler {
 		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), (task) -> {
 			for (ArmorStand entity : armorStands) {
 				// could happen fsr
-				if(entity.getEquipment() == null || entity.getEquipment().getHelmet() == null)
+				if (entity.getEquipment() == null || entity.getEquipment().getHelmet() == null)
 					return;
 			}
 			RitualAnimation.execute(location);

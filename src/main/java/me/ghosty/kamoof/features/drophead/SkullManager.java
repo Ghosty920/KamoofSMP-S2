@@ -58,12 +58,12 @@ public final class SkullManager {
 		if (!(item.getItemMeta() instanceof SkullMeta meta))
 			return null;
 		String name = meta.getPersistentDataContainer().get(keyPlayer, PersistentDataType.STRING);
-		if(name != null)
+		if (name != null)
 			return name;
-		if(meta.getOwningPlayer() != null && meta.getOwningPlayer() instanceof Player player)
+		if (meta.getOwningPlayer() != null && meta.getOwningPlayer() instanceof Player player)
 			return NickAPI.getOriginalName(player);
 		name = meta.getOwnerProfile().getName();
-		if(name != null)
+		if (name != null)
 			return name;
 		name = meta.getOwningPlayer().getName();
 		return name;

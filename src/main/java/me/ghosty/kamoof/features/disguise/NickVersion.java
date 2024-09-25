@@ -31,14 +31,14 @@ public enum NickVersion {
 	private static NickVersion version;
 	
 	public static NickVersion get() {
-		if(version == null) {
+		if (version == null) {
 			for (NickVersion ver : values()) {
-				if(!ver.check.get())
+				if (!ver.check.get())
 					continue;
 				version = ver;
 				break;
 			}
-			if(version == null)
+			if (version == null)
 				throw new RuntimeException("Cannot find NickAPI's version.");
 		}
 		return version;

@@ -25,7 +25,6 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 		}
 		
 		if (args.length == 2 && args[0].equalsIgnoreCase("pacte")) {
-			System.out.println(Arrays.toString(args));
 			if (!args[1].equalsIgnoreCase("1") && !args[1].equalsIgnoreCase("2"))
 				return true;
 			
@@ -37,7 +36,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 					return true;
 			}
 			
-			if(RitualHandler.getPacte(player) != null) {
+			if (RitualHandler.getPacte(player) != null) {
 				Message.send(player, "messages.already-chose", Map.of("player", NickAPI.getOriginalName(player)));
 				return true;
 			}

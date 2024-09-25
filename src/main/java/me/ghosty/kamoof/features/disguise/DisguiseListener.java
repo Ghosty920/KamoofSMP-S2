@@ -33,7 +33,7 @@ public final class DisguiseListener implements Listener {
 				return;
 			}
 			case RIGHT_CLICK_BLOCK -> {
-				if(!KamoofSMP.config().getBoolean("disguise.place-head"))
+				if (!KamoofSMP.config().getBoolean("disguise.place-head"))
 					event.setCancelled(true);
 				return;
 			}

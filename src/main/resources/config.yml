@@ -15,6 +15,11 @@
 # et vous DEVEZ le mettre en anglais !
 #
 # 4.
+# Quand un paramètre vous demande une couleur, vous avez le
+# choix entre les couleurs de base de Bukkit ( https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html )
+# et un code hexadécimal ( https://htmlcolorcodes.com/ )
+#
+# 5.
 # Merci d'utiliser ce plugin ! Si jamais vous avez besoin d'aide, vous avez
 # un problème, ou juste envie de nous parler, tout se passe sur mon discord !
 # https://discord.gg/akgp49Q76M
@@ -82,13 +87,29 @@ ritual:
     # Le temps augmenté dans le monde toutes les 150ms
     # Veuillez utiliser un diviseur de 18000: https://fr.numberempire.com/18000
     time-incr: 250
+    # La couleur des particules présentes presque partout
+    color: "red"
+    # La taille des particules présentes presque partout
+    size: 1
+
     sphere:
       # Rayon de la grande sphère bleue
       radius: 2
       # Le nombre de particules la constituant
       particles: 750
+      # La couleur des particules de la sphère
+      color: "aqua"
+      # La taille des particules de la sphère
+      size: 1
       # Le pourcentage de chance d'avoir une particule de lave
       lava-chance: 5
+      # Si les particules de lave produisent du son à la fin
+      lava-sound: false
+  # Les temps dans le monde minimum & maximum pour lancer le rituel
+  # Exemple: 0 & 12000 empêchera de lancer le rituel la nuit
+  # Mettez 0 & 24000 pour désactiver la vérification
+  min-time: 0
+  max-time: 24000
 
 
 # Information:
@@ -137,6 +158,9 @@ messages:
   # %player% = Nom du joueur
   # Si quelqu'un a le vrai message, merci de nous contacter sur discord
   death-forgotten: "<gray>Tu as perdu les effets de ton pacte, mais avec cela <dark_gray><b>ta tête n'est pas tombée"
+  # Tu ne peux pas lancer de rituel dans la période actuelle
+  # %player% = Nom du joueur
+  ritual-wrong-time: "<red>Tu ne peux pas lancer le rituel maintenant, reviens plus tard"
 
 
 # L'auto-update est un module permettant de check automatiquement pour une nouvelle mise à jour du plugin

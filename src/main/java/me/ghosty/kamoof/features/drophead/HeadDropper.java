@@ -25,9 +25,9 @@ public final class HeadDropper implements Listener {
 				return;
 			}
 		}
-			if (KamoofSMP.config().getBoolean("drophead.enabled")) {
-				event.getDrops().add(SkullManager.getSkull(NickAPI.getOriginalName(player)));
-			}
+		if (KamoofSMP.config().getBoolean("drophead.enabled")) {
+			event.getDrops().add(SkullManager.getSkull(NickAPI.getOriginalName(player)));
+		}
 	}
 	
 }

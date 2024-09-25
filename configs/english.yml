@@ -10,6 +10,11 @@
 # (like the GameProfile, or the TabComplete), found in plugins/NickAPI/config.yml
 #
 # 3.
+# When a parameter ask you for a color, you can choose between
+# the ones directly in Bukkit ( https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html )
+# or with an hexadecimal code ( https://htmlcolorcodes.com/ )
+#
+# 4.
 # Thank you for using this plugin! If you ever need help, have
 # a problem, or just want to talk to us, everything happens on my discord!
 # https://discord.gg/akgp49Q76M
@@ -77,13 +82,29 @@ ritual:
     # Time increased in the world every 150ms
     # Please use a divisor of 18000: https://numberempire.com/18000
     time-incr: 250
+    # The color of the particles all around
+    color: "red"
+    # The size of the particles all around
+    size: 1
+
     sphere:
       # Radius of the big blue sphere
       radius: 2
       # The number of particles constituting it
       particles: 750
+      # The color of the particles of the sphere
+      color: "aqua"
+      # The size of the particles of the sphere
+      size: 1
       # The percentage chance of having a lava particle
       lava-chance: 5
+      # If the lava particles should do a sound at the send
+      lava-sound: false
+    # The minimum & maximum time to start a ritual
+    # Example: 0 & 12000 will prevent it during the night
+    # Put 0 & 24000 to disable it
+    min-time: 0
+    max-time: 24000
 
 
 # Information:
@@ -124,12 +145,15 @@ messages:
   # %player% = Player name
   already-chose: "<red>You have already chosen a pact"
   # You died with the Bloody Pact
-  # %player% = Player Name
+  # %player% = Player name
   death-bloody: "<red>You have lost the effects of your pact, if you are able to die with this gift, then perhaps you are not <dark_red><b>deserving of this power"
   # You died with the Forgotten Pact
   # %player% = Player name
   # If anyone has the real message, please contact us on discord
   death-forgotten: "<gray>You have lost the effects of your pact, but with that <dark_gray><b>your head has not fallen off"
+  # You can't start a ritual during this time
+  # %player% = Player name
+  ritual-wrong-time: "<red>You can't start the ritual for the moment, come back later"
 
 
 # Auto-update is a module to automatically check for a new plugin update

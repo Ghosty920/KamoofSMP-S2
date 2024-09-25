@@ -9,7 +9,8 @@ import me.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import me.ghosty.kamoof.features.drophead.HeadDropper;
 import me.ghosty.kamoof.features.macelimiter.MaceLimiter;
 import me.ghosty.kamoof.features.ritual.*;
-import me.ghosty.kamoof.utils.*;
+import me.ghosty.kamoof.utils.Lang;
+import me.ghosty.kamoof.utils.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
@@ -36,7 +37,7 @@ public final class KamoofSMP extends JavaPlugin {
 	
 	@SneakyThrows
 	public static void saveData() {
-		if(data == null)
+		if (data == null)
 			return;
 		data.save(dataFile);
 		data = YamlConfiguration.loadConfiguration(dataFile);
@@ -66,16 +67,16 @@ public final class KamoofSMP extends JavaPlugin {
 		
 		pm.registerEvents(new DisguiseListener(), this);
 		
-		if(getConfig().getBoolean("ritual.enabled")) {
+		if (getConfig().getBoolean("ritual.enabled")) {
 			RitualHandler.load();
 			pm.registerEvents(new RitualSetup(), this);
 			pm.registerEvents(new RitualListener(), this);
 		}
-		if(getConfig().getBoolean("autoupdate.fetch"))
+		if (getConfig().getBoolean("autoupdate.fetch"))
 			pm.registerEvents(new UpdateChecker(), this);
-		if(getConfig().getBoolean("restaure.enabled"))
+		if (getConfig().getBoolean("restaure.enabled"))
 			pm.registerEvents(new DisguiseRestaurer(), this);
-		if(getConfig().getBoolean("macelimiter.enabled"))
+		if (getConfig().getBoolean("macelimiter.enabled"))
 			pm.registerEvents(new MaceLimiter(), this);
 		
 		pm.registerEvents(new HeadDropper(), this);
@@ -86,7 +87,7 @@ public final class KamoofSMP extends JavaPlugin {
 		
 		DisguiseRestaurer.onEnable();
 		
-		if(getConfig().getBoolean("metrics"))
+		if (getConfig().getBoolean("metrics"))
 			new Metrics(this, 23302);
 	}
 	

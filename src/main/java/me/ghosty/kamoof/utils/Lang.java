@@ -3,7 +3,6 @@ package me.ghosty.kamoof.utils;
 import lombok.RequiredArgsConstructor;
 import me.ghosty.kamoof.KamoofSMP;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import static me.ghosty.kamoof.KamoofSMP.PREFIX;
 
@@ -58,16 +57,16 @@ public enum Lang {
 		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version available! <yellow><bold>%s ➞ %s</hover>"
 	}),
 	NEW_VERSION_HOVER(new String[]{
-		"Dernière version: <bold>Version %s</bold><br><gold>Téléchargée %s fois<br><white>%s<br><yellow>Cliquez pour ouvrir la page de la version",
-		"Last version: <bold>Version %s</bold><br><gold>Downloaded %s times<br><white>%s<br><yellow>Click to open the version page"
+		"Dernière version: <bold>Version %s</bold><br><gold>Téléchargée %s fois<br><br><white>%s<br><yellow>Cliquez pour ouvrir la page de la version",
+		"Last version: <bold>Version %s</bold><br><gold>Downloaded %s times<br><br><white>%s<br><yellow>Click to open the version page"
 	}),
 	NEW_VERSION_DOWNLOADED(new String[]{
 		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ Nouvelle version téléchargée ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Clique pour relancer le serveur et avoir la mise à jour'><click:run_command:/restart>[RELANCER LE SERVEUR]",
 		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version downloaded ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Click to restart the server and get the update'><click:run_command:/restart>[RESTART THE SERVER]"
 	}),
 	VERSION_CHANGELOG_REGEX(new String[]{
-		"```\\\\nChangements:\\\\n((?!```).+?\\\\n)+```",
-		"```\\\\nChanges:\\\\n((?!```).+?\\\\n)+```"
+		"Changements:((?!`).+?)+",
+		"Changes:((?!`).+?)+"
 	}),
 	CONFIG_RELOADED(new String[]{
 		PREFIX + "§aConfig rechargée. Veuillez relancer le serveur si vous avez activé/désactivé des catégories.",
@@ -82,8 +81,8 @@ public enum Lang {
 		"<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systems & Base by <u>Ghosty</u></yellow><br>- <yellow>Support & Updates by <u>Solme</u></yellow><br>Contact: <#4444ee><u><click:open_url:'https://discord.gg/akgp49Q76M'>Discord"
 	}),
 	SETUP_GIVEN(new String[]{
-		"§aVous avez été donné l'objet pour placer le rituel. Posez-le là où vous voulez le définir.",
-		"§aYou have been given the item to place the ritual. Place it wherever you want to set it."
+		"§aVous avez été donné les objets pour placer le rituel.",
+		"§aYou have been given the items to place the ritual."
 	});
 	
 	private static int lang = 0;
@@ -92,9 +91,11 @@ public enum Lang {
 	public static void init() {
 		switch (KamoofSMP.config().getString("language").toLowerCase().trim()) {
 			case "en":
+			case "en_uk":
 			case "en_en":
 			case "en_us":
 			case "england":
+			case "uk":
 			case "us":
 			case "english": {
 				lang = 1;
@@ -115,14 +116,14 @@ public enum Lang {
 	}
 	
 	public void send(CommandSender sender, Object... args) {
-		if(args == null || args.length == 0)
+		if (args == null || args.length == 0)
 			sender.sendMessage(get());
 		else
 			sender.sendMessage(String.format(get(), args));
 	}
 	
 	public void sendMM(CommandSender sender, Object... args) {
-		if(args == null || args.length == 0)
+		if (args == null || args.length == 0)
 			sender.spigot().sendMessage(Message.toBaseComponent(get()));
 		else
 			sender.spigot().sendMessage(Message.toBaseComponent(String.format(get(), args)));

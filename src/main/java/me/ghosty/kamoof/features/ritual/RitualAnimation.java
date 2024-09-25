@@ -2,33 +2,29 @@ package me.ghosty.kamoof.features.ritual;
 
 import lombok.SneakyThrows;
 import me.ghosty.kamoof.KamoofSMP;
-import me.ghosty.kamoof.utils.Message;
+import me.ghosty.kamoof.utils.*;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.event.block.CrafterCraftEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
 
 import java.net.URL;
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
+import java.util.ArrayList;
+import java.util.UUID;
 import java.util.function.Consumer;
 
+import static me.ghosty.kamoof.KamoofSMP.config;
 import static me.ghosty.kamoof.features.ritual.RitualHandler.offsets;
 import static me.ghosty.kamoof.utils.Utils.interpolate;
 
 public final class RitualAnimation {
 	
 	private static final ArrayList<Runnable> particles = new ArrayList<>();
-	private static final Particle.DustOptions redDust = new Particle.DustOptions(Color.RED, 1);
-	private static final Particle.DustOptions aquaDust = new Particle.DustOptions(Color.AQUA, 1);
 	private static boolean stopped = false;
 	
 	@SneakyThrows
@@ -36,7 +32,12 @@ public final class RitualAnimation {
 		final World world = location.getWorld();
 		final double startX = location.getBlockX() + 0.5, startY = location.getBlockY() + 0.25, startZ = location.getBlockZ() + 0.5;
 		final double height = 8, endY = startY + height;
-		final Location centeredLoc = new Location(location.getWorld(), startX, location.getBlockY() + height / 2, startZ + 0.5);
+		final SLocation centeredLoc = new SLocation(location.getWorld(), startX, location.getBlockY() + height / 2, startZ);
+		
+		final Particle.DustOptions dust = new Particle.DustOptions(
+			ColorResolver.getColor(config().getString("ritual.animation.color")),
+			(float) config().getDouble("ritual.animation.size")
+		);
 		
 		stopped = false;
 		particles.clear();
@@ -63,7 +64,7 @@ public final class RitualAnimation {
 		boolean hasDayCycle = world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE);
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 		final long previousWorldTime = world.getTime();
-		final long timeIncr = KamoofSMP.config().getLong("ritual.animation.time-incr");
+		final long timeIncr = config().getLong("ritual.animation.time-incr");
 		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task) -> {
 			world.setTime(Math.round((float) (world.getTime() + timeIncr) / timeIncr) * timeIncr);
 			if (world.getTime() == 18000) {
@@ -72,27 +73,27 @@ public final class RitualAnimation {
 		}, 0L, 3L);
 		
 		Consumer<Double> drawLargeCircles = (y) -> {
-			drawCircle(world, startX, y, startZ, 4.25, 100);
-			drawCircle(world, startX, y, startZ, 4.5, 100);
-			drawCircle(world, startX, y, startZ, 7.25, 150);
+			drawCircle(world, startX, y, startZ, 4.25, 100, dust);
+			drawCircle(world, startX, y, startZ, 4.5, 100, dust);
+			drawCircle(world, startX, y, startZ, 7.25, 150, dust);
 		};
 		
 		Consumer<BukkitTask> part4 = (task) -> {
-			if(stopped) {
+			if (stopped) {
 				task.cancel();
 				return;
 			}
 			
-			double radius = KamoofSMP.config().getDouble("ritual.animation.sphere.radius");
-			spawnSphere(world, startX, startY + height/2, startZ, radius);
+			double radius = config().getDouble("ritual.animation.sphere.radius");
+			spawnSphere(world, startX, startY + height / 2, startZ, radius);
 			
 			Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
 				stopped = true;
 				world.setTime(previousWorldTime);
 				world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, hasDayCycle);
-				Bukkit.spigot().broadcast(Message.toBaseComponent(KamoofSMP.config().getString("messages.ritualdone")));
+				Bukkit.spigot().broadcast(Message.toBaseComponent(config().getString("messages.ritualdone")));
 				world.dropItemNaturally(centeredLoc, RitualBook.getBook(RitualHandler.addNewUUID()));
-				world.strikeLightning(centeredLoc.add(0, radius, 0));
+				world.strikeLightning(centeredLoc.plus(0, radius, 0));
 				
 				for (ArmorStand entity : RitualHandler.armorStands) {
 					entity.getPersistentDataContainer().set(RitualHandler.key, PersistentDataType.BOOLEAN, false);
@@ -107,7 +108,7 @@ public final class RitualAnimation {
 				return;
 			}
 			
-			particles.add(() -> world.spawnParticle(Particle.FLAME, startX, startY + height/2, startZ, 2, 5, 5, 5, 2, null, true));
+			particles.add(() -> world.spawnParticle(Particle.FLAME, startX, startY + height / 2, startZ, 2, 5, 5, 5, 2, null, true));
 			world.playSound(centeredLoc, Sound.BLOCK_ANVIL_PLACE, SoundCategory.AMBIENT, 0.5f, 0.5f);
 			
 			drawLargeCircles.accept(startY);
@@ -125,16 +126,16 @@ public final class RitualAnimation {
 					double aX = a.x + startX, aZ = a.y + startZ;
 					double bX = b.x + startX, bZ = b.y + startZ;
 					
-					drawCircle(world, aX, endY, aZ, 1.5, 40);
-					drawLine(world, endY, aX, aZ, bX, bZ);
+					drawCircle(world, aX, endY, aZ, 1.5, 40, dust);
+					drawLine(world, endY, aX, aZ, bX, bZ, dust);
 				}
 				
 				var ref2 = new Object() {
 					int i = 0;
 				};
-				Location lightningLoc = centeredLoc.add(0, height*1.5, 0);
+				SLocation lightningLoc = centeredLoc.plus(0, height * 1.5, 0);
 				Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task3) -> {
-					if(ref2.i >= 25) {
+					if (ref2.i >= 25) {
 						task3.cancel();
 						return;
 					}
@@ -161,7 +162,7 @@ public final class RitualAnimation {
 					float ratio = (float) i / 30;
 					double y = interpolate(startY, endY, ratio);
 					
-					particles.add(() -> world.spawnParticle(Particle.DUST, x, y, z, 1, 0, 0, 0, 0, redDust));
+					particles.add(() -> world.spawnParticle(Particle.DUST, x, y, z, 1, 0, 0, 0, 0, dust));
 				}
 			}
 			
@@ -173,7 +174,7 @@ public final class RitualAnimation {
 				
 				Vector2d offset = offsets.get(ref.currentOffset);
 				ref.currentOffset++;
-				drawCircle(world, startX + offset.x, startY, startZ + offset.y, 1.5, 40);
+				drawCircle(world, startX + offset.x, startY, startZ + offset.y, 1.5, 40, dust);
 				
 				if (ref.currentOffset >= offsets.size()) {
 					task2.cancel();
@@ -195,7 +196,7 @@ public final class RitualAnimation {
 			double aX = a.x + startX, aZ = a.y + startZ;
 			double bX = b.x + startX, bZ = b.y + startZ;
 			
-			drawLine(world, startY, aX, aZ, bX, bZ);
+			drawLine(world, startY, aX, aZ, bX, bZ, dust);
 			
 			if (ref.currentOffset >= offsets.size()) {
 				task.cancel();
@@ -228,13 +229,13 @@ public final class RitualAnimation {
 	 * @param bX    Position X du point B
 	 * @param bZ    Position Y du point B
 	 */
-	private static void drawLine(World world, double y, double aX, double aZ, double bX, double bZ) {
+	private static void drawLine(World world, double y, double aX, double aZ, double bX, double bZ, Particle.DustOptions dust) {
 		for (int i = 0; i < 20; i++) {
 			float ratio = (float) i / (20 - 1);
 			double x = interpolate(aX, bX, ratio);
 			double z = interpolate(aZ, bZ, ratio);
 			
-			particles.add(() -> world.spawnParticle(Particle.DUST, x, y, z, 1, 0, 0, 0, 0, redDust, true));
+			particles.add(() -> world.spawnParticle(Particle.DUST, x, y, z, 1, 0, 0, 0, 0, dust, true));
 		}
 	}
 	
@@ -248,30 +249,37 @@ public final class RitualAnimation {
 	 * @param radius         Le rayon du cercle
 	 * @param particlesCount Le nombre de particules
 	 */
-	private static void drawCircle(World world, double x, double y, double z, double radius, int particlesCount) {
+	private static void drawCircle(World world, double x, double y, double z, double radius, int particlesCount, Particle.DustOptions dust) {
 		for (int i = 0; i < particlesCount; i++) {
 			double angle = 2 * Math.PI * i / particlesCount;
 			double posX = x + (radius * Math.cos(angle));
 			double posZ = z + (radius * Math.sin(angle));
 			
-			particles.add(() -> world.spawnParticle(Particle.DUST, posX, y, posZ, 1, 0, 0, 0, 0, redDust, true));
+			particles.add(() -> world.spawnParticle(Particle.DUST, posX, y, posZ, 1, 0, 0, 0, 0, dust, true));
 		}
 	}
 	
 	/**
 	 * Fais une sphère de particules
 	 *
-	 * @param world  Le monde
-	 * @param x      Position X
-	 * @param y      Position Y
-	 * @param z      Position Z
+	 * @param world Le monde
+	 * @param x     Position X
+	 * @param y     Position Y
+	 * @param z     Position Z
 	 */
 	private static void spawnSphere(World world, double x, double y, double z, double radius) {
-		int particles = KamoofSMP.config().getInt("ritual.animation.sphere.particles");
-		double lavaChance = KamoofSMP.config().getDouble("ritual.animation.sphere.lava-chance") / 100;
+		final int particles = config().getInt("ritual.animation.sphere.particles");
+		final double lavaChance = config().getDouble("ritual.animation.sphere.lava-chance") / 100;
+		final Particle lavaParticle = config().getBoolean("ritual.animation.sphere.lava-sound")
+			? Particle.DRIPPING_DRIPSTONE_LAVA
+			: Particle.DRIPPING_LAVA;
+		final Particle.DustOptions dust = new Particle.DustOptions(
+			ColorResolver.getColor(config().getString("ritual.animation.sphere.color")),
+			(float) config().getDouble("ritual.animation.sphere.size")
+		);
 		
 		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task) -> {
-			if(stopped) {
+			if (stopped) {
 				task.cancel();
 				return;
 			}
@@ -288,10 +296,10 @@ public final class RitualAnimation {
 				double posX = x + (radius * Math.cos(angle) * phiSin);
 				double posZ = z + (radius * Math.sin(angle) * phiSin);
 				
-				if(Math.random() > lavaChance)
-					world.spawnParticle(Particle.DUST, posX, posY, posZ, 1, 0, 0, 0, 0, aquaDust, true);
+				if (Math.random() > lavaChance)
+					world.spawnParticle(Particle.DUST, posX, posY, posZ, 1, 0, 0, 0, 0, dust, true);
 				else
-					world.spawnParticle(Particle.DRIPPING_LAVA, posX, posY, posZ, 1, 0, 0, 0, 0, null, true);
+					world.spawnParticle(lavaParticle, posX, posY, posZ, 1, 0, 0, 0, 0, null, true);
 				
 			}
 		}, 0L, 5L);

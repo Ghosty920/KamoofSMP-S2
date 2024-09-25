@@ -20,7 +20,11 @@ import java.util.regex.Pattern;
 public final class UpdateChecker implements Listener {
 	
 	private boolean hasUpdate = false;
-	private String currentVersion, newVersion, changelog, downloads, updateLink;
+	private final String currentVersion;
+	private String newVersion;
+	private String changelog;
+	private String downloads;
+	private String updateLink;
 	
 	private BaseComponent[] message;
 	
@@ -28,7 +32,7 @@ public final class UpdateChecker implements Listener {
 		currentVersion = KamoofSMP.getInstance().getDescription().getVersion().trim().toLowerCase();
 		boolean download = KamoofSMP.config().getBoolean("autoupdate.download");
 		Bukkit.getScheduler().runTaskAsynchronously(KamoofSMP.getInstance(), () -> {
-			if(checkForUpdate() && (!download || !downloadUpdate(updateLink))) {
+			if (checkForUpdate() && (!download || !downloadUpdate(updateLink))) {
 				hasUpdate = true;
 				Bukkit.getConsoleSender().spigot().sendMessage(this.message);
 			}
@@ -37,7 +41,7 @@ public final class UpdateChecker implements Listener {
 	
 	public boolean checkForUpdate() {
 		try {
-			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/sPh907Ai/version",
+			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/camouf2/version",
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
 				}}).response();
@@ -59,10 +63,9 @@ public final class UpdateChecker implements Listener {
 				Matcher matcher = pattern.matcher(changelog);
 				matcher.find();
 				changelog = String.join("<br>", matcher.group().split("\\\\n"));
-				changelog = changelog.replace("```", "");
 				
 				String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
-				String url = "https://modrinth.com/plugin/kamoofsmp2/version/" + newVersion;
+				String url = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
 				String message = String.format(Lang.NEW_VERSION.get(), hover, url, currentVersion, newVersion);
 				this.message = Message.toBaseComponent(message);
 				
@@ -77,7 +80,7 @@ public final class UpdateChecker implements Listener {
 	}
 	
 	public boolean downloadUpdate(String url) {
-		if(url == null)
+		if (url == null)
 			return false;
 		try {
 			HTTPUtils.RawResponse response = HTTPUtils.getRaw(url,
@@ -96,7 +99,7 @@ public final class UpdateChecker implements Listener {
 			Bukkit.getConsoleSender().spigot().sendMessage(this.message);
 			
 			return true;
-		} catch(Throwable exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOAD_FAIL.get());
 		}
