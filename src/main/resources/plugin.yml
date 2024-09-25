@@ -3,7 +3,7 @@ authors: [Ghosty, Solme]
 version: ${version}
 api-version: 1.21
 description: Le KamoofSMP Saison 2 de Sohran
-website: https://modrinth.com/plugin/kamoofsmp2
+website: https://modrinth.com/plugin/camouf2
 depend: [NickAPI]
 main: me.ghosty.kamoof.KamoofSMP
 commands:
