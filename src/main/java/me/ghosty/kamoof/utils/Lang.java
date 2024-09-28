@@ -65,8 +65,8 @@ public enum Lang {
 		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version downloaded ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Click to restart the server and get the update'><click:run_command:/restart>[RESTART THE SERVER]"
 	}),
 	VERSION_CHANGELOG_REGEX(new String[]{
-		"Changements:((?!`).+?)+",
-		"Changes:((?!`).+?)+"
+		"Changements:((?!`).)+",
+		"Changes:((?!`).)+"
 	}),
 	CONFIG_RELOADED(new String[]{
 		PREFIX + "§aConfig rechargée. Veuillez relancer le serveur si vous avez activé/désactivé des catégories.",

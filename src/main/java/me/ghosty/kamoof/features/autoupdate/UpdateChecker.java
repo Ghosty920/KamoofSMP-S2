@@ -13,14 +13,15 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class UpdateChecker implements Listener {
 	
-	private boolean hasUpdate = false;
 	private final String currentVersion;
+	private boolean hasUpdate = false;
 	private String newVersion;
 	private String changelog;
 	private String downloads;
@@ -47,7 +48,9 @@ public final class UpdateChecker implements Listener {
 				}}).response();
 			JsonObject object = JsonParser.parseString(data).getAsJsonArray().get(0).getAsJsonObject();
 			newVersion = object.get("version_number").getAsString().trim().toLowerCase();
-			if (currentVersion != newVersion) {
+			
+			if (Arrays.compare(currentVersion.getBytes(), newVersion.getBytes()) != 0) {
+//			if (currentVersion.equalsIgnoreCase(newVersion)) {
 				
 				int downloadsCount = object.get("downloads").getAsInt();
 				if (downloadsCount < 1_000)
@@ -62,7 +65,8 @@ public final class UpdateChecker implements Listener {
 				Pattern pattern = Pattern.compile(Lang.VERSION_CHANGELOG_REGEX.get(), Pattern.CANON_EQ);
 				Matcher matcher = pattern.matcher(changelog);
 				matcher.find();
-				changelog = String.join("<br>", matcher.group().split("\\\\n"));
+				changelog = matcher.group().replace("\\n", "<br>");
+//				changelog = String.join("<br>", matcher.group().split("\\\\n"));
 				
 				String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
 				String url = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
@@ -90,13 +94,16 @@ public final class UpdateChecker implements Listener {
 			URL location = KamoofSMP.class.getProtectionDomain().getCodeSource().getLocation();
 			Files.write(Path.of(location.toURI()), response.response());
 			
-			String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
-			String uUrl = "https://modrinth.com/plugin/kamoofsmp2/version/" + newVersion;
+			Bukkit.getScheduler().runTask(KamoofSMP.getInstance(),
+				() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart"));
+			
+			/*String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
+			String uUrl = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
 			String message = String.format(Lang.NEW_VERSION_DOWNLOADED.get(), hover, uUrl, currentVersion, newVersion);
 			this.message = Message.toBaseComponent(message);
 			
 			hasUpdate = true;
-			Bukkit.getConsoleSender().spigot().sendMessage(this.message);
+			Bukkit.getConsoleSender().spigot().sendMessage(this.message);*/
 			
 			return true;
 		} catch (Throwable exc) {
