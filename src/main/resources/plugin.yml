@@ -9,7 +9,7 @@ main: me.ghosty.kamoof.KamoofSMP
 commands:
   kamoofsmp:
     description: La commande principale du KamoofSMP
-    aliases: [kamoof]
+    aliases: [kamoof, camouf, camoufsmp]
   givehead:
     description: Se donner n'importe quelle tête
     permission: kamoofsmp.admin

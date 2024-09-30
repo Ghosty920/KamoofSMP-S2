@@ -53,16 +53,16 @@ public enum Lang {
 		PREFIX + "§cCouldn't download/save the last version"
 	}),
 	NEW_VERSION(new String[]{
-		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ Nouvelle version disponible ! <yellow><bold>%s ➞ %s</hover>",
-		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version available! <yellow><bold>%s ➞ %s</hover>"
+		"<hover:show_text:\"%s\"><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ Nouvelle version disponible ! <yellow><bold>%s ➞ %s</hover>",
+		"<hover:show_text:\"%s\"><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version available! <yellow><bold>%s ➞ %s</hover>"
 	}),
 	NEW_VERSION_HOVER(new String[]{
 		"Dernière version: <bold>Version %s</bold><br><gold>Téléchargée %s fois<br><br><white>%s<br><yellow>Cliquez pour ouvrir la page de la version",
 		"Last version: <bold>Version %s</bold><br><gold>Downloaded %s times<br><br><white>%s<br><yellow>Click to open the version page"
 	}),
 	NEW_VERSION_DOWNLOADED(new String[]{
-		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ Nouvelle version téléchargée ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Clique pour relancer le serveur et avoir la mise à jour'><click:run_command:/restart>[RELANCER LE SERVEUR]",
-		"<hover:show_text:'%s'><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version downloaded ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Click to restart the server and get the update'><click:run_command:/restart>[RESTART THE SERVER]"
+		"<hover:show_text:\"%s\"><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ Nouvelle version téléchargée ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Clique pour relancer le serveur et avoir la mise à jour'><click:run_command:/restart>[RELANCER LE SERVEUR]",
+		"<hover:show_text:\"%s\"><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ New version downloaded ! <yellow><bold>%s ➞ %s</hover><br><gold><bold><hover:show_text:'Click to restart the server and get the update'><click:run_command:/restart>[RESTART THE SERVER]"
 	}),
 	VERSION_CHANGELOG_REGEX(new String[]{
 		"Changements:((?!`).)+",

@@ -65,8 +65,7 @@ public final class UpdateChecker implements Listener {
 				Pattern pattern = Pattern.compile(Lang.VERSION_CHANGELOG_REGEX.get(), Pattern.CANON_EQ);
 				Matcher matcher = pattern.matcher(changelog);
 				matcher.find();
-				changelog = matcher.group().replace("\\n", "<br>");
-//				changelog = String.join("<br>", matcher.group().split("\\\\n"));
+				changelog = matcher.group().replace("\\n", "<br>").replace("\"", "\\\"");
 				
 				String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
 				String url = "https://modrinth.com/plugin/camouf2/version/" + newVersion;

@@ -28,10 +28,10 @@ public final class RitualHandler {
 		new Vector2d(-6, 0),
 		new Vector2d(-4, -4)
 	);
+	public static final NamespacedKey key = new NamespacedKey("kamoofsmp", "ritualstand");
 	static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofSMP.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
 	public static boolean setup = false;
 	public static Location location;
-	public static final NamespacedKey key = new NamespacedKey("kamoofsmp", "ritualstand");
 	
 	public static void load() {
 		setup = false;
@@ -126,6 +126,8 @@ public final class RitualHandler {
 	public static void setPacte(Player player, String pacte) {
 		KamoofSMP.getData().set("pacte." + player.getUniqueId(), pacte);
 		KamoofSMP.saveData();
+		if (pacte == null)
+			return;
 		switch (pacte) {
 			case "1" -> {
 				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).addModifier(healthBoostModifier);

@@ -40,8 +40,10 @@ drophead:
 
 
 disguise:
-  # Being able to pose the heads
+  # Being able to place the heads
   place-head: true
+  # Giving the head back when doing /undisguise and when using another head
+  give-back: false
 
 
 restaure:

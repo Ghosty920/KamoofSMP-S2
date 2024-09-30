@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "me.ghosty"
-version = "1.1.1"
+version = "1.1.2"
 
 repositories {
     mavenCentral()
@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+
 //    compileOnly("xyz.haoshoku.nick:nickapi:7.2-SNAPSHOT")
     compileOnly("xyz/haoshoku/nick:NickAPI:v6.7")
 

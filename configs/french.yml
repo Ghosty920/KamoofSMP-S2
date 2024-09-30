@@ -47,6 +47,8 @@ drophead:
 disguise:
   # Le fait de pouvoir poser les têtes
   place-head: true
+  # Le fait de rendre la tête au /undisguise et quand tu utilises une autre tête
+  give-back: false
 
 
 restaure:

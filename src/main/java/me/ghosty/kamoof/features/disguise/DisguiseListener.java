@@ -9,6 +9,7 @@ import org.bukkit.event.*;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.Map;
@@ -58,6 +59,11 @@ public final class DisguiseListener implements Listener {
 			}
 		}
 		
+		if (KamoofSMP.config().getBoolean("disguise.give-back") && NickAPI.isNicked(player)) {
+			ItemStack item = SkullManager.getSkull(NickAPI.getName(player));
+			if (!player.getInventory().addItem(item).isEmpty())
+				player.getWorld().dropItem(player.getLocation(), item);
+		}
 		DisguiseManager.disguise(player, name);
 		Message.send(player, "messages.disguised", Map.of("player", NickAPI.getOriginalName(player), "nick", name));
 		
