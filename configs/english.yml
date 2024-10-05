@@ -66,8 +66,8 @@ ritual:
   # The content of the 2 pages to perform the different pacts
   # %command1% = Bloody Pact, %command2% = Forgotten Pact
   pages:
-    - "<dark_red>Bloody Pact<br><br><red>This pact allows you to increase your life by <dark_red>5 <red>hearts, but your next death will cost you 3 heads...<br><dark_red><b>Will you accept it?<br><br><click:run_command:%command1%><red><b>[Accept the Pact]"
-    - "<dark_gray>Forgotten Pact<br><br><gray>This pact allows you to <dark_gray><b>leave no head</b> <gray>behind you when you die, however for the rest of this life you will be weaker<br><dark_gray><b>Will you accept it?<br><br><click:run_command:%command2%>[Accept the Pact]"
+    - "<dark_red>Bloody Pact<br><br><red>This pact allows you to increase your life by <dark_red>5 <red>hearts, but your next death will cost you 3 heads...<br><dark_red><b>Will you accept it?<br><br><hover:show_text:\"<dark_purple>Click to accept this pact\"><click:run_command:%command1%><red><b>[Accept the Pact]"
+    - "<dark_gray>Forgotten Pact<br><br><gray>This pact allows you to <dark_gray><b>leave no head</b> <gray>behind you when you die, however for the rest of this life you will be weaker<br><dark_gray><b>Will you accept it?<br><br><hover:show_text:\"<dark_purple>Click to accept this pact\"><click:run_command:%command2%>[Accept the Pact]"
   pactes:
     bloody:
       # Bloody Pact HP Boost
@@ -100,13 +100,28 @@ ritual:
       size: 1
       # The percentage chance of having a lava particle
       lava-chance: 5
-      # If the lava particles should do a sound at the send
+      # If the lava particles should make a sound when dropping
       lava-sound: false
     # The minimum & maximum time to start a ritual
     # Example: 0 & 12000 will prevent it during the night
     # Put 0 & 24000 to disable it
     min-time: 0
     max-time: 24000
+
+  # The settings of the animation when the pact is accepted
+  accepted:
+    # The radius of the lava sphere
+    lava-radius: 1.5
+    # The count of lava particles
+    lava-particles: 300
+    # If the lava particles should make a sound when dropping
+    lava-sound: false
+    # The count of flame particles
+    flame-particles: 500
+    # The speed/distance made by the flame particles
+    flame-speed: 0.5
+    # If the particles should be blue
+    flame-soul: true
 
 
 # Information:

@@ -44,13 +44,25 @@ public enum Lang {
 		PREFIX + "§aVous vous êtes donné la tête de §e%s",
 		PREFIX + "§aGave yourself the head of §e%s"
 	}),
+	UPDATE_CHECKING(new String[]{
+		PREFIX + "§aVérification de la dernière version...",
+		PREFIX + "§aChecking for the last version available..."
+	}),
 	UPDATE_CHECKER_FAIL(new String[]{
 		PREFIX + "§cImpossible de récupérer/traiter la dernière version",
 		PREFIX + "§cCouldn't fetch/process the last version"
 	}),
+	UPDATE_DOWNLOADING(new String[]{
+		PREFIX + "§aTéléchargement de la dernière version...",
+		PREFIX + "§aDownloading the last version available..."
+	}),
 	UPDATE_DOWNLOAD_FAIL(new String[]{
 		PREFIX + "§cImpossible de télécharger/sauvegarder la dernière version",
 		PREFIX + "§cCouldn't download/save the last version"
+	}),
+	UPDATE_DOWNLOADED(new String[]{
+		PREFIX + "§aNouvelle version téléchargée avec succès. Redémarrage du serveur.",
+		PREFIX + "§aNew version downloaded successfully. Restarting the server."
 	}),
 	NEW_VERSION(new String[]{
 		"<hover:show_text:\"%s\"><click:open_url:'%s'><green><bold>[KamoofSMP]</bold> ➤ Nouvelle version disponible ! <yellow><bold>%s ➞ %s</hover>",

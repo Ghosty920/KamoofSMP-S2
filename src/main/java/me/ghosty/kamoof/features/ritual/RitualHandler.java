@@ -2,6 +2,7 @@ package me.ghosty.kamoof.features.ritual;
 
 import me.ghosty.kamoof.KamoofSMP;
 import me.ghosty.kamoof.utils.Message;
+import me.ghosty.kamoof.utils.SLocation;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -14,6 +15,8 @@ import org.joml.Vector2d;
 import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
+
+import static me.ghosty.kamoof.KamoofSMP.config;
 
 public final class RitualHandler {
 	
@@ -138,6 +141,38 @@ public final class RitualHandler {
 				Message.send(player, "messages.chose-forgotten", Map.of("player", NickAPI.getOriginalName(player)));
 			}
 		}
+		
+		/*
+		 * Animation
+		 */
+		final Particle lavaParticle = config().getBoolean("ritual.accepted.lava-sound")
+			? Particle.DRIPPING_DRIPSTONE_LAVA
+			: Particle.DRIPPING_LAVA;
+		final World world = player.getWorld();
+		final double radius = config().getDouble("ritual.accepted.lava-radius"),
+			particles = config().getDouble("ritual.accepted.lava-particles");
+		final Location loc = new SLocation(player.getLocation()).plus(0, 0.9, 0);
+		
+		for (int i = 0; i < particles; i++) {
+			double rand1 = Math.random(), rand2 = Math.random();
+			
+			double phi = 2 * Math.PI * rand1;
+			double posY = loc.getY() + radius * Math.cos(phi);
+			double phiSin = Math.sin(phi);
+			
+			double angle = 2 * Math.PI * rand2;
+			double posX = loc.getX() + (radius * Math.cos(angle) * phiSin);
+			double posZ = loc.getZ() + (radius * Math.sin(angle) * phiSin);
+			
+			world.spawnParticle(lavaParticle, posX, posY, posZ, 1, 0, 0, 0, 0, null, true);
+		}
+		
+		world.spawnParticle(
+			config().getBoolean("ritual.accepted.flame-soul") ? Particle.SOUL_FIRE_FLAME : Particle.FLAME,
+			loc,
+			config().getInt("ritual.accepted.flame-particles"), 0, 0, 0,
+			config().getDouble("ritual.accepted.flame-speed"), null, true
+		);
 	}
 	
 	public static String getPacte(Player player) {

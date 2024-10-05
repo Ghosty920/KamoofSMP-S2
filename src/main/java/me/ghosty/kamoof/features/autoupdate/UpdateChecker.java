@@ -42,6 +42,7 @@ public final class UpdateChecker implements Listener {
 	
 	public boolean checkForUpdate() {
 		try {
+			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_CHECKING.get());
 			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/camouf2/version",
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
@@ -86,6 +87,7 @@ public final class UpdateChecker implements Listener {
 		if (url == null)
 			return false;
 		try {
+			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOADING.get());
 			HTTPUtils.RawResponse response = HTTPUtils.getRaw(url,
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
@@ -93,6 +95,7 @@ public final class UpdateChecker implements Listener {
 			URL location = KamoofSMP.class.getProtectionDomain().getCodeSource().getLocation();
 			Files.write(Path.of(location.toURI()), response.response());
 			
+			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOADED.get());
 			Bukkit.getScheduler().runTask(KamoofSMP.getInstance(),
 				() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart"));
 			

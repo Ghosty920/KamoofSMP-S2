@@ -1,7 +1,7 @@
 package me.ghosty.kamoof.features.macelimiter;
 
 import me.ghosty.kamoof.KamoofSMP;
-import org.bukkit.GameMode;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.*;
 import org.bukkit.event.block.CrafterCraftEvent;
@@ -10,6 +10,25 @@ import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
 
 public final class MaceLimiter implements Listener {
+	
+	// fix un bug avec certaines versions spigot
+	public MaceLimiter() {
+		try {
+			Bukkit.getPluginManager().registerEvents(new Listener() {
+				
+				@EventHandler(priority = EventPriority.HIGHEST)
+				public void onCrafter(CrafterCraftEvent event) {
+					if (event.getResult().getType() != Material.MACE)
+						return;
+					if (canCraft()) add();
+					else event.setCancelled(true);
+				}
+				
+			}, KamoofSMP.getInstance());
+		} catch (Throwable exc) {
+			exc.printStackTrace();
+		}
+	}
 	
 	public static void add() {
 		KamoofSMP.getData().set("maces", KamoofSMP.getData().getInt("maces", 0) + 1);
@@ -23,17 +42,16 @@ public final class MaceLimiter implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPrepareCraft(PrepareItemCraftEvent event) {
 		ItemStack result = event.getInventory().getResult();
-		if (event.getView().getPlayer().getGameMode() == GameMode.CREATIVE)
-			return;
-		if (result != null && result.getType() == Material.MACE)
-			if (!canCraft())
-				event.getInventory().setResult(null);
+//		if (event.getView().getPlayer().getGameMode() == GameMode.CREATIVE)
+//			return;
+		if (result != null && result.getType() == Material.MACE && !canCraft())
+			event.getInventory().setResult(null);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCraft(CraftItemEvent event) {
-		if (event.getView().getPlayer().getGameMode() == GameMode.CREATIVE)
-			return;
+//		if (event.getView().getPlayer().getGameMode() == GameMode.CREATIVE)
+//			return;
 		if (event.getCurrentItem().getType() != Material.MACE)
 			return;
 		
@@ -56,16 +74,4 @@ public final class MaceLimiter implements Listener {
 		else
 			event.setCancelled(true);
 	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onCrafter(CrafterCraftEvent event) {
-		if (event.getResult().getType() != Material.MACE)
-			return;
-		
-		if (canCraft())
-			add();
-		else
-			event.setCancelled(true);
-	}
-	
 }

@@ -8,6 +8,10 @@ import org.bukkit.World;
  */
 public class SLocation extends Location {
 	
+	public SLocation(Location location) {
+		super(location.getWorld(), location.getX(), location.getY(), location.getZ());
+	}
+	
 	public SLocation(World world, double x, double y, double z) {
 		super(world, x, y, z);
 	}

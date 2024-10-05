@@ -71,8 +71,8 @@ ritual:
   # Le contenu des 2 pages pour effectuer les différents pactes
   # %command1% = Pacte Ensanglanté, %command2% = Pacte Oublié
   pages:
-    - "<dark_red>Pacte Ensanglanté<br><br><red>Ce pacte te permet d'augmenter ta vie de <dark_red>5 <red>coeurs t'est proposé, mais ta prochaine mort te coûtera 3 têtes...<br><dark_red><b>Vas-tu l'accepter ?<br><br><click:run_command:%command1%><red><b>[Accepter le Pacte]"
-    - "<dark_gray>Pacte Oublié<br><br><gray>Ce pacte te permet de ne <dark_gray><b>pas laisser de tête</b> <gray>derrière toi à ta mort, cependant durant le restant de cette vie tu seras plus faible<br><dark_gray><b>Vas-tu l'accepter ?<br><br><click:run_command:%command2%>[Accepter le Pacte]"
+    - "<dark_red>Pacte Ensanglanté<br><br><red>Ce pacte te permet d'augmenter ta vie de <dark_red>5 <red>coeurs t'est proposé, mais ta prochaine mort te coûtera 3 têtes...<br><dark_red><b>Vas-tu l'accepter ?<br><br><hover:show_text:\"<dark_purple>Clique pour accepter ce pacte\"><click:run_command:%command1%><red><b>[Accepter le Pacte]"
+    - "<dark_gray>Pacte Oublié<br><br><gray>Ce pacte te permet de ne <dark_gray><b>pas laisser de tête</b> <gray>derrière toi à ta mort, cependant durant le restant de cette vie tu seras plus faible<br><dark_gray><b>Vas-tu l'accepter ?<br><br><hover:show_text:\"<dark_purple>Clique pour accepter ce pacte\"><click:run_command:%command2%>[Accepter le Pacte]"
   pactes:
     bloody:
       # Le boost de pv du Pacte Ensanglanté
@@ -105,13 +105,28 @@ ritual:
       size: 1
       # Le pourcentage de chance d'avoir une particule de lave
       lava-chance: 5
-      # Si les particules de lave produisent du son à la fin
+      # Si les particules de lave produisent du son quand elles tombent
       lava-sound: false
   # Les temps dans le monde minimum & maximum pour lancer le rituel
   # Exemple: 0 & 12000 empêchera de lancer le rituel la nuit
   # Mettez 0 & 24000 pour désactiver la vérification
   min-time: 0
   max-time: 24000
+
+  # Les paramètres de l'animation quand le pacte est accepté
+  accepted:
+    # Le rayon de la sphère de lave
+    lava-radius: 1.5
+    # Le nombre de particules de lave
+    lava-particles: 300
+    # Si les particules de lave produisent du son quand elles tombent
+    lava-sound: false
+    # Le nombre de particules de flamme
+    flame-particles: 500
+    # La vitesse/distance parcourue des particules de flamme
+    flame-speed: 0.5
+    # Si les particules de flamme doivent être bleues
+    flame-soul: true
 
 
 # Information:

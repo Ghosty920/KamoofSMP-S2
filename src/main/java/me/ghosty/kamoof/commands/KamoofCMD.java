@@ -77,7 +77,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "book": {
-				player.getInventory().addItem(RitualBook.getBook(RitualHandler.addNewUUID()));
+				player.getWorld().dropItemNaturally(player.getLocation(), RitualBook.getBook(RitualHandler.addNewUUID()));
 				return true;
 			}
 			case "setup": {
