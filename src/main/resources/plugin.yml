@@ -1,15 +1,15 @@
 name: KamoofSMP
-authors: [Ghosty, Solme]
+authors: [ Ghosty, Solme ]
 version: ${version}
 api-version: 1.21
-description: Le KamoofSMP Saison 2 de Sohran
+description: Reproduction du KamoofSMP Saison 2 de Sohran
 website: https://modrinth.com/plugin/camouf2
-depend: [NickAPI]
+depend: [ NickAPI ]
 main: me.ghosty.kamoof.KamoofSMP
 commands:
   kamoofsmp:
-    description: La commande principale du KamoofSMP
-    aliases: [kamoof, camouf, camoufsmp]
+    description: Commande globale du KamoofSMP
+    aliases: [ kamoof, camouf, camoufsmp ]
   givehead:
     description: Se donner n'importe quelle tête
     permission: kamoofsmp.admin
@@ -17,4 +17,4 @@ commands:
     description: Retirer son déguisement
 permissions:
   kamoofsmp.admin:
-    description: Admin du KamoofSMP
+    description: Administrateur du serveur
