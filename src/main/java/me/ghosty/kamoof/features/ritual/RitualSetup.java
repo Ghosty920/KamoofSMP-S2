@@ -102,7 +102,7 @@ public final class RitualSetup implements Listener {
 					InputStream inputStream = getClass().getResourceAsStream("/ritual.nbt");
 					structure = Bukkit.getStructureManager().loadStructure(inputStream);
 				}
-				structure.place(event.getClickedBlock().getLocation().add(-9, 0, -9), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
+				structure.place(event.getClickedBlock().getLocation().add(-9, -1, -9), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
 			}
 			case BREEZE_ROD -> {
 				if (structureUG == null) {
