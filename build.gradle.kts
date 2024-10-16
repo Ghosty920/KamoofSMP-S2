@@ -3,8 +3,8 @@ plugins {
     id("com.gradleup.shadow") version ("8.3.0")
 }
 
-group = "me.ghosty"
-version = "1.2.1"
+group = "cc.ghosty"
+version = "1.3.0"
 
 repositories {
     mavenCentral()

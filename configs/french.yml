@@ -178,6 +178,12 @@ messages:
   # Tu ne peux pas lancer de rituel dans la période actuelle
   # %player% = Nom du joueur
   ritual-wrong-time: "<red>Tu ne peux pas lancer le rituel maintenant, reviens plus tard"
+  # Tu viens de crafter une mace (avec mace-limiter d'activé)
+  # %player% = Nom du joueur
+  # %limit% = Limite de maces autorisées
+  # %old% = Ancien nombre de maces crées
+  # %now% = Nouveau nombre de maces crées
+  craft-mace: "<green>Tu as crafté une MACE, le maximum possible est de : %limit% exemplaire(s)"
 
 
 # L'auto-update est un module permettant de check automatiquement pour une nouvelle mise à jour du plugin
