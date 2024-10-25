@@ -39,7 +39,7 @@ public final class UpdateChecker implements Listener {
 				Bukkit.getConsoleSender().spigot().sendMessage(this.message);
 			}
 			shouldRestart[0] = false;
-		}, 1L, /*24 * 60 * 60 * 20L*/ 200L);
+		}, 1L, 24 * 60 * 60 * 20L);
 	}
 	
 	public boolean checkForUpdate() {

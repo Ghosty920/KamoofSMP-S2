@@ -1,9 +1,9 @@
 package cc.ghosty.kamoof.features.ritual;
 
-import lombok.experimental.UtilityClass;
 import cc.ghosty.kamoof.KamoofSMP;
 import cc.ghosty.kamoof.utils.Message;
 import cc.ghosty.kamoof.utils.Placeholder;
+import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

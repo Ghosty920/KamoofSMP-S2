@@ -1,9 +1,8 @@
 package cc.ghosty.kamoof.features.ritual;
 
-import cc.ghosty.kamoof.utils.*;
-import lombok.SneakyThrows;
 import cc.ghosty.kamoof.KamoofSMP;
 import cc.ghosty.kamoof.utils.*;
+import lombok.SneakyThrows;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.ItemStack;

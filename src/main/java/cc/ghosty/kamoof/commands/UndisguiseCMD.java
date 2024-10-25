@@ -25,9 +25,9 @@ public final class UndisguiseCMD implements CommandExecutor, TabCompleter {
 		if (NickAPI.isNicked(player)) {
 			String disguise = NickAPI.getName(player);
 			DisguiseManager.undisguise(player);
-			if(KamoofSMP.config().getBoolean("disguise.give-back")) {
+			if (KamoofSMP.config().getBoolean("disguise.give-back")) {
 				ItemStack item = SkullManager.getSkull(disguise);
-				if(!player.getInventory().addItem(item).isEmpty())
+				if (!player.getInventory().addItem(item).isEmpty())
 					player.getWorld().dropItem(player.getLocation(), item);
 			}
 			Message.send(player, "messages.undisguise", Map.of("player", NickAPI.getOriginalName(player), "nick", disguise));

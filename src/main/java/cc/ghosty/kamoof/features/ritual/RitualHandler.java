@@ -49,7 +49,7 @@ public final class RitualHandler {
 			if (entity.getPersistentDataContainer().has(key))
 				armorStands.add(entity);
 		}
-		if(armorStands.size() < 9) {
+		if (armorStands.size() < 9) {
 			armorStands.forEach(Entity::remove);
 			return;
 		}

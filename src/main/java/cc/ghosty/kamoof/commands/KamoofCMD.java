@@ -81,7 +81,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "setup": {
-				if(!config().getBoolean("ritual.enabled")) {
+				if (!config().getBoolean("ritual.enabled")) {
 					Lang.RITUAL_DISABLED.send(player);
 					return true;
 				}

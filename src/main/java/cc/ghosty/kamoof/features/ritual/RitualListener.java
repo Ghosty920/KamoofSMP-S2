@@ -47,7 +47,7 @@ public final class RitualListener implements Listener {
 		long minTime = KamoofSMP.config().getInt("ritual.min-time"),
 			maxTime = KamoofSMP.config().getInt("ritual.max-time"),
 			time = player.getWorld().getTime();
-		if(time < minTime || time > maxTime) {
+		if (time < minTime || time > maxTime) {
 			Message.send(player, "messages.ritual-wrong-time", Map.of("player", NickAPI.getOriginalName(player)));
 			event.setCancelled(true);
 			return;

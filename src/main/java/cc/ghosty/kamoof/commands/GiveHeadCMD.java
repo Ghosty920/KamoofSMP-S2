@@ -16,6 +16,19 @@ public final class GiveHeadCMD implements CommandExecutor, TabCompleter {
 	
 	private static final Pattern usernamePattern = Pattern.compile("^[a-zA-Z0-9_]{1,16}$");
 	
+	public static void execute(Player player, String user) {
+		if (!usernamePattern.matcher(user).matches()) {
+			Lang.INVALID_USERNAME.send(player, user);
+			return;
+		}
+		
+		ItemStack item = SkullManager.getSkull(user);
+		if (player.getInventory().addItem(item).isEmpty())
+			Lang.HEAD_GIVEN.send(player, user);
+		else
+			Lang.INVENTORY_FULL.send(player);
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player player)) {
@@ -31,19 +44,6 @@ public final class GiveHeadCMD implements CommandExecutor, TabCompleter {
 		execute(player, args[0]);
 		
 		return true;
-	}
-	
-	public static void execute(Player player, String user) {
-		if (!usernamePattern.matcher(user).matches()) {
-			Lang.INVALID_USERNAME.send(player, user);
-			return;
-		}
-		
-		ItemStack item = SkullManager.getSkull(user);
-		if (player.getInventory().addItem(item).isEmpty())
-			Lang.HEAD_GIVEN.send(player, user);
-		else
-			Lang.INVENTORY_FULL.send(player);
 	}
 	
 	@Override

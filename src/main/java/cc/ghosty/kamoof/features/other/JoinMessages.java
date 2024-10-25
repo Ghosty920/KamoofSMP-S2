@@ -11,16 +11,16 @@ import static cc.ghosty.kamoof.KamoofSMP.*;
 
 public final class JoinMessages implements Listener {
 	
-	public boolean done = data().getBoolean("firstJoinMsg", false);
 	public final boolean ritual = config().getBoolean("ritual.enabled");
+	public boolean done = data().getBoolean("firstJoinMsg", false);
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-			Player player = event.getPlayer();
+		Player player = event.getPlayer();
 		if (!player.hasPermission("kamoofsmp.admin") && !player.isOp())
 			return;
 		
-		if(!done) {
+		if (!done) {
 			
 			Lang.FIRST_JOIN.sendMM(player);
 			
@@ -28,7 +28,7 @@ public final class JoinMessages implements Listener {
 			data().set("firstJoinMsg", true);
 			saveData();
 			
-		} else if(ritual && !RitualHandler.setup) {
+		} else if (ritual && !RitualHandler.setup) {
 			
 			Lang.NOT_PLACED.sendMM(player);
 			

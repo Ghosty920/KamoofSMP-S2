@@ -1,7 +1,7 @@
 package cc.ghosty.kamoof.features.disguise;
 
-import lombok.experimental.UtilityClass;
 import cc.ghosty.kamoof.utils.Reflection;
+import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import xyz.haoshoku.nick.api.NickAPI;
 

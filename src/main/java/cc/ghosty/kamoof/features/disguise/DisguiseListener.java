@@ -84,17 +84,17 @@ public final class DisguiseListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onRequestJoin(AsyncPlayerPreLoginEvent event) {
-		if(event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED)
+		if (event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED)
 			return;
 		Bukkit.getScheduler().runTask(KamoofSMP.getInstance(), () -> {
 			Player player = NickAPI.getPlayerOfNickedName(event.getName());
-			if(player == null)
+			if (player == null)
 				return;
 			NickAPI.setGameProfileName(player, NickAPI.getOriginalGameProfileName(player));
 			NickAPI.refreshPlayer(player);
 			
 			Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
-				if(!player.isOnline())
+				if (!player.isOnline())
 					return;
 				NickAPI.setGameProfileName(player, event.getName());
 				NickAPI.refreshPlayer(player);

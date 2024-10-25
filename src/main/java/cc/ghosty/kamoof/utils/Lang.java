@@ -1,7 +1,7 @@
 package cc.ghosty.kamoof.utils;
 
-import lombok.RequiredArgsConstructor;
 import cc.ghosty.kamoof.KamoofSMP;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 
 import static cc.ghosty.kamoof.KamoofSMP.*;

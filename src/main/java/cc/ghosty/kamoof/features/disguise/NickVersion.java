@@ -26,9 +26,8 @@ public enum NickVersion {
 		}
 	});
 	
-	public final Supplier<Boolean> check;
-	
 	private static NickVersion version;
+	public final Supplier<Boolean> check;
 	
 	public static NickVersion get() {
 		if (version == null) {

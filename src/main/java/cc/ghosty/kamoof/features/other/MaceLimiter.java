@@ -82,7 +82,7 @@ public final class MaceLimiter implements Listener {
 			int limit = KamoofSMP.config().getInt("macelimiter.limit");
 			add();
 			HumanEntity player = event.getView().getPlayer();
-			Message.send(player, "messages.craft-mace", Map.of("player", (player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName()), "old", old, "now", old+1, "limit", limit));
+			Message.send(player, "messages.craft-mace", Map.of("player", (player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName()), "old", old, "now", old + 1, "limit", limit));
 		} else
 			event.setCancelled(true);
 	}
