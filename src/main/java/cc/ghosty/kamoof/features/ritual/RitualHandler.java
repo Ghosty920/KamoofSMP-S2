@@ -1,8 +1,7 @@
 package cc.ghosty.kamoof.features.ritual;
 
 import cc.ghosty.kamoof.KamoofSMP;
-import cc.ghosty.kamoof.utils.Message;
-import cc.ghosty.kamoof.utils.SLocation;
+import cc.ghosty.kamoof.utils.*;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -16,7 +15,7 @@ import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
 
-import static cc.ghosty.kamoof.KamoofSMP.config;
+import static cc.ghosty.kamoof.KamoofSMP.*;
 
 public final class RitualHandler {
 	
@@ -38,7 +37,7 @@ public final class RitualHandler {
 	
 	public static void load() {
 		setup = false;
-		location = KamoofSMP.getData().getLocation("ritual.data.location");
+		location = data().getLocation("ritual.data.location");
 		if (location == null)
 			return;
 		for (int x = -1; x <= 1; x++)
@@ -50,6 +49,11 @@ public final class RitualHandler {
 			if (entity.getPersistentDataContainer().has(key))
 				armorStands.add(entity);
 		}
+		if(armorStands.size() < 9) {
+			armorStands.forEach(Entity::remove);
+			return;
+		}
+		setup = true;
 	}
 	
 	public static void runAnimation(Player player) {
@@ -89,9 +93,9 @@ public final class RitualHandler {
 		entities.add(entity.getEntityId());
 		armorStands.add(entity);
 		
-		player.sendMessage(KamoofSMP.PREFIX + String.format("§aNouveau lieu de Rituel: %s %s %s", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
-		KamoofSMP.getData().set("ritual.data.location", loc.add(0.5, 0.5, 0.5));
-		KamoofSMP.saveData();
+		Lang.NEW_RITUAL_LOCATION.send(player, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+		data().set("ritual.data.location", loc.add(0.5, 0.5, 0.5));
+		saveData();
 	}
 	
 	private static ArmorStand makeArmorStand(Location location) {
@@ -109,25 +113,25 @@ public final class RitualHandler {
 	
 	public static UUID addNewUUID() {
 		UUID uuid = UUID.randomUUID();
-		List<String> list = KamoofSMP.getData().getStringList("pactes");
+		List<String> list = data().getStringList("pactes");
 		list.add(uuid.toString());
-		KamoofSMP.getData().set("pactes", list);
+		data().set("pactes", list);
 		KamoofSMP.saveData();
 		return uuid;
 	}
 	
 	public static boolean isValidUUID(UUID uuid) {
-		List<String> list = KamoofSMP.getData().getStringList("pactes");
+		List<String> list = data().getStringList("pactes");
 		if (!list.contains(uuid.toString()))
 			return false;
 		list.remove(uuid.toString());
-		KamoofSMP.getData().set("pactes", list);
+		data().set("pactes", list);
 		KamoofSMP.saveData();
 		return true;
 	}
 	
 	public static void setPacte(Player player, String pacte) {
-		KamoofSMP.getData().set("pacte." + player.getUniqueId(), pacte);
+		data().set("pacte." + player.getUniqueId(), pacte);
 		KamoofSMP.saveData();
 		if (pacte == null)
 			return;
@@ -176,6 +180,6 @@ public final class RitualHandler {
 	}
 	
 	public static String getPacte(Player player) {
-		return KamoofSMP.getData().getString("pacte." + player.getUniqueId());
+		return data().getString("pacte." + player.getUniqueId());
 	}
 }

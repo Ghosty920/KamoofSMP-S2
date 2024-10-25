@@ -1,18 +1,15 @@
 package cc.ghosty.kamoof;
 
 import cc.ghosty.kamoof.commands.*;
-import cc.ghosty.kamoof.features.ritual.*;
-import lombok.Getter;
-import lombok.SneakyThrows;
-import cc.ghosty.kamoof.commands.*;
-import cc.ghosty.kamoof.features.autoupdate.UpdateChecker;
 import cc.ghosty.kamoof.features.disguise.DisguiseListener;
 import cc.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import cc.ghosty.kamoof.features.drophead.HeadDropper;
-import cc.ghosty.kamoof.features.macelimiter.MaceLimiter;
+import cc.ghosty.kamoof.features.other.*;
 import cc.ghosty.kamoof.features.ritual.*;
 import cc.ghosty.kamoof.utils.Lang;
 import cc.ghosty.kamoof.utils.Metrics;
+import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
@@ -26,15 +23,19 @@ import java.io.File;
 public final class KamoofSMP extends JavaPlugin {
 	
 	public static final String PREFIX = "§a§l[KamoofSMP] §r";
+	public static final String PREFIX_MM = "<green><b>[KamoofSMP] <reset>";
 	
 	@Getter
 	private static KamoofSMP instance;
-	@Getter
 	private static YamlConfiguration data;
 	private static File dataFile;
 	
 	public static FileConfiguration config() {
 		return instance.getConfig();
+	}
+	
+	public static YamlConfiguration data() {
+		return data;
 	}
 	
 	@SneakyThrows
@@ -43,6 +44,10 @@ public final class KamoofSMP extends JavaPlugin {
 			return;
 		data.save(dataFile);
 		data = YamlConfiguration.loadConfiguration(dataFile);
+	}
+	
+	public static void log(String msg, Object... args) {
+		Bukkit.getConsoleSender().sendMessage(String.format(msg, args));
 	}
 	
 	@Override
@@ -88,6 +93,7 @@ public final class KamoofSMP extends JavaPlugin {
 		registerCommand("undisguise", new UndisguiseCMD());
 		
 		DisguiseRestaurer.onEnable();
+		pm.registerEvents(new JoinMessages(), this);
 		
 		if (getConfig().getBoolean("metrics"))
 			new Metrics(this, 23302);
@@ -104,10 +110,6 @@ public final class KamoofSMP extends JavaPlugin {
 		getCommand(name).setExecutor(cmd);
 		if (cmd instanceof TabCompleter tc)
 			getCommand(name).setTabCompleter(tc);
-	}
-	
-	public static void log(String msg, Object... args) {
-		Bukkit.getConsoleSender().sendMessage(String.format(msg, args));
 	}
 	
 }

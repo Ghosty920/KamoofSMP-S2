@@ -13,7 +13,7 @@ import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
 
-import static cc.ghosty.kamoof.KamoofSMP.PREFIX;
+import static cc.ghosty.kamoof.KamoofSMP.*;
 
 public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	
@@ -69,7 +69,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			case "reload": {
 				KamoofSMP.getInstance().reloadConfig();
 				Lang.init();
-				Lang.CONFIG_RELOADED.send(player);
+				Lang.CONFIG_RELOADED.sendMM(player);
 				return true;
 			}
 			case "test": {
@@ -81,8 +81,12 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "setup": {
+				if(!config().getBoolean("ritual.enabled")) {
+					Lang.RITUAL_DISABLED.send(player);
+					return true;
+				}
 				if (player.getInventory().addItem(RitualSetup.getItems()).isEmpty())
-					Lang.SETUP_GIVEN.send(player);
+					Lang.SETUP_GIVEN.sendMM(player);
 				else
 					Lang.INVENTORY_FULL.send(player);
 				return true;

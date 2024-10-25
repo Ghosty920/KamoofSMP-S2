@@ -1,4 +1,4 @@
-package cc.ghosty.kamoof.features.macelimiter;
+package cc.ghosty.kamoof.features.other;
 
 import cc.ghosty.kamoof.KamoofSMP;
 import cc.ghosty.kamoof.utils.Message;
@@ -14,6 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.Map;
+
+import static cc.ghosty.kamoof.KamoofSMP.*;
 
 public final class MaceLimiter implements Listener {
 	
@@ -37,12 +39,12 @@ public final class MaceLimiter implements Listener {
 	}
 	
 	public static void add() {
-		KamoofSMP.getData().set("maces", KamoofSMP.getData().getInt("maces", 0) + 1);
-		KamoofSMP.saveData();
+		data().set("maces", data().getInt("maces", 0) + 1);
+		saveData();
 	}
 	
 	public static boolean canCraft() {
-		return KamoofSMP.getData().getInt("maces", 0) < KamoofSMP.config().getInt("macelimiter.limit");
+		return data().getInt("maces", 0) < KamoofSMP.config().getInt("macelimiter.limit");
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -76,7 +78,7 @@ public final class MaceLimiter implements Listener {
 		}
 		
 		if (canCraft()) {
-			int old = KamoofSMP.getData().getInt("maces", 0);
+			int old = data().getInt("maces", 0);
 			int limit = KamoofSMP.config().getInt("macelimiter.limit");
 			add();
 			HumanEntity player = event.getView().getPlayer();

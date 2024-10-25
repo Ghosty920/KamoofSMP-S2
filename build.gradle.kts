@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "cc.ghosty"
-version = "1.3.0"
+version = "1.3.1"
 
 repositories {
     mavenCentral()
@@ -39,6 +39,10 @@ tasks {
 
     assemble {
         dependsOn(shadowJar)
+    }
+
+    shadowJar {
+        archiveFileName.set("${project.name}-${project.version}.jar")
     }
 
     processResources {

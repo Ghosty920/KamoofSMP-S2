@@ -14,6 +14,8 @@ import xyz.haoshoku.nick.api.NickAPI;
 import java.util.Map;
 import java.util.UUID;
 
+import static cc.ghosty.kamoof.KamoofSMP.*;
+
 public final class DisguiseRestaurer implements Listener {
 	
 	private static boolean enabled = false;
@@ -23,12 +25,12 @@ public final class DisguiseRestaurer implements Listener {
 	}
 	
 	public static String get(UUID uuid) {
-		return KamoofSMP.getData().getString("restaurer." + uuid);
+		return data().getString("restaurer." + uuid);
 	}
 	
 	public static void set(UUID uuid, String disguise) {
-		KamoofSMP.getData().set("restaurer." + uuid, disguise);
-		KamoofSMP.saveData();
+		data().set("restaurer." + uuid, disguise);
+		saveData();
 	}
 	
 	public static void onEnable() {
@@ -45,7 +47,7 @@ public final class DisguiseRestaurer implements Listener {
 						DisguiseManager.disguise(player, disguise);
 				}
 			});
-			KamoofSMP.saveData();
+			saveData();
 		}, 1L);
 		
 	}
@@ -59,7 +61,7 @@ public final class DisguiseRestaurer implements Listener {
 				set(player.getUniqueId(), NickAPI.getName(player));
 		});
 		
-		KamoofSMP.saveData();
+		saveData();
 	}
 	
 	@EventHandler

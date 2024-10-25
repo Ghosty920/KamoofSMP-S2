@@ -1,9 +1,8 @@
-package cc.ghosty.kamoof.features.autoupdate;
+package cc.ghosty.kamoof.features.other;
 
-import cc.ghosty.kamoof.utils.*;
-import com.google.gson.*;
 import cc.ghosty.kamoof.KamoofSMP;
 import cc.ghosty.kamoof.utils.*;
+import com.google.gson.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,13 +31,15 @@ public final class UpdateChecker implements Listener {
 	
 	public UpdateChecker() {
 		currentVersion = KamoofSMP.getInstance().getDescription().getVersion().trim().toLowerCase();
-		boolean download = KamoofSMP.config().getBoolean("autoupdate.download");
-		Bukkit.getScheduler().runTaskAsynchronously(KamoofSMP.getInstance(), () -> {
-			if (checkForUpdate() && (!download || !downloadUpdate(updateLink))) {
+		final boolean[] shouldRestart = {true};
+		Bukkit.getScheduler().runTaskTimerAsynchronously(KamoofSMP.getInstance(), () -> {
+			boolean download = KamoofSMP.config().getBoolean("autoupdate.download");
+			if (checkForUpdate() && (!download || !downloadUpdate(updateLink, shouldRestart[0]))) {
 				hasUpdate = true;
 				Bukkit.getConsoleSender().spigot().sendMessage(this.message);
 			}
-		});
+			shouldRestart[0] = false;
+		}, 1L, /*24 * 60 * 60 * 20L*/ 200L);
 	}
 	
 	public boolean checkForUpdate() {
@@ -52,7 +53,6 @@ public final class UpdateChecker implements Listener {
 			newVersion = object.get("version_number").getAsString().trim().toLowerCase();
 			
 			if (Arrays.compare(currentVersion.getBytes(), newVersion.getBytes()) != 0) {
-//			if (currentVersion.equalsIgnoreCase(newVersion)) {
 				
 				int downloadsCount = object.get("downloads").getAsInt();
 				if (downloadsCount < 1_000)
@@ -84,7 +84,7 @@ public final class UpdateChecker implements Listener {
 		return false;
 	}
 	
-	public boolean downloadUpdate(String url) {
+	public boolean downloadUpdate(String url, boolean restart) {
 		if (url == null)
 			return false;
 		try {
@@ -97,16 +97,22 @@ public final class UpdateChecker implements Listener {
 			Files.write(Path.of(location.toURI()), response.response());
 			
 			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOADED.get());
-			Bukkit.getScheduler().runTask(KamoofSMP.getInstance(),
-				() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart"));
 			
-			/*String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
-			String uUrl = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
-			String message = String.format(Lang.NEW_VERSION_DOWNLOADED.get(), hover, uUrl, currentVersion, newVersion);
-			this.message = Message.toBaseComponent(message);
+			if (!restart) {
+				
+				String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
+				String uUrl = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
+				String message = String.format(Lang.NEW_VERSION_DOWNLOADED.get(), hover, uUrl, currentVersion, newVersion);
+				this.message = Message.toBaseComponent(message);
+				
+				hasUpdate = true;
+				Bukkit.getConsoleSender().spigot().sendMessage(this.message);
+				
+			} else {
+				Bukkit.getScheduler().runTask(KamoofSMP.getInstance(),
+					() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart"));
+			}
 			
-			hasUpdate = true;
-			Bukkit.getConsoleSender().spigot().sendMessage(this.message);*/
 			
 			return true;
 		} catch (Throwable exc) {
