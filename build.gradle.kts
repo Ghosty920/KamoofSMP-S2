@@ -4,13 +4,14 @@ plugins {
 }
 
 group = "cc.ghosty"
-version = "1.3.1-hotfix1"
+version = "1.4.0"
 
 repositories {
     mavenCentral()
     maven("https://mvn.intelligence-modding.de/haoshoku")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://haoshoku.xyz:8081/repository/default/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -23,6 +24,8 @@ dependencies {
     implementation("net.kyori:adventure-text-minimessage:4.17.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
+
+    implementation("com.samjakob:SpiGUI:v1.3.1")
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
@@ -43,6 +46,7 @@ tasks {
 
     shadowJar {
         archiveFileName.set("${project.name}-${project.version}.jar")
+        minimize()
     }
 
     processResources {

@@ -22,7 +22,7 @@ public final class JoinMessages implements Listener {
 		
 		if (!done) {
 			
-			Lang.FIRST_JOIN.sendMM(player);
+			Lang.send(player, "FIRST_JOIN");
 			
 			done = true;
 			data().set("firstJoinMsg", true);
@@ -30,7 +30,7 @@ public final class JoinMessages implements Listener {
 			
 		} else if (ritual && !RitualHandler.setup) {
 			
-			Lang.NOT_PLACED.sendMM(player);
+			Lang.send(player, "RITUAL_NOT_PLACED");
 			
 		}
 	}

@@ -2,6 +2,7 @@ package cc.ghosty.kamoof.commands;
 
 import cc.ghosty.kamoof.KamoofSMP;
 import cc.ghosty.kamoof.features.ritual.*;
+import cc.ghosty.kamoof.gui.ConfigGUI;
 import cc.ghosty.kamoof.utils.Lang;
 import cc.ghosty.kamoof.utils.Message;
 import org.bukkit.Bukkit;
@@ -20,7 +21,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			sender.sendMessage(PREFIX + "§cCommande réservée aux joueurs.");
+			Lang.send(sender, "PLAYER_ONLY");
 			return true;
 		}
 		
@@ -58,9 +59,13 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			case "info": {
 				return showCredits(player);
 			}
+			case "config": {
+				player.openInventory(ConfigGUI.getMainMenu().getInventory());
+				return true;
+			}
 			case "givehead": {
 				if (args.length < 2) {
-					player.sendMessage(PREFIX + String.format("§cUsage: /%s givehead <username>", label.toLowerCase()));
+					player.sendMessage(String.format("§a§l[KamoofSMP] §cUsage: /%s givehead <username>", label.toLowerCase()));
 					return true;
 				}
 				GiveHeadCMD.execute(player, args[1]);
@@ -69,7 +74,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			case "reload": {
 				KamoofSMP.getInstance().reloadConfig();
 				Lang.init();
-				Lang.CONFIG_RELOADED.sendMM(player);
+				Lang.send(player, "CONFIG_RELOADED");
 				return true;
 			}
 			case "test": {
@@ -82,13 +87,13 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			}
 			case "setup": {
 				if (!config().getBoolean("ritual.enabled")) {
-					Lang.RITUAL_DISABLED.send(player);
+					Lang.send(player, "RITUAL_DISABLED");
 					return true;
 				}
 				if (player.getInventory().addItem(RitualSetup.getItems()).isEmpty())
-					Lang.SETUP_GIVEN.sendMM(player);
+					Lang.send(player, "SETUP_GIVEN");
 				else
-					Lang.INVENTORY_FULL.send(player);
+					Lang.send(player, "INVENTORY_FULL");
 				return true;
 			}
 			default: {
@@ -104,7 +109,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (sender.hasPermission("kamoofsmp.admin")) {
 			if (args.length <= 1) {
-				return Arrays.asList("info", "givehead", "reload", "setup");
+				return Arrays.asList("info", "config", "reload", "setup", "givehead");
 			}
 			if (args[0].equalsIgnoreCase("givehead")) {
 				ArrayList<String> values = new ArrayList<>();
@@ -125,13 +130,13 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	
 	private boolean showArgs(CommandSender sender) {
 		String version = KamoofSMP.getInstance().getDescription().getVersion();
-		Lang.MAIN_ARGUMENTS.sendMM(sender, version);
+		Lang.send(sender, "MAIN_ARGUMENTS", version);
 		return true;
 	}
 	
 	private boolean showCredits(CommandSender sender) {
 		String version = KamoofSMP.getInstance().getDescription().getVersion();
-		Lang.CREDITS.sendMM(sender, version);
+		Lang.send(sender, "CREDITS", version, Lang.SUPPORT);
 		return true;
 	}
 }

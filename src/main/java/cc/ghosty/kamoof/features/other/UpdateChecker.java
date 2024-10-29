@@ -44,7 +44,7 @@ public final class UpdateChecker implements Listener {
 	
 	public boolean checkForUpdate() {
 		try {
-			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_CHECKING.get());
+			sendMessage("UPDATE_CHECKING");
 			String data = HTTPUtils.get("https://api.modrinth.com/v2/project/camouf2/version",
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
@@ -64,22 +64,24 @@ public final class UpdateChecker implements Listener {
 				
 				// idc of what u could say, as long as it works!!
 				changelog = object.get("changelog").getAsString().replace("\n", "\\n");
-				Pattern pattern = Pattern.compile(Lang.VERSION_CHANGELOG_REGEX.get(), Pattern.CANON_EQ);
+				Pattern pattern = Pattern.compile(Lang.get("VERSION_CHANGELOG_REGEX"), Pattern.CANON_EQ);
 				Matcher matcher = pattern.matcher(changelog);
 				matcher.find();
 				changelog = matcher.group().replace("\\n", "<br>").replace("\"", "\\\"");
 				
-				String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
+				String hover = String.format(Lang.get("NEW_VERSION_HOVER"), newVersion, downloads, changelog);
 				String url = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
-				String message = String.format(Lang.NEW_VERSION.get(), hover, url, currentVersion, newVersion);
+				String message = String.format(Lang.get("NEW_VERSION"), hover, url, currentVersion, newVersion);
 				this.message = Message.toBaseComponent(message);
 				
 				updateLink = getFileURL(object);
 				return true;
 			}
+			
+			sendMessage("UPDATE_ALREADY_LAST");
 		} catch (Throwable exc) {
 			exc.printStackTrace();
-			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_CHECKER_FAIL.get());
+			sendMessage("UPDATE_CHECKER_FAIL");
 		}
 		return false;
 	}
@@ -88,7 +90,7 @@ public final class UpdateChecker implements Listener {
 		if (url == null)
 			return false;
 		try {
-			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOADING.get());
+			sendMessage("UPDATE_DOWNLOADING");
 			HTTPUtils.RawResponse response = HTTPUtils.getRaw(url,
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
@@ -96,13 +98,13 @@ public final class UpdateChecker implements Listener {
 			URL location = KamoofSMP.class.getProtectionDomain().getCodeSource().getLocation();
 			Files.write(Path.of(location.toURI()), response.response());
 			
-			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOADED.get());
+			sendMessage("UPDATE_DOWNLOADED");
 			
 			if (!restart) {
 				
-				String hover = String.format(Lang.NEW_VERSION_HOVER.get(), newVersion, downloads, changelog);
+				String hover = String.format(Lang.get("NEW_VERSION_HOVER"), newVersion, downloads, changelog);
 				String uUrl = "https://modrinth.com/plugin/camouf2/version/" + newVersion;
-				String message = String.format(Lang.NEW_VERSION_DOWNLOADED.get(), hover, uUrl, currentVersion, newVersion);
+				String message = String.format(Lang.get("NEW_VERSION_DOWNLOADED"), hover, uUrl, currentVersion, newVersion);
 				this.message = Message.toBaseComponent(message);
 				
 				hasUpdate = true;
@@ -117,7 +119,7 @@ public final class UpdateChecker implements Listener {
 			return true;
 		} catch (Throwable exc) {
 			exc.printStackTrace();
-			Bukkit.getConsoleSender().sendMessage(Lang.UPDATE_DOWNLOAD_FAIL.get());
+			sendMessage("UPDATE_DOWNLOAD_FAIL");
 		}
 		return false;
 	}
@@ -142,6 +144,10 @@ public final class UpdateChecker implements Listener {
 			return;
 		
 		player.spigot().sendMessage(message);
+	}
+	
+	private void sendMessage(String key, Object... args) {
+		Lang.send(Bukkit.getConsoleSender(), key, args);
 	}
 	
 }

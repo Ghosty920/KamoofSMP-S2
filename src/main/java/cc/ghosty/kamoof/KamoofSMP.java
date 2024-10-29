@@ -6,8 +6,8 @@ import cc.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import cc.ghosty.kamoof.features.drophead.HeadDropper;
 import cc.ghosty.kamoof.features.other.*;
 import cc.ghosty.kamoof.features.ritual.*;
-import cc.ghosty.kamoof.utils.Lang;
-import cc.ghosty.kamoof.utils.Metrics;
+import cc.ghosty.kamoof.utils.*;
+import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
@@ -22,13 +22,12 @@ import java.io.File;
 
 public final class KamoofSMP extends JavaPlugin {
 	
-	public static final String PREFIX = "§a§l[KamoofSMP] §r";
-	public static final String PREFIX_MM = "<green><b>[KamoofSMP] <reset>";
-	
 	@Getter
 	private static KamoofSMP instance;
 	private static YamlConfiguration data;
 	private static File dataFile;
+	@Getter
+	private static SpiGUI spiGUI;
 	
 	public static FileConfiguration config() {
 		return instance.getConfig();
@@ -47,7 +46,7 @@ public final class KamoofSMP extends JavaPlugin {
 	}
 	
 	public static void log(String msg, Object... args) {
-		Bukkit.getConsoleSender().sendMessage(String.format(msg, args));
+		Bukkit.getConsoleSender().spigot().sendMessage(Message.toBaseComponent(String.format(msg, args)));
 	}
 	
 	@Override
@@ -57,6 +56,7 @@ public final class KamoofSMP extends JavaPlugin {
 		instance = this;
 		saveDefaultConfig();
 		PluginManager pm = Bukkit.getPluginManager();
+		spiGUI = new SpiGUI(this);
 		
 		Lang.init();
 		
@@ -69,7 +69,7 @@ public final class KamoofSMP extends JavaPlugin {
 			data = YamlConfiguration.loadConfiguration(dataFile);
 		} catch (Throwable exc) {
 			exc.printStackTrace();
-			log(Lang.DATA_FILE_FAILED.get());
+			log(Lang.get("DATA_FILE_FAILED"));
 		}
 		
 		pm.registerEvents(new DisguiseListener(), this);
@@ -81,10 +81,15 @@ public final class KamoofSMP extends JavaPlugin {
 		}
 		if (getConfig().getBoolean("autoupdate.fetch"))
 			pm.registerEvents(new UpdateChecker(), this);
-		if (getConfig().getBoolean("restaure.enabled"))
-			pm.registerEvents(new DisguiseRestaurer(), this);
 		if (getConfig().getBoolean("macelimiter.enabled"))
 			pm.registerEvents(new MaceLimiter(), this);
+		
+		if (getConfig().getBoolean("restaure.enabled")) {
+			pm.registerEvents(new DisguiseRestaurer(), this);
+		} else {
+			data().set("restaurer", null);
+			saveData();
+		}
 		
 		pm.registerEvents(new HeadDropper(), this);
 		
@@ -95,6 +100,7 @@ public final class KamoofSMP extends JavaPlugin {
 		DisguiseRestaurer.onEnable();
 		pm.registerEvents(new JoinMessages(), this);
 		
+		// https://bstats.org/plugin/bukkit/KamoofSMP/23302
 		if (getConfig().getBoolean("metrics"))
 			new Metrics(this, 23302);
 	}

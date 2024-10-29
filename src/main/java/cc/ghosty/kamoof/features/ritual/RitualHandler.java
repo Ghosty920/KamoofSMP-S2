@@ -49,6 +49,7 @@ public final class RitualHandler {
 			if (entity.getPersistentDataContainer().has(key))
 				armorStands.add(entity);
 		}
+		System.out.println(Arrays.toString(armorStands.toArray()));
 		if (armorStands.size() < 9) {
 			armorStands.forEach(Entity::remove);
 			return;
@@ -93,7 +94,8 @@ public final class RitualHandler {
 		entities.add(entity.getEntityId());
 		armorStands.add(entity);
 		
-		Lang.NEW_RITUAL_LOCATION.send(player, loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
+		setup = true;
+		Lang.send(player, "NEW_RITUAL_LOCATION", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 		data().set("ritual.data.location", loc.add(0.5, 0.5, 0.5));
 		saveData();
 	}

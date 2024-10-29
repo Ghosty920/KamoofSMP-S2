@@ -18,7 +18,7 @@ public final class UndisguiseCMD implements CommandExecutor, TabCompleter {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (!(sender instanceof Player player)) {
-			sender.sendMessage(Lang.PLAYER_ONLY.get());
+			Lang.send(sender, "PLAYER_ONLY");
 			return true;
 		}
 		
