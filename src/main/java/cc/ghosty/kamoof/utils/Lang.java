@@ -1,8 +1,7 @@
 package cc.ghosty.kamoof.utils;
 
 import cc.ghosty.kamoof.KamoofSMP;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -18,9 +17,15 @@ public final class Lang {
 	
 	public static final String PREFIX = "<green><b>[KamoofSMP] <reset>";
 	public static final String SUPPORT = "https://discord.gg/akgp49Q76M";
-	
+	public static final HashMap<String, String> languages = new HashMap<>();
 	private static final HashMap<String, String> messages = new HashMap<>();
+	@Getter
 	private static String locale;
+	
+	static {
+		languages.put("fr", "Français");
+		languages.put("en", "English");
+	}
 	
 	@SneakyThrows
 	public static void init() {
