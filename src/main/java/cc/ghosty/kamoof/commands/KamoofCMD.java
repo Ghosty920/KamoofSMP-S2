@@ -2,7 +2,6 @@ package cc.ghosty.kamoof.commands;
 
 import cc.ghosty.kamoof.KamoofSMP;
 import cc.ghosty.kamoof.features.ritual.*;
-import cc.ghosty.kamoof.gui.ConfigGUI;
 import cc.ghosty.kamoof.utils.Lang;
 import cc.ghosty.kamoof.utils.Message;
 import org.bukkit.Bukkit;

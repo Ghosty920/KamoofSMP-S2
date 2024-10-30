@@ -1,11 +1,13 @@
-package cc.ghosty.kamoof.gui;
+package cc.ghosty.kamoof.commands;
 
 import cc.ghosty.kamoof.KamoofSMP;
-import cc.ghosty.kamoof.utils.ColorResolver;
-import cc.ghosty.kamoof.utils.Lang;
+import cc.ghosty.kamoof.utils.*;
 import com.samjakob.spigui.buttons.SGButton;
 import com.samjakob.spigui.menu.SGMenu;
-import org.bukkit.Material;
+import net.md_5.bungee.api.ChatMessageType;
+import net.wesjd.anvilgui.AnvilGUI;
+import org.bukkit.*;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -276,7 +278,7 @@ public final class ConfigGUI {
 				case RIGHT -> {
 					try {
 						index = (values.indexOf(value) - 1) % values.size();
-						if(index < 0)
+						if (index < 0)
 							index = values.size() - 1;
 					} catch (Throwable exc) {
 						index = 0;
@@ -299,20 +301,46 @@ public final class ConfigGUI {
 		meta.setDisplayName("§3§l" + name + ": §6§l" + value);
 		meta.setLore(Arrays.asList(lore));
 		item.setItemMeta(meta);
+		
 		menu.setButton(slot, new SGButton(item).withListener(event -> {
-			StringGUI gui = new StringGUI("§3§l" + name, value, predicate)
-				.setOnAccept(ev -> {
-					config().set(path, ev.getCursor().getItemMeta().getDisplayName());
+			if (!(event.getWhoClicked() instanceof Player player))
+				return;
+			new AnvilGUI.Builder().plugin(getInstance())
+				.title("§3§l" + name)
+				.text(value)
+				.onClick((clickedSlot, stateSnapshot) -> {
+					if (clickedSlot != 2)
+						return List.of();
+					String newValue = stateSnapshot.getText().trim();
+					if (predicate.test(newValue)) {
+						config().set(path, newValue);
+						getInstance().saveConfig();
+						setButtonString(menu, slot, path, predicate, name, lore);
+						return Arrays.asList(AnvilGUI.ResponseAction.close());
+					}
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, Message.toBaseComponent("<red>Valeur invalide."));
+					player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BLOCK, SoundCategory.MASTER, 0.3f, 1.5f);
+					return List.of();
 				})
-				.setOnClose(ev -> ev.getPlayer().openInventory(menu.getInventory()));
-			event.getWhoClicked().openInventory(gui.getInventory());
+				.onClose(stateSnapshot -> {
+					stateSnapshot.getPlayer().openInventory(menu.getInventory());
+				})
+				.open(player);
 		}));
 	}
 	
 	private static ArrayList<String> getLore(String key) {
 		ArrayList<String> lore = new ArrayList<>();
-		for (String line : Lang.get(key).split("\\|"))
+		String[] split = Lang.get(key).split("\\s");
+		int i = 0;
+		while (i < split.length) {
+			StringBuilder line = new StringBuilder();
+			while (line.length() < 40 && i < split.length) {
+				line.append(split[i]).append(" ");
+				i++;
+			}
 			lore.add("§7" + line);
+		}
 		return lore;
 	}
 	

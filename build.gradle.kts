@@ -8,9 +8,10 @@ version = "1.4.0"
 
 repositories {
     mavenCentral()
-    maven("https://mvn.intelligence-modding.de/haoshoku")
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://repo.codemc.io/repository/maven-snapshots/")
     maven("https://haoshoku.xyz:8081/repository/default/")
+    maven("https://mvn.intelligence-modding.de/haoshoku")
     maven("https://jitpack.io")
 }
 
@@ -26,6 +27,7 @@ dependencies {
     implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
 
     implementation("com.samjakob:SpiGUI:v1.3.1")
+    implementation("net.wesjd:anvilgui:1.10.3-SNAPSHOT")
 
     compileOnly("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
@@ -46,7 +48,11 @@ tasks {
 
     shadowJar {
         archiveFileName.set("${project.name}-${project.version}.jar")
-        minimize()
+        minimize {
+            exclude(dependency("net.wesjd:anvilgui:.*"))
+        }
+        relocate("com.samjakob.spigui", "cc.ghosty.kamoof.deps.com.samjakob.spigui")
+        relocate("net.wesjd.anvilgui", "cc.ghosty.kamoof.deps.net.wesjd.anvilgui")
     }
 
     processResources {
