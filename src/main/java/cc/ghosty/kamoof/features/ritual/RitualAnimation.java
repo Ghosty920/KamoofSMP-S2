@@ -66,10 +66,14 @@ public final class RitualAnimation {
 		final long previousWorldTime = world.getTime();
 		final long timeIncr = config().getLong("ritual.animation.time-incr");
 		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task) -> {
-			world.setTime(Math.round((float) (world.getTime() + timeIncr) / timeIncr) * timeIncr);
-			if (world.getTime() == 18000) {
+			if (stopped) {
 				task.cancel();
+				return;
 			}
+			
+			world.setTime(Math.round((float) (world.getTime() + timeIncr) / timeIncr) * timeIncr);
+			if (world.getTime() == 18000)
+				task.cancel();
 		}, 0L, 3L);
 		
 		Consumer<Double> drawLargeCircles = (y) -> {
@@ -135,6 +139,11 @@ public final class RitualAnimation {
 				};
 				SLocation lightningLoc = centeredLoc.plus(0, height * 1.5, 0);
 				Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task3) -> {
+					if (stopped) {
+						task.cancel();
+						return;
+					}
+					
 					if (ref2.i >= 25) {
 						task3.cancel();
 						return;

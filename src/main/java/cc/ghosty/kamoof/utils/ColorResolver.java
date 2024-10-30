@@ -36,7 +36,11 @@ public final class ColorResolver {
 		if (stored != null)
 			return stored;
 		
-		return toBukkit(getJavaColor(color));
+		try {
+			return toBukkit(getJavaColor(color));
+		} catch(Throwable exc) {
+			return null;
+		}
 	}
 	
 	public static java.awt.Color getJavaColor(String color) {

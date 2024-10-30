@@ -31,7 +31,7 @@ public final class RitualHandler {
 		new Vector2d(-4, -4)
 	);
 	public static final NamespacedKey key = new NamespacedKey("kamoofsmp", "ritualstand");
-	static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofSMP.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
+	public static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofSMP.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
 	public static boolean setup = false;
 	public static Location location;
 	
@@ -49,7 +49,7 @@ public final class RitualHandler {
 			if (entity.getPersistentDataContainer().has(key))
 				armorStands.add(entity);
 		}
-		System.out.println(Arrays.toString(armorStands.toArray()));
+		
 		if (armorStands.size() < 9) {
 			armorStands.forEach(Entity::remove);
 			return;
@@ -143,7 +143,9 @@ public final class RitualHandler {
 				Message.send(player, "messages.chose-bloody", Map.of("player", NickAPI.getOriginalName(player)));
 			}
 			case "2" -> {
-				player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1));
+				int level = KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1;
+				if(level >= 0)
+					player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, level));
 				Message.send(player, "messages.chose-forgotten", Map.of("player", NickAPI.getOriginalName(player)));
 			}
 		}

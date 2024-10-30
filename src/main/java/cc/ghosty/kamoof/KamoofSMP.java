@@ -6,6 +6,7 @@ import cc.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import cc.ghosty.kamoof.features.drophead.HeadDropper;
 import cc.ghosty.kamoof.features.other.*;
 import cc.ghosty.kamoof.features.ritual.*;
+import cc.ghosty.kamoof.gui.StringGUI;
 import cc.ghosty.kamoof.utils.*;
 import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
@@ -56,7 +57,9 @@ public final class KamoofSMP extends JavaPlugin {
 		instance = this;
 		saveDefaultConfig();
 		PluginManager pm = Bukkit.getPluginManager();
+		
 		spiGUI = new SpiGUI(this);
+		pm.registerEvents(new StringGUI.EventListener(), this);
 		
 		Lang.init();
 		
