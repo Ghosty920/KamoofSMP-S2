@@ -83,10 +83,7 @@ public final class DisguiseRestaurer implements Listener {
 			event.setJoinMessage(message.replace(name, disguise));
 		}
 		
-		String message = KamoofSMP.config().getString("restaure.message");
-		if (message.isBlank())
-			return;
-		player.spigot().sendMessage(Message.toBaseComponent(Placeholder.apply(message, Map.of("player", name, "nick", disguise))));
+		Message.send(player, "messages.restaure", Map.of("player", name, "nick", disguise));
 	}
 	
 	@EventHandler

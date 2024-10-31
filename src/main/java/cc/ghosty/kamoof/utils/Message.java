@@ -7,6 +7,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
@@ -44,7 +45,14 @@ public final class Message {
 	}
 	
 	public static void send(CommandSender sender, String path, Map<String, Object> placeholders) {
-		sender.spigot().sendMessage(toBaseComponent(Placeholder.apply(KamoofSMP.config().getString(path), placeholders)));
+		if(sender == null)
+			return;
+		if(sender instanceof OfflinePlayer player && !player.isOnline())
+			return;
+		String msg = KamoofSMP.config().getString(path);
+		if(msg.isBlank())
+			return;
+		sender.spigot().sendMessage(toBaseComponent(Placeholder.apply(msg, placeholders)));
 	}
 	
 }

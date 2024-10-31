@@ -46,13 +46,8 @@ disguise:
   give-back: false
 
 
-restaure:
-  # Recovering your skin when reconnecting
-  enabled: true
-  # Messages to send on reconnection, as if the player had just
-  # disguised themselves. Leave blank if not used
-  # %player% = Original name, %nick% = Disguise
-  message: ""
+# Recovering your skin when reconnecting
+restaure: true
 
 
 ritual:
@@ -93,7 +88,7 @@ ritual:
       # Radius of the big blue sphere
       radius: 2
       # The number of particles constituting it
-      particles: 750
+      quantity: 750
       # The color of the particles of the sphere
       color: "aqua"
       # The size of the particles of the sphere
@@ -113,11 +108,11 @@ ritual:
     # The radius of the lava sphere
     lava-radius: 1.5
     # The count of lava particles
-    lava-particles: 300
+    lava-quantity: 300
     # If the lava particles should make a sound when dropping
     lava-sound: false
     # The count of flame particles
-    flame-particles: 500
+    flame-quantity: 500
     # The speed/distance made by the flame particles
     flame-speed: 0.5
     # If the particles should be blue
@@ -137,6 +132,7 @@ macelimiter:
 
 # This does not change with the language parameter, and must be changed manually
 # They use MiniMessage
+# Keep it empty to not send anything
 messages:
   # You just disguised yourself
   # %player% = Original name, %nick% = Disguise
@@ -177,6 +173,9 @@ messages:
   # %old% = Previous number of maces crafted
   # %now% = New number of maces crafted
   craft-mace: "<green>You crafted a MACE, the limit is : %limit% copies"
+  # You log back in and get your disguise back (if restaure is enabled)
+  # %player% = Original name, %nick% = Disguise
+  restaure: ""
 
 
 # Auto-update is a module to automatically check for a new plugin update

@@ -51,13 +51,8 @@ disguise:
   give-back: false
 
 
-restaure:
-  # Le fait de récupérer son skin au déco/reco
-  enabled: true
-  # Les message à envoyer à la reconnection, comme si le joueur venait
-  # de se déguiser. Laisser vide si inutilisé
-  # %player% = Nom original, %nick% = Déguisement
-  message: ""
+# Le fait de récupérer son skin au déco/reco
+restaure: true
 
 
 ritual:
@@ -98,7 +93,7 @@ ritual:
       # Rayon de la grande sphère bleue
       radius: 2
       # Le nombre de particules la constituant
-      particles: 750
+      quantity: 750
       # La couleur des particules de la sphère
       color: "aqua"
       # La taille des particules de la sphère
@@ -118,11 +113,11 @@ ritual:
     # Le rayon de la sphère de lave
     lava-radius: 1.5
     # Le nombre de particules de lave
-    lava-particles: 300
+    lava-quantity: 300
     # Si les particules de lave produisent du son quand elles tombent
     lava-sound: false
     # Le nombre de particules de flamme
-    flame-particles: 500
+    flame-quantity: 500
     # La vitesse/distance parcourue des particules de flamme
     flame-speed: 0.5
     # Si les particules de flamme doivent être bleues
@@ -142,6 +137,7 @@ macelimiter:
 
 # Ceci ne change pas avec le paramètre language, et doit être modifié manuellement
 # Ils utilisent MiniMessage
+# Laissez vide pour ne pas les utiliser
 messages:
   # Tu viens de te déguiser
   # %player% = Nom original, %nick% = Déguisement
@@ -184,6 +180,9 @@ messages:
   # %old% = Ancien nombre de maces crées
   # %now% = Nouveau nombre de maces crées
   craft-mace: "<green>Tu as crafté une MACE, le maximum possible est de : %limit% exemplaire(s)"
+  # Les message à envoyer à la reconnection (si restaure est activé), comme si le joueur venait de se déguiser.
+  # %player% = Nom original, %nick% = Déguisement
+  restaure: ""
 
 
 # L'auto-update est un module permettant de check automatiquement pour une nouvelle mise à jour du plugin

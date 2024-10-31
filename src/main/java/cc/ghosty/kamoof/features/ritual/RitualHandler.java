@@ -158,7 +158,7 @@ public final class RitualHandler {
 			: Particle.DRIPPING_LAVA;
 		final World world = player.getWorld();
 		final double radius = config().getDouble("ritual.accepted.lava-radius"),
-			particles = config().getDouble("ritual.accepted.lava-particles");
+			particles = config().getDouble("ritual.accepted.lava-quantity");
 		final Location loc = new SLocation(player.getLocation()).plus(0, 0.9, 0);
 		
 		for (int i = 0; i < particles; i++) {
@@ -178,7 +178,7 @@ public final class RitualHandler {
 		world.spawnParticle(
 			config().getBoolean("ritual.accepted.flame-soul") ? Particle.SOUL_FIRE_FLAME : Particle.FLAME,
 			loc,
-			config().getInt("ritual.accepted.flame-particles"), 0, 0, 0,
+			config().getInt("ritual.accepted.flame-quantity"), 0, 0, 0,
 			config().getDouble("ritual.accepted.flame-speed"), null, true
 		);
 	}

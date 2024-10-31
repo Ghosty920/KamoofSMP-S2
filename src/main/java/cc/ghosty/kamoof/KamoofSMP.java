@@ -11,6 +11,7 @@ import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -82,10 +83,10 @@ public final class KamoofSMP extends JavaPlugin {
 		}
 		if (getConfig().getBoolean("autoupdate.fetch"))
 			pm.registerEvents(new UpdateChecker(), this);
-		if (getConfig().getBoolean("macelimiter.enabled"))
+		if (getConfig().getBoolean("macelimiter.enabled") && Material.getMaterial("MACE") != null)
 			pm.registerEvents(new MaceLimiter(), this);
 		
-		if (getConfig().getBoolean("restaure.enabled")) {
+		if (getConfig().getBoolean("restaure")) {
 			pm.registerEvents(new DisguiseRestaurer(), this);
 		} else {
 			data().set("restaurer", null);

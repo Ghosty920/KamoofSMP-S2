@@ -277,7 +277,7 @@ public final class RitualAnimation {
 	 * @param z     Position Z
 	 */
 	private static void spawnSphere(World world, double x, double y, double z, double radius) {
-		final int particles = config().getInt("ritual.animation.sphere.particles");
+		final int particles = config().getInt("ritual.animation.sphere.quantity");
 		final double lavaChance = config().getDouble("ritual.animation.sphere.lava-chance") / 100;
 		final Particle lavaParticle = config().getBoolean("ritual.animation.sphere.lava-sound")
 			? Particle.DRIPPING_DRIPSTONE_LAVA
