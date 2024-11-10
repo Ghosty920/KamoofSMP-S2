@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.other;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.utils.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -15,14 +16,20 @@ import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.Map;
 
-import static cc.ghosty.kamoof.KamoofSMP.*;
+import static cc.ghosty.kamoof.KamoofPlugin.*;
 
-public final class MaceLimiter implements Listener {
+/**
+ * {@link Feature} pour empêcher trop de maces d'être craftées
+ * @since 1.0
+ */
+public final class MaceLimiter extends Feature {
+	
+	public Listener listener;
 	
 	// fix un bug avec certaines versions spigot
 	public MaceLimiter() {
 		try {
-			Bukkit.getPluginManager().registerEvents(new Listener() {
+			listener = new Listener() {
 				
 				@EventHandler(priority = EventPriority.HIGHEST)
 				public void onCrafter(CrafterCraftEvent event) {
@@ -32,19 +39,44 @@ public final class MaceLimiter implements Listener {
 					else event.setCancelled(true);
 				}
 				
-			}, KamoofSMP.getInstance());
+			};
 		} catch (Throwable exc) {
 			exc.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Ajouter qu'une mace craftée au total
+	 */
 	public static void add() {
 		data().set("maces", data().getInt("maces", 0) + 1);
 		saveData();
 	}
 	
+	/**
+	 * @return Si une nouvelle mace peut être craftée
+	 */
 	public static boolean canCraft() {
-		return data().getInt("maces", 0) < KamoofSMP.config().getInt("macelimiter.limit");
+		return data().getInt("maces", 0) < KamoofPlugin.config().getInt("macelimiter.limit");
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return KamoofPlugin.config().getBoolean("macelimiter.enabled") && Material.getMaterial("MACE") != null;
+	}
+	
+	@Override
+	public void onDisable() {
+		super.onDisable();
+		if (listener != null)
+			HandlerList.unregisterAll(listener);
+	}
+	
+	@Override
+	public void onEnable() {
+		super.onEnable();
+		if (listener != null)
+			Bukkit.getPluginManager().registerEvents(listener, KamoofPlugin.getInstance());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -79,7 +111,7 @@ public final class MaceLimiter implements Listener {
 		
 		if (canCraft()) {
 			int old = data().getInt("maces", 0);
-			int limit = KamoofSMP.config().getInt("macelimiter.limit");
+			int limit = KamoofPlugin.config().getInt("macelimiter.limit");
 			add();
 			HumanEntity player = event.getView().getPlayer();
 			Message.send(player, "messages.craft-mace", Map.of("player", (player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName()), "old", old, "now", old + 1, "limit", limit));

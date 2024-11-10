@@ -1,30 +1,40 @@
 package cc.ghosty.kamoof;
 
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.commands.*;
-import cc.ghosty.kamoof.features.disguise.DisguiseListener;
-import cc.ghosty.kamoof.features.disguise.DisguiseRestaurer;
+import cc.ghosty.kamoof.features.FeatureManager;
+import cc.ghosty.kamoof.features.disguise.*;
 import cc.ghosty.kamoof.features.drophead.HeadDropper;
+import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.features.other.*;
-import cc.ghosty.kamoof.features.ritual.*;
+import cc.ghosty.kamoof.features.ritual.RitualListener;
+import cc.ghosty.kamoof.features.ritual.RitualSetup;
 import cc.ghosty.kamoof.utils.*;
 import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import xyz.haoshoku.nick.api.NickAPI;
 
 import java.io.File;
 
-public final class KamoofSMP extends JavaPlugin {
+/**
+ * L'instanciation du Plugin et de l'API du KamoofSMP.
+ * Préférez l'utilisation de {@link KamoofSMP#getInstance} pour obtenir l'instance du plugin.
+ */
+public final class KamoofPlugin extends KamoofSMP {
 	
 	@Getter
-	private static KamoofSMP instance;
+	private static KamoofPlugin instance;
 	private static YamlConfiguration data;
 	private static File dataFile;
 	@Getter
@@ -33,7 +43,7 @@ public final class KamoofSMP extends JavaPlugin {
 	public static FileConfiguration config() {
 		return instance.getConfig();
 	}
-	
+
 	public static YamlConfiguration data() {
 		return data;
 	}
@@ -53,13 +63,9 @@ public final class KamoofSMP extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		
 		instance = this;
 		saveDefaultConfig();
-		PluginManager pm = Bukkit.getPluginManager();
-		
 		spiGUI = new SpiGUI(this);
-		
 		Lang.init();
 		
 		try {
@@ -74,33 +80,16 @@ public final class KamoofSMP extends JavaPlugin {
 			log(Lang.get("DATA_FILE_FAILED"));
 		}
 		
-		pm.registerEvents(new DisguiseListener(), this);
-		
-		if (getConfig().getBoolean("ritual.enabled")) {
-			RitualHandler.load();
-			pm.registerEvents(new RitualSetup(), this);
-			pm.registerEvents(new RitualListener(), this);
-		}
-		if (getConfig().getBoolean("autoupdate.fetch"))
-			pm.registerEvents(new UpdateChecker(), this);
-		if (getConfig().getBoolean("macelimiter.enabled") && Material.getMaterial("MACE") != null)
-			pm.registerEvents(new MaceLimiter(), this);
-		
-		if (getConfig().getBoolean("restaure")) {
-			pm.registerEvents(new DisguiseRestaurer(), this);
-		} else {
-			data().set("restaurer", null);
-			saveData();
-		}
-		
-		pm.registerEvents(new HeadDropper(), this);
-		
+		FeatureManager.add(
+			new DisguiseRestaurer(), new DisguiseListener(),
+			new RitualSetup(), new RitualListener(),
+			new HeadDropper(),
+			new MaceLimiter(), new UpdateChecker(), new JoinMessages()
+		);
+
 		registerCommand("kamoofsmp", new KamoofCMD());
 		registerCommand("givehead", new GiveHeadCMD());
 		registerCommand("undisguise", new UndisguiseCMD());
-		
-		DisguiseRestaurer.onEnable();
-		pm.registerEvents(new JoinMessages(), this);
 		
 		// https://bstats.org/plugin/bukkit/KamoofSMP/23302
 		if (getConfig().getBoolean("metrics"))
@@ -110,14 +99,46 @@ public final class KamoofSMP extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		super.onDisable();
-		
-		DisguiseRestaurer.onDisable();
+		FeatureManager.disable();
 	}
 	
 	private void registerCommand(String name, CommandExecutor cmd) {
 		getCommand(name).setExecutor(cmd);
 		if (cmd instanceof TabCompleter tc)
 			getCommand(name).setTabCompleter(tc);
+	}
+	
+	@Override
+	public ItemStack getHead(OfflinePlayer player) {
+		return SkullManager.getSkull(getName(player));
+	}
+	
+	@Override
+	public void disguise(OfflinePlayer player, String name) {
+		if(player instanceof Player p) {
+			if(name != null)
+				DisguiseManager.disguise(p, name);
+			else
+				DisguiseManager.undisguise(p);
+		} else {
+			DisguiseRestaurer.set(player.getUniqueId(), name);
+		}
+	}
+	
+	@Override
+	public String getDisguise(OfflinePlayer player) {
+		if(player instanceof Player p) {
+			if(!NickAPI.isNicked(p))
+				return null;
+			return NickAPI.getName(p);
+		} else {
+			return DisguiseRestaurer.get(player.getUniqueId());
+		}
+	}
+	
+	@Override
+	public String getName(OfflinePlayer player) {
+		return player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName();
 	}
 	
 }

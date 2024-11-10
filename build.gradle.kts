@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("com.gradleup.shadow") version ("8.3.0")
+    id("com.gradleup.shadow") version "8.3.0"
 }
 
 group = "cc.ghosty"
@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":API"))
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
 
 //    compileOnly("xyz.haoshoku.nick:nickapi:7.2-SNAPSHOT")
@@ -49,6 +50,7 @@ tasks {
     shadowJar {
         archiveFileName.set("${project.name}-${project.version}.jar")
         minimize {
+            exclude(project(":API"))
             exclude(dependency("net.wesjd:anvilgui:.*"))
         }
         relocate("com.samjakob.spigui", "cc.ghosty.kamoof.deps.com.samjakob.spigui")

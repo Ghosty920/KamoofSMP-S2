@@ -1,6 +1,6 @@
 package cc.ghosty.kamoof.utils;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
 import lombok.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 
 /**
- * Oui ok j'ai changé d'avis car le truc devenait un *petit* peu long
+ * Classe responsable de récupérer les traductions du plugin depuis le fichier adapté (du dossier <code>plugins</code>).
  */
 @RequiredArgsConstructor
 public final class Lang {
@@ -30,7 +30,7 @@ public final class Lang {
 	@SneakyThrows
 	public static void init() {
 		locale = "fr";
-		switch (KamoofSMP.config().getString("language").toLowerCase().trim()) {
+		switch (KamoofPlugin.config().getString("language").toLowerCase().trim()) {
 			case "en":
 			case "en_uk":
 			case "en_en":

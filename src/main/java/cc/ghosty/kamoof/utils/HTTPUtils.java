@@ -20,6 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+/**
+ * Classe utilitaire pour faire une requête http.
+ */
 @UtilityClass
 public final class HTTPUtils {
 	

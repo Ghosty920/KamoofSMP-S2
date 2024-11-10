@@ -28,7 +28,7 @@ Lorsqu'un joueur meurt, il fait tomber sa tête, qui, quand utilisée permet au 
 1. Ayez un serveur [Paper](https://papermc.io/downloads/paper) (Spigot ou n'importe quel fork)
 2. [Téléchargez les 2 fichiers .jar de la dernière version disponible](https://github.com/Ghosty920/KamoofSMP-S2/releases/latest)
 
-<img src="images/install_download.png" alt="Download" style="max-height: 400px">
+<img src="assets/images/install_download.png" alt="Download" style="max-height: 400px">
 
 3. Placez ces 2 fichiers dans le dossier `plugins` directement dans votre serveur.
 4. (Re) Démarrez votre serveur.
@@ -39,10 +39,10 @@ Lorsqu'un joueur meurt, il fait tomber sa tête, qui, quand utilisée permet au 
 ```https://github.com/Ghosty920/KamoofSMP-S2.git```
 
 ### Pour ouvrir dans Intellij Idea
-<img src="images/edit_clone_intellij.png" alt="Clone Intellij" style="max-height: 350px">
+<img src="assets/images/edit_clone_intellij.png" alt="Clone Intellij" style="max-height: 350px">
 
 ### Pour ouvrir n'importe où d'autre
-<img src="images/edit_download_zip.png" alt="Download Zip" style="max-height: 350px">
+<img src="assets/images/edit_download_zip.png" alt="Download Zip" style="max-height: 350px">
 
 Et ensuite extrayez le contenu où vous voulez, et ouvrez-le dans votre IDE comme à votre habitude.
 

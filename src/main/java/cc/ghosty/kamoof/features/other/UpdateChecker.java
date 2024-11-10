@@ -1,14 +1,15 @@
 package cc.ghosty.kamoof.features.other;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.utils.*;
 import com.google.gson.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.net.URL;
 import java.nio.file.Files;
@@ -18,7 +19,9 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class UpdateChecker implements Listener {
+import static cc.ghosty.kamoof.KamoofPlugin.config;
+
+public final class UpdateChecker extends Feature {
 	
 	private final String currentVersion;
 	private boolean hasUpdate = false;
@@ -28,18 +31,35 @@ public final class UpdateChecker implements Listener {
 	private String updateLink;
 	
 	private BaseComponent[] message;
+	private BukkitTask task;
 	
-	public UpdateChecker() {
-		currentVersion = KamoofSMP.getInstance().getDescription().getVersion().trim().toLowerCase();
+	@Override
+	public boolean isEnabled() {
+		return config().getBoolean("autoupdate.fetch");
+	}
+	
+	@Override
+	public void onEnable() {
+		super.onEnable();
 		final boolean[] shouldRestart = {true};
-		Bukkit.getScheduler().runTaskTimerAsynchronously(KamoofSMP.getInstance(), () -> {
-			boolean download = KamoofSMP.config().getBoolean("autoupdate.download");
+		task = Bukkit.getScheduler().runTaskTimerAsynchronously(KamoofPlugin.getInstance(), () -> {
+			boolean download = config().getBoolean("autoupdate.download");
 			if (checkForUpdate() && (!download || !downloadUpdate(updateLink, shouldRestart[0]))) {
 				hasUpdate = true;
 				Bukkit.getConsoleSender().spigot().sendMessage(this.message);
 			}
 			shouldRestart[0] = false;
 		}, 1L, 24 * 60 * 60 * 20L);
+	}
+	
+	@Override
+	public void onDisable() {
+		super.onDisable();
+		task.cancel();
+	}
+	
+	public UpdateChecker() {
+		currentVersion = KamoofPlugin.getInstance().getDescription().getVersion().trim().toLowerCase();
 	}
 	
 	public boolean checkForUpdate() {
@@ -95,7 +115,7 @@ public final class UpdateChecker implements Listener {
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
 				}});
-			URL location = KamoofSMP.class.getProtectionDomain().getCodeSource().getLocation();
+			URL location = KamoofPlugin.class.getProtectionDomain().getCodeSource().getLocation();
 			Files.write(Path.of(location.toURI()), response.response());
 			
 			sendMessage("UPDATE_DOWNLOADED");
@@ -111,7 +131,7 @@ public final class UpdateChecker implements Listener {
 				Bukkit.getConsoleSender().spigot().sendMessage(this.message);
 				
 			} else {
-				Bukkit.getScheduler().runTask(KamoofSMP.getInstance(),
+				Bukkit.getScheduler().runTask(KamoofPlugin.getInstance(),
 					() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "restart"));
 			}
 			

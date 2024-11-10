@@ -1,6 +1,6 @@
 package cc.ghosty.kamoof.features.ritual;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
 import cc.ghosty.kamoof.utils.Message;
 import cc.ghosty.kamoof.utils.Placeholder;
 import lombok.experimental.UtilityClass;
@@ -14,6 +14,10 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
+/**
+ * Classe qui gère le livre des Pactes du Rituel.
+ * @since 1.0
+ */
 @UtilityClass
 public final class RitualBook {
 	
@@ -24,9 +28,9 @@ public final class RitualBook {
 		BookMeta meta = (BookMeta) item.getItemMeta();
 		meta.setGeneration(BookMeta.Generation.TATTERED);
 		try {
-			meta.setItemName(KamoofSMP.config().getString("ritual.name"));
+			meta.setItemName(KamoofPlugin.config().getString("ritual.name"));
 		} catch (Throwable exc) {
-			meta.setDisplayName(KamoofSMP.config().getString("ritual.name"));
+			meta.setDisplayName(KamoofPlugin.config().getString("ritual.name"));
 		}
 		meta.setTitle(null);
 		meta.setFireResistant(true);
@@ -47,7 +51,7 @@ public final class RitualBook {
 	}
 	
 	private static List<BaseComponent[]> getPages() {
-		List<String> pages = Placeholder.apply(KamoofSMP.config().getStringList("ritual.pages"), Map.of("command1", "/kamoofsmp pacte 1", "command2", "/kamoofsmp pacte 2"));
+		List<String> pages = Placeholder.apply(KamoofPlugin.config().getStringList("ritual.pages"), Map.of("command1", "/kamoofsmp pacte 1", "command2", "/kamoofsmp pacte 2"));
 		ArrayList<BaseComponent[]> result = new ArrayList<>();
 		for (String page : pages) {
 			result.add(Message.toBaseComponent(page));

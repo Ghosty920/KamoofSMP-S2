@@ -4,6 +4,9 @@ import lombok.experimental.UtilityClass;
 
 import java.util.*;
 
+/**
+ * Classe utilitaire pour remplacer des placeholders dans un message.
+ */
 @UtilityClass
 public final class Placeholder {
 	

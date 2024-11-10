@@ -1,6 +1,8 @@
 package cc.ghosty.kamoof.commands;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
+import cc.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import cc.ghosty.kamoof.features.ritual.*;
 import cc.ghosty.kamoof.utils.Lang;
 import cc.ghosty.kamoof.utils.Message;
@@ -13,8 +15,14 @@ import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
 
-import static cc.ghosty.kamoof.KamoofSMP.*;
+import static cc.ghosty.kamoof.KamoofPlugin.*;
 
+/**
+ * La commande <code>/kamoofsmp</code>, permettant d'accéder aux paramètres du plugin, aux crédits... à différentes sous-commandes.
+ * <p>
+ * Elle est également utilisée pour l'acceptation de pactes.
+ * @since 1.0
+ */
 public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	
 	@Override
@@ -37,7 +45,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			}
 			
 			if (RitualHandler.getPacte(player) != null) {
-				Message.send(player, "messages.already-chose", Map.of("player", NickAPI.getOriginalName(player)));
+				Message.send(player, "messages.already-chose", Map.of("player", KamoofPlugin.getInstance().getName(player)));
 				return true;
 			}
 			
@@ -71,7 +79,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "reload": {
-				KamoofSMP.getInstance().reloadConfig();
+				KamoofPlugin.getInstance().reloadConfig();
 				Lang.init();
 				Lang.send(player, "CONFIG_RELOADED");
 				return true;
@@ -95,20 +103,37 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 					Lang.send(player, "INVENTORY_FULL");
 				return true;
 			}
+			case "undisguise": {
+				if (args.length < 2) {
+					StringBuilder message = new StringBuilder(Lang.PREFIX + "<yellow><b>Undisguise:<reset>");
+					HashMap<String, String> disguises = getDisguised();
+					List<String> keys = disguises.keySet().stream().toList();
+					List<String> values = disguises.values().stream().toList();
+					for(int i = 0; i < disguises.size(); i++) {
+						String key = keys.get(i);
+						String value = values.get(i);
+						message.append(String.format("<br><click:run_command:'/kamoofsmp undisguise %s'><hover:show_text:\""+Lang.get("UNDISGUISE_HOVER")+"\"><white>%s <gray>→ <#ffddff>%s</hover></click>", key, key, key, value));
+					}
+					player.spigot().sendMessage(Message.toBaseComponent(message.toString()));
+					return true;
+				}
+				String name = args[1];
+				OfflinePlayer target = Bukkit.getOfflinePlayer(name);
+				KamoofPlugin.getInstance().disguise(target, null);
+				Lang.send(player, "UNDISGUISED", KamoofPlugin.getInstance().getName(target));
+				return true;
+			}
 			default: {
 				return showArgs(player);
 			}
 		}
 	}
 	
-	/**
-	 * TODO: disguise & undisguise
-	 */
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (sender.hasPermission("kamoofsmp.admin")) {
 			if (args.length <= 1) {
-				return Arrays.asList("info", "config", "reload", "setup", "givehead");
+				return Arrays.asList("info", "config", "reload", "setup", "givehead", "undisguise");
 			}
 			if (args[0].equalsIgnoreCase("givehead")) {
 				ArrayList<String> values = new ArrayList<>();
@@ -123,19 +148,51 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				}
 				return values;
 			}
+			if (args[0].equalsIgnoreCase("undisguise")) {
+				List<String> values = new ArrayList<>(getDisguised().keySet());
+				if (args.length == 2) {
+					String toCheck = args[1].toLowerCase().trim();
+					values.removeIf(player -> !player.toLowerCase().trim().contains(toCheck));
+				}
+				return values;
+			}
 		}
 		return List.of();
 	}
 	
-	private boolean showArgs(CommandSender sender) {
-		String version = KamoofSMP.getInstance().getDescription().getVersion();
+	public HashMap<String, String> getDisguised() {
+		HashMap<String, String> values = new HashMap<>();
+		for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
+			if (player == null || player.getName() == null)
+				continue;
+			String disguise = KamoofPlugin.getInstance().getDisguise(player);
+			if(disguise == null)
+				continue;
+			values.put(KamoofPlugin.getInstance().getName(player), disguise);
+		}
+		return values;
+	}
+	
+	/**
+	 * Envoyer les arguments de la commande
+	 * @param sender La cible
+	 * @return <code>true</code>
+	 */
+	public boolean showArgs(CommandSender sender) {
+		String version = KamoofPlugin.getInstance().getDescription().getVersion();
 		Lang.send(sender, "MAIN_ARGUMENTS", version);
 		return true;
 	}
 	
-	private boolean showCredits(CommandSender sender) {
-		String version = KamoofSMP.getInstance().getDescription().getVersion();
+	/**
+	 * Envoyer les crédits du KamoofSMP
+	 * @param sender La cible
+	 * @return <code>true</code>
+	 */
+	public boolean showCredits(CommandSender sender) {
+		String version = KamoofPlugin.getInstance().getDescription().getVersion();
 		Lang.send(sender, "CREDITS", version, Lang.SUPPORT);
 		return true;
 	}
+	
 }

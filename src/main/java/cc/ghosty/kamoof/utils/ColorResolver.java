@@ -6,6 +6,11 @@ import org.bukkit.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import static java.lang.Integer.toHexString;
+
+/**
+ * Classe utilitaire pour récupérer une couleur à partir de son nom ou de son code hexadécimal.
+ */
 @UtilityClass
 public final class ColorResolver {
 	
@@ -38,7 +43,7 @@ public final class ColorResolver {
 		
 		try {
 			return toBukkit(getJavaColor(color));
-		} catch(Throwable exc) {
+		} catch (Throwable exc) {
 			return null;
 		}
 	}
@@ -51,6 +56,15 @@ public final class ColorResolver {
 		if (color == null)
 			return null;
 		return Color.fromARGB(color.getRGB());
+	}
+	
+	public static String toLegacy(Color color) {
+		if (color == null)
+			return "";
+		int red = color.getRed(), green = color.getGreen(), blue = color.getBlue();
+		return "§x§" + toHexString(red >> 4) + "§" + toHexString(red & 0x0F)
+			+ "§" + toHexString(green >> 4) + "§" + toHexString(green & 0x0F)
+			+ "§" + toHexString(blue >> 4) + "§" + toHexString(blue & 0x0F);
 	}
 	
 }

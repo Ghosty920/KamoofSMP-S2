@@ -4,6 +4,9 @@ import com.google.common.base.Joiner;
 import lombok.experimental.UtilityClass;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
+/**
+ * Classe utilitaire en tout genre..
+ */
 @UtilityClass
 public final class Utils {
 	

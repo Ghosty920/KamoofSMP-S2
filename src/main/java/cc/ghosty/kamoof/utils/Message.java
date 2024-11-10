@@ -1,6 +1,6 @@
 package cc.ghosty.kamoof.utils;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -13,7 +13,9 @@ import org.bukkit.command.CommandSender;
 import java.util.Map;
 
 /**
- * Based on <a href="https://github.com/Luncaaa/AdvancedDisplays/blob/main/api/src/main/java/me/lucaaa/advanceddisplays/api/util/ComponentSerializer.java">AdvancedDisplays</a> under GPL-3.0
+ * Classe utilitaire pour gérer {@link MiniMessage}
+ * <p>
+ * Basé sur <a href="https://github.com/Luncaaa/AdvancedDisplays/blob/main/api/src/main/java/me/lucaaa/advanceddisplays/api/util/ComponentSerializer.java">AdvancedDisplays</a> sous GPL-3.0
  */
 @UtilityClass
 public final class Message {
@@ -49,7 +51,7 @@ public final class Message {
 			return;
 		if(sender instanceof OfflinePlayer player && !player.isOnline())
 			return;
-		String msg = KamoofSMP.config().getString(path);
+		String msg = KamoofPlugin.config().getString(path);
 		if(msg.isBlank())
 			return;
 		sender.spigot().sendMessage(toBaseComponent(Placeholder.apply(msg, placeholders)));

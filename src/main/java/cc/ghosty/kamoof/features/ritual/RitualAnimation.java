@@ -1,6 +1,6 @@
 package cc.ghosty.kamoof.features.ritual;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
 import cc.ghosty.kamoof.utils.*;
 import lombok.SneakyThrows;
 import org.bukkit.*;
@@ -18,10 +18,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import static cc.ghosty.kamoof.KamoofSMP.config;
+import static cc.ghosty.kamoof.KamoofPlugin.config;
 import static cc.ghosty.kamoof.features.ritual.RitualHandler.offsets;
 import static cc.ghosty.kamoof.utils.Utils.interpolate;
 
+/**
+ * Classe qui gère l'animation du Rituel.
+ * @since 1.0
+ */
 public final class RitualAnimation {
 	
 	private static final ArrayList<Runnable> particles = new ArrayList<>();
@@ -65,7 +69,7 @@ public final class RitualAnimation {
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 		final long previousWorldTime = world.getTime();
 		final long timeIncr = config().getLong("ritual.animation.time-incr");
-		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task) -> {
+		Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), (task) -> {
 			if (stopped) {
 				task.cancel();
 				return;
@@ -91,7 +95,7 @@ public final class RitualAnimation {
 			double radius = config().getDouble("ritual.animation.sphere.radius");
 			spawnSphere(world, startX, startY + height / 2, startZ, radius);
 			
-			Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
+			Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
 				stopped = true;
 				world.setTime(previousWorldTime);
 				world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, hasDayCycle);
@@ -117,7 +121,7 @@ public final class RitualAnimation {
 			
 			drawLargeCircles.accept(startY);
 			
-			Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), (task2) -> {
+			Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), (task2) -> {
 				if (stopped) {
 					task2.cancel();
 					return;
@@ -138,7 +142,7 @@ public final class RitualAnimation {
 					int i = 0;
 				};
 				SLocation lightningLoc = centeredLoc.plus(0, height * 1.5, 0);
-				Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task3) -> {
+				Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), (task3) -> {
 					if (stopped) {
 						task.cancel();
 						return;
@@ -155,7 +159,7 @@ public final class RitualAnimation {
 					
 				}, 15L, 2L);
 				
-				Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), part4, 60L);
+				Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), part4, 60L);
 			}, 20L);
 		};
 		
@@ -175,7 +179,7 @@ public final class RitualAnimation {
 				}
 			}
 			
-			Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task2) -> {
+			Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), (task2) -> {
 				if (stopped) {
 					task2.cancel();
 					return;
@@ -188,7 +192,7 @@ public final class RitualAnimation {
 				if (ref.currentOffset >= offsets.size()) {
 					task2.cancel();
 					ref.currentOffset = 0;
-					Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), part3, 10L);
+					Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), part3, 10L);
 				}
 			}, 10L, 10L);
 		};
@@ -213,13 +217,13 @@ public final class RitualAnimation {
 				
 				world.playSound(centeredLoc, Sound.BLOCK_ANVIL_USE, SoundCategory.AMBIENT, 1, 0.3f);
 				
-				Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), part2, 40L);
+				Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), part2, 40L);
 			}
 		};
 		
-		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), part1, 15L, 20L);
+		Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), part1, 15L, 20L);
 		
-		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task) -> {
+		Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), (task) -> {
 			if (stopped) {
 				task.cancel();
 				return;
@@ -287,7 +291,7 @@ public final class RitualAnimation {
 			(float) config().getDouble("ritual.animation.sphere.size")
 		);
 		
-		Bukkit.getScheduler().runTaskTimer(KamoofSMP.getInstance(), (task) -> {
+		Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), (task) -> {
 			if (stopped) {
 				task.cancel();
 				return;

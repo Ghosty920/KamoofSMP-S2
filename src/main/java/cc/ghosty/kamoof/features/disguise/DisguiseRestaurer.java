@@ -1,27 +1,35 @@
 package cc.ghosty.kamoof.features.disguise;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.utils.Message;
-import cc.ghosty.kamoof.utils.Placeholder;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.haoshoku.nick.api.NickAPI;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import static cc.ghosty.kamoof.KamoofSMP.*;
+import static cc.ghosty.kamoof.KamoofPlugin.*;
 
-public final class DisguiseRestaurer implements Listener {
+/**
+ * La Feature
+ * @since 1.0
+ */
+public final class DisguiseRestaurer extends Feature {
 	
-	private static boolean enabled = false;
+	@Override
+	public boolean isEnabled() {
+		return config().getBoolean("disguise.restaure");
+	}
 	
-	public DisguiseRestaurer() {
-		enabled = true;
+	@Override
+	public void onDisable() {
+		super.onDisable();
 	}
 	
 	public static String get(UUID uuid) {
@@ -33,18 +41,38 @@ public final class DisguiseRestaurer implements Listener {
 		saveData();
 	}
 	
-	public static void onEnable() {
-		if (!enabled)
-			return;
+	public static HashMap<OfflinePlayer, String> getRestaures() {
+		HashMap<OfflinePlayer, String> map = new HashMap<>();
+		AtomicBoolean shouldSaveData = new AtomicBoolean(false);
 		
-		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
+		data().getConfigurationSection("restaurer").getValues(false).forEach((uuid, disguise) -> {
+			try {
+				OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
+				if(player.getName() == null)
+					throw new RuntimeException();
+				map.put(player, (String) disguise);
+			} catch(Throwable exc) {
+				data().set("restaurer."+uuid, null);
+				shouldSaveData.set(true);
+			}
+		});
+		
+		if(shouldSaveData.get())
+			saveData();
+		return map;
+	}
+	
+	@Override
+	public void onEnable() {
+		super.onEnable();
+		Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
 			Bukkit.getOnlinePlayers().forEach(player -> {
 				String name = player.getName();
 				String disguise = get(player.getUniqueId());
 				if (disguise != null) {
 					set(player.getUniqueId(), null);
 					if (!name.equalsIgnoreCase(disguise))
-						DisguiseManager.disguise(player, disguise);
+						KamoofPlugin.getInstance().disguise(player, disguise);
 				}
 			});
 			saveData();
@@ -52,19 +80,23 @@ public final class DisguiseRestaurer implements Listener {
 		
 	}
 	
-	public static void onDisable() {
-		if (!enabled)
+	@Override
+	public void onStop() {
+		super.onStop();
+		if(!enabled) {
+			data().set("restaurer", null);
+			saveData();
 			return;
-		
+		}
 		Bukkit.getOnlinePlayers().forEach(player -> {
+			Bukkit.broadcastMessage(player.getName());
 			if (NickAPI.isNicked(player) && !NickAPI.getOriginalName(player).equalsIgnoreCase(NickAPI.getName(player)))
 				set(player.getUniqueId(), NickAPI.getName(player));
 		});
-		
 		saveData();
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		String name = player.getName();
@@ -78,6 +110,7 @@ public final class DisguiseRestaurer implements Listener {
 		labelJoinMessage:
 		{
 			String message = event.getJoinMessage();
+			System.out.println(event.getJoinMessage());
 			if (message == null)
 				break labelJoinMessage;
 			event.setJoinMessage(message.replace(name, disguise));

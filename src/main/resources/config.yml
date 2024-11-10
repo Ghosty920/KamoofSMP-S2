@@ -49,10 +49,8 @@ disguise:
   place-head: true
   # Le fait de rendre la tête au /undisguise et quand tu utilises une autre tête
   give-back: false
-
-
-# Le fait de récupérer son skin au déco/reco
-restaure: true
+  # Le fait de récupérer son skin au déco/reco
+  restaure: true
 
 
 ritual:

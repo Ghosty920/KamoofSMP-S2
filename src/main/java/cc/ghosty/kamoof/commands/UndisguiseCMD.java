@@ -1,6 +1,6 @@
 package cc.ghosty.kamoof.commands;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
 import cc.ghosty.kamoof.features.disguise.DisguiseManager;
 import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.utils.Lang;
@@ -13,6 +13,10 @@ import xyz.haoshoku.nick.api.NickAPI;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * La commande <code>/undisguise</code>, permettant de retirer son propre déguisement.
+ * @since 1.0
+ */
 public final class UndisguiseCMD implements CommandExecutor, TabCompleter {
 	
 	@Override
@@ -25,14 +29,14 @@ public final class UndisguiseCMD implements CommandExecutor, TabCompleter {
 		if (NickAPI.isNicked(player)) {
 			String disguise = NickAPI.getName(player);
 			DisguiseManager.undisguise(player);
-			if (KamoofSMP.config().getBoolean("disguise.give-back")) {
+			if (KamoofPlugin.config().getBoolean("disguise.give-back")) {
 				ItemStack item = SkullManager.getSkull(disguise);
 				if (!player.getInventory().addItem(item).isEmpty())
 					player.getWorld().dropItem(player.getLocation(), item);
 			}
-			Message.send(player, "messages.undisguise", Map.of("player", NickAPI.getOriginalName(player), "nick", disguise));
+			Message.send(player, "messages.undisguise", Map.of("player", KamoofPlugin.getInstance().getName(player), "nick", disguise));
 		} else {
-			Message.send(player, "messages.nodisguise", Map.of("player", NickAPI.getOriginalName(player)));
+			Message.send(player, "messages.nodisguise", Map.of("player", KamoofPlugin.getInstance().getName(player)));
 		}
 		
 		return true;

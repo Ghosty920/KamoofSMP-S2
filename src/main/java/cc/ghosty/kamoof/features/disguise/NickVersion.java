@@ -6,6 +6,10 @@ import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.function.Supplier;
 
+/**
+ * Classe pour différencier les versions de NickAPI pour la compatibilité.
+ * @since 1.0
+ */
 @AllArgsConstructor
 public enum NickVersion {
 	

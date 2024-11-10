@@ -1,12 +1,14 @@
 package cc.ghosty.kamoof.features.ritual;
 
+import cc.ghosty.kamoof.features.Feature;
 import lombok.SneakyThrows;
 import org.bukkit.*;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.event.*;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -19,10 +21,20 @@ import org.bukkit.structure.Structure;
 import java.io.InputStream;
 import java.util.Random;
 
-public final class RitualSetup implements Listener {
+import static cc.ghosty.kamoof.KamoofPlugin.config;
+
+/**
+ * {@link Feature} pour gérer la mise en place du Rituel.
+ */
+public final class RitualSetup extends Feature {
 	
 	private static final NamespacedKey keyItem = new NamespacedKey("kamoofsmp", "setupitem");
 	private static Structure structure, structureUG;
+	
+	@Override
+	public boolean isEnabled() {
+		return config().getBoolean("ritual.enabled");
+	}
 	
 	public static ItemStack[] getItems() {
 		ItemStack item1 = new ItemStack(Material.NETHER_WART_BLOCK);

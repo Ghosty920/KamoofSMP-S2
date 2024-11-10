@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.ritual;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.utils.Message;
 import org.bukkit.*;
@@ -19,7 +20,24 @@ import xyz.haoshoku.nick.api.NickAPI;
 import java.util.ArrayList;
 import java.util.Map;
 
-public final class RitualListener implements Listener {
+import static cc.ghosty.kamoof.KamoofPlugin.config;
+
+/**
+ * {@link Feature} pour gérer les actions du rituel.
+ * @since 1.0
+ */
+public final class RitualListener extends Feature {
+	
+	@Override
+	public boolean isEnabled() {
+		return config().getBoolean("ritual.enabled");
+	}
+	
+	@Override
+	public void onEnable() {
+		super.onEnable();
+		RitualHandler.load();
+	}
 	
 	@EventHandler
 	public void onPlaceHead(PlayerArmorStandManipulateEvent event) {
@@ -44,11 +62,11 @@ public final class RitualListener implements Listener {
 			return;
 		}
 		
-		long minTime = KamoofSMP.config().getInt("ritual.min-time"),
-			maxTime = KamoofSMP.config().getInt("ritual.max-time"),
+		long minTime = config().getInt("ritual.min-time"),
+			maxTime = config().getInt("ritual.max-time"),
 			time = player.getWorld().getTime();
 		if (time < minTime || time > maxTime) {
-			Message.send(player, "messages.ritual-wrong-time", Map.of("player", NickAPI.getOriginalName(player)));
+			Message.send(player, "messages.ritual-wrong-time", Map.of("player", KamoofPlugin.getInstance().getName(player)));
 			event.setCancelled(true);
 			return;
 		}
@@ -75,7 +93,7 @@ public final class RitualListener implements Listener {
 				dupes.add(stand);
 			}
 		}
-		if (dupes.size() >= KamoofSMP.config().getInt("ritual.dupelimit")) {
+		if (dupes.size() >= config().getInt("ritual.dupelimit")) {
 			dupes.forEach(stand -> player.spawnParticle(Particle.DUST, stand.getLocation().add(0, 1.45 + 0.25 + 0.2, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true));
 			player.spawnParticle(Particle.DUST, entity.getLocation().add(0, 1.45 + 0.25 + 0.2, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true);
 			event.setCancelled(true);
@@ -100,20 +118,20 @@ public final class RitualListener implements Listener {
 			pacte = "forgotten";
 		} else
 			return;
-		Message.send(player, "messages.death-" + pacte, Map.of("player", NickAPI.getOriginalName(player)));
+		Message.send(player, "messages.death-" + pacte, Map.of("player", KamoofPlugin.getInstance().getName(player)));
 		RitualHandler.setPacte(player, null);
 	}
 	
 	@EventHandler
 	public void onMilk(PlayerItemConsumeEvent event) {
 		Player player = event.getPlayer();
-		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), () -> {
+		Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
 			if (!event.getPlayer().isOnline())
 				return;
 			String pacte = RitualHandler.getPacte(player);
 			if (pacte == null || !pacte.equalsIgnoreCase("2"))
 				return;
-			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, config().getInt("ritual.pactes.forgotten.weakness") - 1));
 		}, 1L);
 	}
 	
@@ -123,7 +141,7 @@ public final class RitualListener implements Listener {
 		String pacte = RitualHandler.getPacte(player);
 		if (pacte == null || !pacte.equalsIgnoreCase("2"))
 			return;
-		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, config().getInt("ritual.pactes.forgotten.weakness") - 1));
 	}
 	
 }

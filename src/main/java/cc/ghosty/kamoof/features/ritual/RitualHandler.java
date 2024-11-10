@@ -1,6 +1,6 @@
 package cc.ghosty.kamoof.features.ritual;
 
-import cc.ghosty.kamoof.KamoofSMP;
+import cc.ghosty.kamoof.KamoofPlugin;
 import cc.ghosty.kamoof.utils.*;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -15,8 +15,12 @@ import xyz.haoshoku.nick.api.NickAPI;
 
 import java.util.*;
 
-import static cc.ghosty.kamoof.KamoofSMP.*;
+import static cc.ghosty.kamoof.KamoofPlugin.*;
 
+/**
+ * Classe qui gère entièrement le Rituel et les Pactes.
+ * @since 1.0
+ */
 public final class RitualHandler {
 	
 	public static final ArrayList<ArmorStand> armorStands = new ArrayList<>();
@@ -31,7 +35,7 @@ public final class RitualHandler {
 		new Vector2d(-4, -4)
 	);
 	public static final NamespacedKey key = new NamespacedKey("kamoofsmp", "ritualstand");
-	public static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofSMP.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
+	public static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofPlugin.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
 	public static boolean setup = false;
 	public static Location location;
 	
@@ -61,7 +65,7 @@ public final class RitualHandler {
 		for (ArmorStand entity : armorStands) {
 			entity.getPersistentDataContainer().set(key, PersistentDataType.BOOLEAN, true);
 		}
-		Bukkit.getScheduler().runTaskLater(KamoofSMP.getInstance(), (task) -> {
+		Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), (task) -> {
 			for (ArmorStand entity : armorStands) {
 				// could happen fsr
 				if (entity.getEquipment() == null || entity.getEquipment().getHelmet() == null)
@@ -118,7 +122,7 @@ public final class RitualHandler {
 		List<String> list = data().getStringList("pactes");
 		list.add(uuid.toString());
 		data().set("pactes", list);
-		KamoofSMP.saveData();
+		KamoofPlugin.saveData();
 		return uuid;
 	}
 	
@@ -128,25 +132,25 @@ public final class RitualHandler {
 			return false;
 		list.remove(uuid.toString());
 		data().set("pactes", list);
-		KamoofSMP.saveData();
+		KamoofPlugin.saveData();
 		return true;
 	}
 	
 	public static void setPacte(Player player, String pacte) {
 		data().set("pacte." + player.getUniqueId(), pacte);
-		KamoofSMP.saveData();
+		KamoofPlugin.saveData();
 		if (pacte == null)
 			return;
 		switch (pacte) {
 			case "1" -> {
 				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).addModifier(healthBoostModifier);
-				Message.send(player, "messages.chose-bloody", Map.of("player", NickAPI.getOriginalName(player)));
+				Message.send(player, "messages.chose-bloody", Map.of("player", KamoofPlugin.getInstance().getName(player)));
 			}
 			case "2" -> {
-				int level = KamoofSMP.config().getInt("ritual.pactes.forgotten.weakness") - 1;
+				int level = KamoofPlugin.config().getInt("ritual.pactes.forgotten.weakness") - 1;
 				if(level >= 0)
 					player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, level));
-				Message.send(player, "messages.chose-forgotten", Map.of("player", NickAPI.getOriginalName(player)));
+				Message.send(player, "messages.chose-forgotten", Map.of("player", KamoofPlugin.getInstance().getName(player)));
 			}
 		}
 		

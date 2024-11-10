@@ -12,10 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * La commande <code>/givehead</code> (ou accessoirement <code>/kamoofsmp givehead</code>), permettant de se donner la tête de n'importe quel joueur.
+ * @since 1.0
+ */
 public final class GiveHeadCMD implements CommandExecutor, TabCompleter {
 	
 	private static final Pattern usernamePattern = Pattern.compile("^[a-zA-Z0-9_]{1,16}$");
 	
+	/**
+	 * Éxecute la commande pour le joueur donné.
+	 * @param player La cible
+	 * @param user Le nom de la tête
+	 */
 	public static void execute(Player player, String user) {
 		if (!usernamePattern.matcher(user).matches()) {
 			Lang.send(player, "INVALID_USERNAME", user);
