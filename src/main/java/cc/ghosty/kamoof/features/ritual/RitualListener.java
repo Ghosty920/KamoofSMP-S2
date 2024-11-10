@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.ritual;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.events.KamoofRitualHeadEvent;
 import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.utils.Message;
@@ -96,6 +97,13 @@ public final class RitualListener extends Feature {
 		if (dupes.size() >= config().getInt("ritual.dupelimit")) {
 			dupes.forEach(stand -> player.spawnParticle(Particle.DUST, stand.getLocation().add(0, 1.45 + 0.25 + 0.2, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true));
 			player.spawnParticle(Particle.DUST, entity.getLocation().add(0, 1.45 + 0.25 + 0.2, 0), 4, 0, 0, 0, 0, (new Particle.DustOptions(Color.ORANGE, 3)), true);
+			event.setCancelled(true);
+			return;
+		}
+		
+		KamoofRitualHeadEvent headEvent = new KamoofRitualHeadEvent(player, event.getPlayerItem(), entity, canRunRitual);
+		Bukkit.getPluginManager().callEvent(headEvent);
+		if(headEvent.isCancelled()) {
 			event.setCancelled(true);
 			return;
 		}
