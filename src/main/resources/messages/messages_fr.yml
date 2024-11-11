@@ -12,6 +12,7 @@ HEAD_GIVEN: "%PREFIX%<gray>Vous vous êtes donné la tête de <yellow>%s</yellow
 CONFIG_RELOADED: "%PREFIX%<gray>Config rechargée. Si vous avez un problème, n'hésitez pas à relancer le serveur.<br><b><yellow><click:run_command:'/restart'>Relancer</click><white> | <gold><click:run_command:'/reload confirm'>Recharger</click>"
 UNDISGUISE_HOVER: "Clique pour <red>retirer</red> le déguisement de <yellow>%s"
 UNDISGUISED: "<green>Le déguisement de <yellow>%s</yellow> a été retiré avec succès."
+UNDISGUISE_NONE: "<br><red>Personne n'est déguisé."
 SETUP_GIVEN: "<br>Utilise le <red><b>Bloc de verrues du Nether <reset>pour définir l'emplacement des têtes.<br> <gray>- Il suffit de le poser au centre du rituel.</gray><br>Utilise le <yellow><b>Bâton de Blaze <reset>pour construire un rituel au sol.<br>Utilise le <aqua><b>Bâton de Breeze <reset>pour construire un rituel en sous-sol."
 NEW_RITUAL_LOCATION: "%PREFIX%<gray>Nouveau lieu de Rituel: <#ff9999>%s <#99ff99>%s <#9999ff>%s"
 FIRST_JOIN: "<br><yellow>Merci d'avoir installé le KamoofSMP <red>❤<reset><br><click:run_command:'/kamoofsmp config'>Cliquez ici pour ouvrir la configuration</click><br><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel</click><br><click:suggest_command:'/givehead '><hover:show_text:'Rajoutez le pseudo d'un joueur au choix'>Cliquez ici pour vous donner une tête</hover></click><br>"

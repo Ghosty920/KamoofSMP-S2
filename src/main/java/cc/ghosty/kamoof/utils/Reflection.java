@@ -21,7 +21,7 @@ public final class Reflection {
 	private static final String VERSION = OBC_PREFIX.replace("org.bukkit.craftbukkit", "").replace(".", "");
 	// Variable replacement
 	private static final Pattern MATCH_VARIABLE = Pattern.compile("\\{([^\\}]+)\\}");
-
+	
 	/**
 	 * Retrieve a field accessor for a specific field type and name.
 	 *
@@ -33,7 +33,7 @@ public final class Reflection {
 	public static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType) {
 		return getField(target, name, fieldType, 0);
 	}
-
+	
 	/**
 	 * Retrieve a field accessor for a specific field type and name.
 	 *
@@ -254,7 +254,7 @@ public final class Reflection {
 	 *
 	 * @param lookupName - the class name with variables.
 	 * @return The class.
-	 * @see {@link #getClass()} for more information.
+	 * @see Reflection#getClass(String)  for more information.
 	 */
 	public static Class<Object> getUntypedClass(String lookupName) {
 		@SuppressWarnings({"rawtypes", "unchecked"})
@@ -271,7 +271,7 @@ public final class Reflection {
 	 * @param lookupName - the class name with variables.
 	 * @param aliases    - alternative names for this class.
 	 * @return The class.
-	 * @see {@link #getClass()} for more information.
+	 * @see Reflection#getClass(String, String...)  ()  for more information.
 	 */
 	public static Class<Object> getUntypedClass(String lookupName, String... aliases) {
 		@SuppressWarnings({"rawtypes", "unchecked"})
@@ -285,6 +285,7 @@ public final class Reflection {
 	 * Strings enclosed with curly brackets - such as {TEXT} - will be replaced according to the following table:
 	 * <p>
 	 * <table border="1">
+	 * <caption></caption>
 	 * <tr>
 	 * <th>Variable</th>
 	 * <th>Content</th>
@@ -317,6 +318,7 @@ public final class Reflection {
 	 * Strings enclosed with curly brackets - such as {TEXT} - will be replaced according to the following table:
 	 * <p>
 	 * <table border="1">
+	 * <caption></caption>
 	 * <tr>
 	 * <th>Variable</th>
 	 * <th>Content</th>

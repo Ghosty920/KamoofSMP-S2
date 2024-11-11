@@ -16,14 +16,23 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class KamoofSMP extends JavaPlugin {
 	
+	/**
+	 * L'instance du plugin et de l'API.
+	 */
 	private static KamoofSMP instance;
 	
+	/**
+	 * @return L'instance du plugin et de l'API.
+	 */
 	public static KamoofSMP getInstance() {
 		if(instance == null)
 			throw new KamoofNotInitializedException();
 		return instance;
 	}
 	
+	/**
+	 * Définit l'instance au démarrage du serveur.
+	 */
 	@Override
 	public void onEnable() {
 		super.onEnable();

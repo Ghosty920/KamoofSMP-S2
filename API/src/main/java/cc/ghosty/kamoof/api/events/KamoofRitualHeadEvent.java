@@ -13,16 +13,35 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@ToString
 public final class KamoofRitualHeadEvent extends Event implements Cancellable {
 	
 	@Getter
 	private static final HandlerList handlerList = new HandlerList();
 	
+	/**
+	 * Le {@link Player} qui place la tête.
+	 */
 	private final Player player;
+	
+	/**
+	 * L'{@link ItemStack} qui représente la tête.
+	 */
 	private final ItemStack head;
+	
+	/**
+	 * L'{@link ArmorStand} sur lequel est placé la tête.
+	 */
 	private final ArmorStand stand;
+	
+	/**
+	 * Si le rituel sera lancé après que la tête soit placée.
+	 */
 	private final boolean canRunRitual;
 	
+	/**
+	 * Si l'événement est annulé.
+	 */
 	private boolean cancelled;
 	
 	@Override

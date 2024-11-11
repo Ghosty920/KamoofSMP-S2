@@ -86,7 +86,7 @@ public final class ConfigGUI {
 	}
 	
 	/**
-	 * @return Le {@link SGMenu} des paramètres de Disguise & Drop Head
+	 * @return Le {@link SGMenu} des paramètres de Disguise et Drop Head
 	 */
 	public static SGMenu getDisguiseMenu() {
 		SGMenu menu = KamoofPlugin.getSpiGUI().create("§a§l" + Lang.get("CFG_TITLE") + ": §f§l" + Lang.get("CFG_TITLE_DISGUISE"), 3);
@@ -169,7 +169,7 @@ public final class ConfigGUI {
 	}
 	
 	/**
-	 * @return Le {@link SGMenu} des paramètres du MaceLimiter & AutoUpdater
+	 * @return Le {@link SGMenu} des paramètres du MaceLimiter et AutoUpdater
 	 */
 	public static SGMenu getOtherMenu() {
 		SGMenu menu = KamoofPlugin.getSpiGUI().create("§a§l" + Lang.get("CFG_TITLE") + ": §7§l" + Lang.get("CFG_TITLE_OTHER"), 3);
