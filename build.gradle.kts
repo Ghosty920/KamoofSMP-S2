@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("maven-publish")
     id("com.gradleup.shadow") version "8.3.5"
 }
 
@@ -62,6 +63,16 @@ tasks {
 
         filesMatching(listOf("plugin.yml")) {
             expand(inputs.properties)
+        }
+    }
+
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.version.toString()
+            }
         }
     }
 }
