@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * L'API du KamoofSMP, utilisée pour intéragir avec le plugin.
- * @since 2.0
+ * @since 1.4
  * @author Ghosty
  */
-public abstract class KamoofSMP extends JavaPlugin {
+public abstract class KamoofSMP {
 	
 	/**
 	 * L'instance du plugin et de l'API.
@@ -30,12 +30,7 @@ public abstract class KamoofSMP extends JavaPlugin {
 		return instance;
 	}
 	
-	/**
-	 * Définit l'instance au démarrage du serveur.
-	 */
-	@Override
-	public void onEnable() {
-		super.onEnable();
+	protected KamoofSMP() {
 		instance = this;
 	}
 	

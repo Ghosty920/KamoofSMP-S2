@@ -1,11 +1,10 @@
 package cc.ghosty.kamoof;
 
-import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.commands.*;
 import cc.ghosty.kamoof.features.FeatureManager;
-import cc.ghosty.kamoof.features.disguise.*;
+import cc.ghosty.kamoof.features.disguise.DisguiseListener;
+import cc.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import cc.ghosty.kamoof.features.drophead.HeadDropper;
-import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.features.other.*;
 import cc.ghosty.kamoof.features.ritual.RitualListener;
 import cc.ghosty.kamoof.features.ritual.RitualSetup;
@@ -14,24 +13,18 @@ import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import xyz.haoshoku.nick.api.NickAPI;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 
 /**
- * L'instanciation du Plugin et de l'API du KamoofSMP.
- * Préférez l'utilisation de {@link KamoofSMP#getInstance} pour obtenir l'instance du plugin.
+ * L'instanciation du Plugin du KamoofSMP.
  */
-public final class KamoofPlugin extends KamoofSMP {
+public final class KamoofPlugin extends JavaPlugin {
 	
 	@Getter
 	private static KamoofPlugin instance;
@@ -43,7 +36,7 @@ public final class KamoofPlugin extends KamoofSMP {
 	public static FileConfiguration config() {
 		return instance.getConfig();
 	}
-
+	
 	public static YamlConfiguration data() {
 		return data;
 	}
@@ -68,6 +61,8 @@ public final class KamoofPlugin extends KamoofSMP {
 		spiGUI = new SpiGUI(this);
 		Lang.init();
 		
+		new KamoofAPI();
+		
 		try {
 			dataFile = new File(getDataFolder() + File.separator + "data.yml");
 			if (!dataFile.exists()) {
@@ -86,7 +81,7 @@ public final class KamoofPlugin extends KamoofSMP {
 			new HeadDropper(),
 			new MaceLimiter(), new UpdateChecker(), new JoinMessages()
 		);
-
+		
 		registerCommand("kamoofsmp", new KamoofCMD());
 		registerCommand("givehead", new GiveHeadCMD());
 		registerCommand("undisguise", new UndisguiseCMD());
@@ -106,39 +101,6 @@ public final class KamoofPlugin extends KamoofSMP {
 		getCommand(name).setExecutor(cmd);
 		if (cmd instanceof TabCompleter tc)
 			getCommand(name).setTabCompleter(tc);
-	}
-	
-	@Override
-	public ItemStack getHead(OfflinePlayer player) {
-		return SkullManager.getSkull(getName(player));
-	}
-	
-	@Override
-	public void disguise(OfflinePlayer player, String name) {
-		if(player instanceof Player p) {
-			if(name != null)
-				DisguiseManager.disguise(p, name);
-			else
-				DisguiseManager.undisguise(p);
-		} else {
-			DisguiseRestaurer.set(player.getUniqueId(), name);
-		}
-	}
-	
-	@Override
-	public String getDisguise(OfflinePlayer player) {
-		if(player instanceof Player p) {
-			if(!NickAPI.isNicked(p))
-				return null;
-			return NickAPI.getName(p);
-		} else {
-			return DisguiseRestaurer.get(player.getUniqueId());
-		}
-	}
-	
-	@Override
-	public String getName(OfflinePlayer player) {
-		return player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName();
 	}
 	
 }
