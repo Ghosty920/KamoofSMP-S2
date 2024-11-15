@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.commands;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.features.disguise.DisguiseManager;
 import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.utils.Lang;
@@ -34,9 +35,9 @@ public final class UndisguiseCMD implements CommandExecutor, TabCompleter {
 				if (!player.getInventory().addItem(item).isEmpty())
 					player.getWorld().dropItem(player.getLocation(), item);
 			}
-			Message.send(player, "messages.undisguise", Map.of("player", KamoofPlugin.getInstance().getName(player), "nick", disguise));
+			Message.send(player, "messages.undisguise", Map.of("player", KamoofSMP.getInstance().getName(player), "nick", disguise));
 		} else {
-			Message.send(player, "messages.nodisguise", Map.of("player", KamoofPlugin.getInstance().getName(player)));
+			Message.send(player, "messages.nodisguise", Map.of("player", KamoofSMP.getInstance().getName(player)));
 		}
 		
 		return true;

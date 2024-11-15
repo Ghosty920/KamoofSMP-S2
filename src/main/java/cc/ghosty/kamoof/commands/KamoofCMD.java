@@ -1,6 +1,8 @@
 package cc.ghosty.kamoof.commands;
 
+import cc.ghosty.kamoof.KamoofAPI;
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.features.ritual.*;
 import cc.ghosty.kamoof.utils.Lang;
 import cc.ghosty.kamoof.utils.Message;
@@ -43,7 +45,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			}
 			
 			if (RitualHandler.getPacte(player) != null) {
-				Message.send(player, "messages.already-chose", Map.of("player", KamoofPlugin.getInstance().getName(player)));
+				Message.send(player, "messages.already-chose", Map.of("player", KamoofSMP.getInstance().getName(player)));
 				return true;
 			}
 			
@@ -123,8 +125,8 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				}
 				String name = args[1];
 				OfflinePlayer target = Bukkit.getOfflinePlayer(name);
-				KamoofPlugin.getInstance().disguise(target, null);
-				Lang.send(player, "UNDISGUISED", KamoofPlugin.getInstance().getName(target));
+				KamoofSMP.getInstance().disguise(target, null);
+				Lang.send(player, "UNDISGUISED", KamoofSMP.getInstance().getName(target));
 				return true;
 			}
 			default: {
@@ -169,10 +171,10 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 		for (OfflinePlayer player : Bukkit.getOfflinePlayers()) {
 			if (player == null || player.getName() == null)
 				continue;
-			String disguise = KamoofPlugin.getInstance().getDisguise(player);
+			String disguise = KamoofSMP.getInstance().getDisguise(player);
 			if (disguise == null)
 				continue;
-			values.put(KamoofPlugin.getInstance().getName(player), disguise);
+			values.put(KamoofSMP.getInstance().getName(player), disguise);
 		}
 		return values;
 	}

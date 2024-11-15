@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.disguise;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.utils.Message;
 import org.bukkit.Bukkit;
@@ -72,7 +73,7 @@ public final class DisguiseRestaurer extends Feature {
 				if (disguise != null) {
 					set(player.getUniqueId(), null);
 					if (!name.equalsIgnoreCase(disguise))
-						KamoofPlugin.getInstance().disguise(player, disguise);
+						KamoofSMP.getInstance().disguise(player, disguise);
 				}
 			});
 			saveData();

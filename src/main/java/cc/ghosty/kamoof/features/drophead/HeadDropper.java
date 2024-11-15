@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.drophead;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.features.ritual.RitualHandler;
 import org.bukkit.entity.Player;
@@ -31,14 +32,14 @@ public final class HeadDropper extends Feature {
 			if (pacte.equalsIgnoreCase("2"))
 				return;
 			if (pacte.equalsIgnoreCase("1")) {
-				ItemStack skull = SkullManager.getSkull(KamoofPlugin.getInstance().getName(player));
+				ItemStack skull = SkullManager.getSkull(KamoofSMP.getInstance().getName(player));
 				skull.setAmount(KamoofPlugin.config().getInt("ritual.pactes.bloody.heads"));
 				event.getDrops().add(skull);
 				return;
 			}
 		}
 		if (KamoofPlugin.config().getBoolean("drophead.enabled")) {
-			event.getDrops().add(SkullManager.getSkull(KamoofPlugin.getInstance().getName(player)));
+			event.getDrops().add(SkullManager.getSkull(KamoofSMP.getInstance().getName(player)));
 		}
 	}
 	

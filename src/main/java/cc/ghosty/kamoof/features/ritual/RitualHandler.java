@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.ritual;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.utils.*;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -144,13 +145,13 @@ public final class RitualHandler {
 		switch (pacte) {
 			case "1" -> {
 				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).addModifier(healthBoostModifier);
-				Message.send(player, "messages.chose-bloody", Map.of("player", KamoofPlugin.getInstance().getName(player)));
+				Message.send(player, "messages.chose-bloody", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			}
 			case "2" -> {
 				int level = KamoofPlugin.config().getInt("ritual.pactes.forgotten.weakness") - 1;
 				if(level >= 0)
 					player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, level));
-				Message.send(player, "messages.chose-forgotten", Map.of("player", KamoofPlugin.getInstance().getName(player)));
+				Message.send(player, "messages.chose-forgotten", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			}
 		}
 		

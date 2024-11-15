@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.disguise;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.utils.Reflection;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
@@ -33,7 +34,7 @@ public final class DisguiseManager {
 	 * @param player La cible
 	 */
 	public static void undisguise(Player player) {
-		player.setDisplayName(player.getDisplayName().replace(NickAPI.getName(player), KamoofPlugin.getInstance().getName(player)));
+		player.setDisplayName(player.getDisplayName().replace(NickAPI.getName(player), KamoofSMP.getInstance().getName(player)));
 		
 		NickAPI.resetNick(player);
 		NickAPI.resetSkin(player);

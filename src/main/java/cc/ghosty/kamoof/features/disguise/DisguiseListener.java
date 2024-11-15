@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.disguise;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.features.drophead.SkullManager;
 import cc.ghosty.kamoof.utils.Message;
@@ -57,14 +58,14 @@ public final class DisguiseListener extends Feature {
 		String name = "";
 		switch (NickVersion.get()) {
 			case v6 -> {
-				name = KamoofPlugin.getInstance().getName(target);
+				name = KamoofSMP.getInstance().getName(target);
 				if (name == null)
 					name = SkullManager.getName(event.getItem());
 			}
 			case v7 -> {
 				name = SkullManager.getName(event.getItem());
 				if (name == null) {
-					name = KamoofPlugin.getInstance().getName(target);
+					name = KamoofSMP.getInstance().getName(target);
 				}
 			}
 		}
@@ -77,7 +78,7 @@ public final class DisguiseListener extends Feature {
 		}
 		
 		DisguiseManager.disguise(player, name);
-		Message.send(player, "messages.disguised", Map.of("player", KamoofPlugin.getInstance().getName(player), "nick", name));
+		Message.send(player, "messages.disguised", Map.of("player", KamoofSMP.getInstance().getName(player), "nick", name));
 	}
 	
 	/**
@@ -91,8 +92,8 @@ public final class DisguiseListener extends Feature {
 		if (!NickAPI.isNicked(player))
 			return;
 		String disguise = NickAPI.getName(player);
-		KamoofPlugin.getInstance().disguise(player, null);
-		Message.send(player, "messages.lostdisguise", Map.of("player", KamoofPlugin.getInstance().getName(player), "nick", disguise));
+		KamoofSMP.getInstance().disguise(player, null);
+		Message.send(player, "messages.lostdisguise", Map.of("player", KamoofSMP.getInstance().getName(player), "nick", disguise));
 		
 		DisguiseRestaurer.set(player.getUniqueId(), null);
 	}

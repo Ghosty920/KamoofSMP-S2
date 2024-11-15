@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.drophead;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.utils.Placeholder;
 import lombok.experimental.UtilityClass;
 import org.bukkit.*;
@@ -71,7 +72,7 @@ public final class SkullManager {
 		if (name != null)
 			return name;
 		if (meta.getOwningPlayer() != null)
-			return KamoofPlugin.getInstance().getName(meta.getOwningPlayer());
+			return KamoofSMP.getInstance().getName(meta.getOwningPlayer());
 		name = meta.getOwnerProfile().getName();
 		if (name != null)
 			return name;

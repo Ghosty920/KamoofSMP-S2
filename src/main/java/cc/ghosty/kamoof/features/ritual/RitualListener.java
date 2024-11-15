@@ -1,6 +1,7 @@
 package cc.ghosty.kamoof.features.ritual;
 
 import cc.ghosty.kamoof.KamoofPlugin;
+import cc.ghosty.kamoof.api.KamoofSMP;
 import cc.ghosty.kamoof.api.events.KamoofRitualHeadEvent;
 import cc.ghosty.kamoof.features.Feature;
 import cc.ghosty.kamoof.features.drophead.SkullManager;
@@ -67,7 +68,7 @@ public final class RitualListener extends Feature {
 			maxTime = config().getInt("ritual.max-time"),
 			time = player.getWorld().getTime();
 		if (time < minTime || time > maxTime) {
-			Message.send(player, "messages.ritual-wrong-time", Map.of("player", KamoofPlugin.getInstance().getName(player)));
+			Message.send(player, "messages.ritual-wrong-time", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			event.setCancelled(true);
 			return;
 		}
@@ -126,7 +127,7 @@ public final class RitualListener extends Feature {
 			pacte = "forgotten";
 		} else
 			return;
-		Message.send(player, "messages.death-" + pacte, Map.of("player", KamoofPlugin.getInstance().getName(player)));
+		Message.send(player, "messages.death-" + pacte, Map.of("player", KamoofSMP.getInstance().getName(player)));
 		RitualHandler.setPacte(player, null);
 	}
 	
