@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.4.0"
+version = "1.4.1"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     implementation(project(":API"))
-    compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")

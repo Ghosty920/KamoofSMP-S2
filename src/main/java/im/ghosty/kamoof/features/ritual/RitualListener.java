@@ -5,6 +5,7 @@ import im.ghosty.kamoof.api.KamoofSMP;
 import im.ghosty.kamoof.api.events.KamoofRitualHeadEvent;
 import im.ghosty.kamoof.features.Feature;
 import im.ghosty.kamoof.features.drophead.SkullManager;
+import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.Message;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -122,7 +123,7 @@ public final class RitualListener extends Feature {
 			return;
 		if (pacte.equalsIgnoreCase("1")) {
 			pacte = "bloody";
-			player.getAttribute(Attribute.GENERIC_MAX_HEALTH).removeModifier(RitualHandler.healthBoostModifier);
+			player.getAttribute(CompatibilityUtils.getMaxHealthAttribute()).removeModifier(RitualHandler.healthBoostModifier);
 		} else if (pacte.equalsIgnoreCase("2")) {
 			pacte = "forgotten";
 		} else

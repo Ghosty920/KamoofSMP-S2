@@ -143,7 +143,7 @@ public final class RitualHandler {
 			return;
 		switch (pacte) {
 			case "1" -> {
-				player.getAttribute(Attribute.GENERIC_MAX_HEALTH).addModifier(healthBoostModifier);
+				player.getAttribute(CompatibilityUtils.getMaxHealthAttribute()).addModifier(healthBoostModifier);
 				Message.send(player, "messages.chose-bloody", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			}
 			case "2" -> {
@@ -190,4 +190,5 @@ public final class RitualHandler {
 	public static String getPacte(Player player) {
 		return data().getString("pacte." + player.getUniqueId());
 	}
+	
 }

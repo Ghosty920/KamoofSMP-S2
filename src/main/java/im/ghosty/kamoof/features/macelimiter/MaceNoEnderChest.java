@@ -3,6 +3,7 @@ package im.ghosty.kamoof.features.macelimiter;
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.Feature;
 import im.ghosty.kamoof.utils.InventoryUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.*;
 import org.bukkit.event.inventory.*;
@@ -24,16 +25,25 @@ public final class MaceNoEnderChest extends Feature {
 		
 		ItemStack item = event.getCursor();
 		Inventory inv = event.getClickedInventory();
+		if (item == null || inv == null)
+			return;
+		
+		Bukkit.broadcastMessage(String.format(
+			"§e§l%s §c§l%s\n"
+				+ "§a§linv=§f%s §b§linvClicked=§f%s\n"
+				+ "§b§lcursor=§f%s §a§lcurrent=§f%s\n",
+			event.getAction(), event.getEventName(),
+			event.getInventory().getType(), event.getClickedInventory().getType(),
+			event.getCursor().getType(), event.getCurrentItem().getType()
+		));
 		
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
-			if (action == InventoryAction.HOTBAR_SWAP && item.getType() == Material.AIR) {
-				item = event.getCurrentItem();
-				if (item.getType() == Material.AIR) { // si qql a un fix, merci dm'aider ;(
-					event.setCancelled(true);
-					event.setResult(Event.Result.DENY);
-					return;
-				}
-			} else if (action != InventoryAction.PLACE_ALL
+			if (action == InventoryAction.HOTBAR_SWAP) { // si qql a un fix, merci dm'aider ;(
+				cancel(event);
+				return;
+			}
+			
+			else if (action != InventoryAction.PLACE_ALL
 				&& action != InventoryAction.PLACE_SOME
 				&& action != InventoryAction.PLACE_ONE
 				&& action != InventoryAction.SWAP_WITH_CURSOR)
@@ -47,10 +57,13 @@ public final class MaceNoEnderChest extends Feature {
 		}
 		
 		boolean flags = InventoryUtils.hasItem(item, 2, Material.MACE);
-		if (flags) {
-			event.setCancelled(true);
-			event.setResult(Event.Result.DENY);
-		}
+		if (flags)
+			cancel(event);
+	}
+	
+	private void cancel(InventoryInteractEvent event) {
+		event.setCancelled(true);
+		event.setResult(Event.Result.DENY);
 	}
 	
 }
