@@ -56,13 +56,24 @@ ritual:
   enabled: true
   # The maximum number of identical heads allowed
   dupelimit: 1
+
+  # The minimum & maximum time to start a ritual
+  # Example: 0 & 12000 will prevent it during the night
+  # Put 0 & 24000 to disable it
+  min-time: 0
+  max-time: 24000
+
   # The name of the item dropped at the end of the ritual
   name: "§4Demonic Pact"
+  # The lore of this book
+  lore:
+    - "§7by §cLucifer"
   # The content of the 2 pages to perform the different pacts
   # %command1% = Bloody Pact, %command2% = Forgotten Pact
   pages:
     - "<dark_red>Bloody Pact<br><br><red>This pact allows you to increase your life by <dark_red>5 <red>hearts, but your next death will cost you 3 heads...<br><dark_red><b>Will you accept it?<br><br><hover:show_text:\"<dark_purple>Click to accept this pact\"><click:run_command:%command1%><red><b>[Accept the Pact]"
     - "<dark_gray>Forgotten Pact<br><br><gray>This pact allows you to <dark_gray><b>leave no head</b> <gray>behind you when you die, however for the rest of this life you will be weaker<br><dark_gray><b>Will you accept it?<br><br><hover:show_text:\"<dark_purple>Click to accept this pact\"><click:run_command:%command2%>[Accept the Pact]"
+
   pactes:
     bloody:
       # Bloody Pact HP Boost
@@ -74,6 +85,7 @@ ritual:
     forgotten:
       # The Forgotten Pact Weakness Level
       weakness: 2
+
   # Les différents paramètres de l'animation du rituel
   animation:
     # Time increased in the world every 150ms
@@ -83,6 +95,11 @@ ritual:
     color: "red"
     # The size of the particles all around
     size: 1
+
+    # The quantity of lightnings before the apparition of the sphere
+    lightning-quantity: 25
+    # The interval between each lightning spawn
+    lightning-interval: 2
 
     sphere:
       # Radius of the big blue sphere
@@ -97,11 +114,6 @@ ritual:
       lava-chance: 5
       # If the lava particles should make a sound when dropping
       lava-sound: false
-    # The minimum & maximum time to start a ritual
-    # Example: 0 & 12000 will prevent it during the night
-    # Put 0 & 24000 to disable it
-    min-time: 0
-    max-time: 24000
 
   # The settings of the animation when the pact is accepted
   accepted:
@@ -128,6 +140,8 @@ macelimiter:
   enabled: true
   # Limit of craftable masses
   limit: 1
+  # Disallow putting the mace in the enderchest
+  no-enderchest: true
 
 
 # This does not change with the language parameter, and must be changed manually

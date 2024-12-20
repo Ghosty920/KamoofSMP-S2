@@ -4,6 +4,7 @@ DATA_FILE_FAILED: "%PREFIX%<red>Impossible de créer/utiliser le fichier '%s'."
 INVALID_USERNAME: "%PREFIX%<red>Pseudonyme invalide '%s'."
 INVENTORY_FULL: "%PREFIX%<red>Votre inventaire est plein."
 RITUAL_DISABLED: "%PREFIX%<red>Le rituel est désactivé dans la configuration."
+FEATURE_FAILED: "%PREFIX%<red>Impossible de charger la feature <b>%s</b>."
 
 # Principale Commande & Messages
 MAIN_ARGUMENTS: "<green><b>KamoofSMP Version %s</b><br><br><gold>Arguments possibles:<br>- <yellow><click:run_command:'/kamoofsmp info'><b>info:</b></click> Les infos/crédits du plugin</yellow><br>- <yellow><click:run_command:'/kamoofsmp config'><b>config:</b></click> Configurer le plugin</yellow><br>- <yellow><click:run_command:'/kamoofsmp reload'><b>reload:</b></click> Recharger la configuration</yellow><br>- <yellow><click:run_command:'/kamoofsmp setup'><b>setup:</b></click> Définir le lieu du rituel</yellow><br>- <yellow><click:suggest_command:'/kamoofsmp givehead '><b>givehead:</b></click> Se donner n'importe quelle tête</yellow><br>- <yellow><click:run_command:'/kamoofsmp undisguise '><b>undisguise:</b></click> Retirer un déguisement</yellow>"
@@ -32,6 +33,8 @@ VERSION_CHANGELOG_REGEX: "Changements:((?!`).)+"
 
 # Config
 CFG_GO_BACK: "Retour au Menu"
+CFG_ARROW_PREV: "← Page Précédente"
+CFG_ARROW_NEXT: "→ Page Suivante"
 CFG_TITLE: "Configuration"
 CFG_TITLE_MAIN: "Configuration du KamoofSMP"
 CFG_NOTE: "Note"
@@ -56,6 +59,8 @@ CFG_RITUAL_FORGOTTEN_WEAKNESS: "§8Pacte Oublié: §e§lFaiblesse|Le niveau de f
 CFG_RITUAL_ANIM_TIMEINCR: "Incrémentation du Temps|La vitesse à laquelle le temps passe à la nuit."
 CFG_RITUAL_ANIM_COLOR: "Couleur des Particules|La couleur des particules qui font toute la structure de l'animation du rituel."
 CFG_RITUAL_ANIM_SIZE: "Taille des Particules|La taille des particules qui font toute la structure de l'animation du rituel."
+CFG_RITUAL_ANIM_LIGHTNING_QT: "Éclairs: Quantité|La quantité d'éclairs avant l'apparition de la sphère."
+CFG_RITUAL_ANIM_LIGHTNING_INTERVAL: "Éclairs: Intervalle|La durée (en ticks) entre l'apparition de chaque éclair."
 CFG_RITUAL_SPH_RADIUS: "Sphère: Rayon|Le rayon de la sphère."
 CFG_RITUAL_SPH_QT: "Sphère: Quantité|Le nombre de particules de la sphère."
 CFG_RITUAL_SPH_COLOR: "Sphère: Couleur|La couleur des particules de la sphère."
@@ -74,5 +79,6 @@ CFG_RITUAL_ACC_FLAMESOUL: "Accepté: Flammes des âmes|Rendre les particules de 
 CFG_TITLE_OTHER: "Autres"
 CFG_MACELIMIT_ENABLED: "Mace Limiter|Ne pouvoir crafter qu'un nombre limité de maces."
 CFG_MACELIMIT_LIMIT: "Limite de Maces|La limite de maces craftable."
+CFG_MACELIMIT_EC: "Pas d'Ender Chest|Bloque le fait de ranger une mace dans un Coffre de l'Ender."
 CFG_AUTOUPDATE_FETCH: "Auto Updater|Vérifier automatiquement pour une nouvelle mise à jour quotidiennement."
 CFG_AUTOUPDATE_DOWNLOAD: "Téléchargement automatique|Télécharger automatiquement la mise à jour et proposer un redémarrage du serveur."

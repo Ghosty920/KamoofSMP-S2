@@ -16,21 +16,15 @@ Plugin *non officiel, mais identique/meilleur* recréé à partir des vidéos et
 
 Lorsqu'un joueur meurt, il fait tomber sa tête, qui, quand utilisée permet au joueur de voler son apparence et son nom temporairement. En plus de ça, avec 9 têtes il est possible de faire un rituel donnant accès à 2 pactes ayant leur avantage et désavantage opposés.
 
-> [!WARNING]
-> La configuration n'est pas compatible avec celle de la [saison 1 du KamoofSMP](https://modrinth.com/plugin/camouf), donc veuillez supprimer votre dossier `plugins/KamoofSMP` avant d'importer le nouveau plugin.
-
-> [!CAUTION]
-> Le plugin distribué par Sohran **ne** comporte **aucun** élément de la saison 2, *en + de **2 bugs majeurs**, donc **ATTENTION à vous !***
-
 
 ## Installation
 
 1. Ayez un serveur [Paper](https://papermc.io/downloads/paper) (Spigot ou n'importe quel fork)
-2. [Téléchargez les 2 fichiers .jar de la dernière version disponible](https://github.com/Ghosty920/KamoofSMP-S2/releases/latest)
+2. [Téléchargez le fichier .jar de la dernière version disponible](https://github.com/Ghosty920/KamoofSMP-S2/releases/latest)
 
 <img src="assets/images/install_download.png" alt="Download" style="max-height: 400px">
 
-3. Placez ces 2 fichiers dans le dossier `plugins` directement dans votre serveur.
+3. Placez le fichier dans le dossier `plugins` directement dans votre serveur.
 4. (Re) Démarrez votre serveur.
 5. Vérifiez la console et faites `/plugins` pour voir s'il n'y a aucune erreur, sinon vérifiez l'étape 3
 
@@ -49,6 +43,14 @@ Et ensuite extrayez le contenu où vous voulez, et ouvrez-le dans votre IDE comm
 ### Compiler
 
 Utiliser la commande `gradlew shadowJar` 
+
+## Utiliser l'API
+
+L'API est disponible sur [JitPack](https://jitpack.io/#Ghosty920/KamoofSMP-S2/).
+
+Les classes sont accessibles sur [GitHub](https://github.com/Ghosty920/KamoofSMP-S2/tree/main/API/src/main/java/im/ghosty/kamoof/api), par exemple.
+
+Si vous avez un problème avec l'API, venez sur mon discord.
 
 ## Contribuer
 

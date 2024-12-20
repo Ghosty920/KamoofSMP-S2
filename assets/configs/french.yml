@@ -61,13 +61,24 @@ ritual:
   enabled: true
   # Le nombre maximum de têtes identiques autorisés
   dupelimit: 1
+
+  # Les temps dans le monde minimum & maximum pour lancer le rituel
+  # Exemple: 0 & 12000 empêchera de lancer le rituel la nuit
+  # Mettez 0 & 24000 pour désactiver la vérification
+  min-time: 0
+  max-time: 24000
+
   # Le nom de l'item drop à la fin du rituel
   name: "§4Pacte Démonique"
+  # La description de ce même livre
+  lore:
+    - "§7par §cLucifer"
   # Le contenu des 2 pages pour effectuer les différents pactes
   # %command1% = Pacte Ensanglanté, %command2% = Pacte Oublié
   pages:
     - "<dark_red>Pacte Ensanglanté<br><br><red>Ce pacte te permet d'augmenter ta vie de <dark_red>5 <red>coeurs t'est proposé, mais ta prochaine mort te coûtera 3 têtes...<br><dark_red><b>Vas-tu l'accepter ?<br><br><hover:show_text:\"<dark_purple>Clique pour accepter ce pacte\"><click:run_command:%command1%><red><b>[Accepter le Pacte]"
     - "<dark_gray>Pacte Oublié<br><br><gray>Ce pacte te permet de ne <dark_gray><b>pas laisser de tête</b> <gray>derrière toi à ta mort, cependant durant le restant de cette vie tu seras plus faible<br><dark_gray><b>Vas-tu l'accepter ?<br><br><hover:show_text:\"<dark_purple>Clique pour accepter ce pacte\"><click:run_command:%command2%>[Accepter le Pacte]"
+
   pactes:
     bloody:
       # Le boost de pv du Pacte Ensanglanté
@@ -79,6 +90,7 @@ ritual:
     forgotten:
       # Le niveau de Weakness du Pacte Oublié
       weakness: 2
+
   # Les différents paramètres de l'animation du rituel
   animation:
     # Le temps augmenté dans le monde toutes les 150ms
@@ -88,6 +100,11 @@ ritual:
     color: "red"
     # La taille des particules présentes presque partout
     size: 1
+
+    # La quantité d'éclairs avant l'apparition de la sphère
+    lightning-quantity: 25
+    # L'intervalle entre l'apparation de chaque éclair
+    lightning-interval: 2
 
     sphere:
       # Rayon de la grande sphère bleue
@@ -102,11 +119,6 @@ ritual:
       lava-chance: 5
       # Si les particules de lave produisent du son quand elles tombent
       lava-sound: false
-  # Les temps dans le monde minimum & maximum pour lancer le rituel
-  # Exemple: 0 & 12000 empêchera de lancer le rituel la nuit
-  # Mettez 0 & 24000 pour désactiver la vérification
-  min-time: 0
-  max-time: 24000
 
   # Les paramètres de l'animation quand le pacte est accepté
   accepted:
@@ -133,6 +145,8 @@ macelimiter:
   enabled: true
   # Limite de masses créables
   limit: 1
+  # Interdit la mise de la mace dans l'enderchest
+  no-enderchest: true
 
 
 # Ceci ne change pas avec le paramètre language, et doit être modifié manuellement

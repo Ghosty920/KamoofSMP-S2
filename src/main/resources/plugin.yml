@@ -4,8 +4,7 @@ version: ${version}
 api-version: 1.21
 description: Reproduction du KamoofSMP Saison 2 de Sohran
 website: https://modrinth.com/plugin/camouf2
-depend: [ NickAPI ]
-main: cc.ghosty.kamoof.KamoofPlugin
+main: im.ghosty.kamoof.KamoofPlugin
 commands:
   kamoofsmp:
     description: Commande globale du KamoofSMP
