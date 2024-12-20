@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.4.1"
+version = "1.4.1-hotfix1"
 
 repositories {
     mavenCentral()
