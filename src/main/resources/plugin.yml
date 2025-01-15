@@ -2,18 +2,18 @@ name: KamoofSMP
 authors: [ Ghosty, Solmey ]
 version: ${version}
 api-version: 1.21
-description: Reproduction Twist de la Saison 2 du KamoofSMP
+description: Reproduction du KamoofSMP Saison 2 de Sohran
 website: https://modrinth.com/plugin/camouf2
 main: im.ghosty.kamoof.KamoofPlugin
 commands:
   kamoofsmp:
-    description: Commande globale du plugin
+    description: Commande globale du KamoofSMP
     aliases: [ kamoof, camouf, camoufsmp ]
   givehead:
-    description: Se donne n'importe quelle tête
+    description: Se donner n'importe quelle tête
     permission: kamoofsmp.admin
   undisguise:
-    description: Retire son déguisement
+    description: Retirer son déguisement
 permissions:
   kamoofsmp.admin:
     description: Administrateur du serveur
