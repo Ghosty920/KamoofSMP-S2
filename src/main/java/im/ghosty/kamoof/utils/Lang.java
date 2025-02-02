@@ -15,7 +15,7 @@ import java.util.HashMap;
 public final class Lang {
 	
 	public static final String PREFIX = "<green><b>[KamoofSMP] <reset>";
-	public static final String SUPPORT = "https://discord.gg/akgp49Q76M";
+	public static final String SUPPORT = "https://ghosty.im/discord?from=camouf2";
 	public static final HashMap<String, String> languages = new HashMap<>();
 	private static final HashMap<String, String> messages = new HashMap<>();
 	@Getter
