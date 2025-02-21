@@ -123,11 +123,11 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 							String value = values.get(i);
 							message.append(String.format("<br><click:run_command:'/kamoofsmp undisguise %s'><hover:show_text:\"" + Lang.get("UNDISGUISE_HOVER") + "\"><white>%s <gray>→ <#ffddff>%s</hover></click>", key, key, key, value));
 						}
-						player.spigot().sendMessage(Message.toBaseComponent(message.toString()));
+						Message.send(player, message.toString());
 						return true;
 					} else {
 						message.append(Lang.get("UNDISGUISE_NONE"));
-						player.spigot().sendMessage(Message.toBaseComponent(message.toString()));
+						Message.send(player, message.toString());
 						return true;
 					}
 				}

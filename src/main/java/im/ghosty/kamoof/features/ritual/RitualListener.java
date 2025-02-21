@@ -8,11 +8,11 @@ import im.ghosty.kamoof.features.drophead.SkullManager;
 import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.Message;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -136,22 +136,37 @@ public final class RitualListener extends Feature {
 	public void onMilk(PlayerItemConsumeEvent event) {
 		Player player = event.getPlayer();
 		Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
-			if (!event.getPlayer().isOnline())
+			if (!player.isOnline())
 				return;
-			String pacte = RitualHandler.getPacte(player);
-			if (pacte == null || !pacte.equalsIgnoreCase("2"))
+			applyWeakness(player);
+		}, 0L);
+	}
+	
+	@EventHandler
+	public void onTotem(EntityResurrectEvent event) {
+		if(!(event.getEntity() instanceof Player player))
+			return;
+		if (!player.isOnline())
+			return;
+		
+		Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
+			if (!player.isOnline())
 				return;
-			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, config().getInt("ritual.pactes.forgotten.weakness") - 1));
-		}, 1L);
+			applyWeakness(player);
+		}, 0L);
 	}
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
+		applyWeakness(player);
+	}
+	
+	private void applyWeakness(Player player) {
 		String pacte = RitualHandler.getPacte(player);
 		if (pacte == null || !pacte.equalsIgnoreCase("2"))
 			return;
-		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, config().getInt("ritual.pactes.forgotten.weakness") - 1));
+		player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, -1, config().getInt("ritual.pactes.forgotten.weakness") - 1));
 	}
 	
 }

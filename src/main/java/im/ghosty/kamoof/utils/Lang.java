@@ -59,9 +59,9 @@ public final class Lang {
 	public static void send(CommandSender sender, String key, Object... args) {
 		String value = get(key);
 		if (args == null || args.length == 0)
-			sender.spigot().sendMessage(Message.toBaseComponent(value));
+			Message.send(sender, value);
 		else
-			sender.spigot().sendMessage(Message.toBaseComponent(String.format(value, args)));
+			Message.send(sender, String.format(value, args));
 	}
 	
 }

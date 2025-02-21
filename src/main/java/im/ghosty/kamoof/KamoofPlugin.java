@@ -57,7 +57,7 @@ public final class KamoofPlugin extends JavaPlugin {
 	}
 	
 	public static void log(String msg, Object... args) {
-		Bukkit.getConsoleSender().spigot().sendMessage(Message.toBaseComponent(String.format(msg, args)));
+		Message.send(Bukkit.getConsoleSender(), String.format(msg, args));
 	}
 	
 	@Override

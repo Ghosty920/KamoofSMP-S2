@@ -57,4 +57,14 @@ public final class Message {
 		sender.spigot().sendMessage(toBaseComponent(Placeholder.apply(msg, placeholders)));
 	}
 	
+	public static void send(CommandSender sender, String message) {
+		if(sender == null)
+			return;
+		if(sender instanceof OfflinePlayer player && !player.isOnline())
+			return;
+		if(message == null || message.isBlank())
+			return;
+		sender.spigot().sendMessage(toBaseComponent(message));
+	}
+	
 }
