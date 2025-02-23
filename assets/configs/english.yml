@@ -84,20 +84,27 @@ ritual:
       heads: 3
     forgotten:
       # The Forgotten Pact Weakness Level
-      weakness: 2
+      weakness: 1
 
-  # Les différents paramètres de l'animation du rituel
+  # The ritual animation settings
   animation:
-    # Time increased in the world every 150ms
-    # Please use a divisor of 18000: https://numberempire.com/18000
+    # Time increased in the world every 100ms (by default)
+    # Please use a divisor of your time-stop number: https://numberempire.com/18000
     time-incr: 250
+    # The time at which the incrementation stop
+    # On the official, it seems to be 14000, on the original showcase 18000
+    time-stop: 18000
+    # The speed, in ticks, at which the incrementation does
+    # On the official it's 2, on the original showcase it's 3
+    time-speed: 2
+
     # The color of the particles all around
     color: "red"
     # The size of the particles all around
     size: 1
 
     # The quantity of lightnings before the apparition of the sphere
-    lightning-quantity: 25
+    lightning-quantity: 11
     # The interval between each lightning spawn
     lightning-interval: 2
 
@@ -167,7 +174,7 @@ messages:
   chose-bloody: "<red>You accepted the pact, here is your due, <b>5</b> extra hearts, finally, <dark_red><b>until your next death"
   # You chose the Forgotten Pact
   # %player% = Player name
-  chose-forgotten: "<gray>You accepted the pact, here is your due, weakness <b>2</b>, but <dark_gray><b>your head will not fall"
+  chose-forgotten: "<gray>You accepted the pact, here is your due, weakness <b>1</b>, but <dark_gray><b>your head will not fall"
   # You already have a pact but you are trying to choose one
   # %player% = Player name
   already-chose: "<red>You have already chosen a pact"

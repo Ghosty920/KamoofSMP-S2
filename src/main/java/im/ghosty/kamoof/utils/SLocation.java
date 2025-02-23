@@ -20,4 +20,8 @@ public class SLocation extends Location {
 		return new SLocation(getWorld(), getX() + x, getY() + y, getZ() + z);
 	}
 	
+	public Location toLocation() {
+		return new Location(getWorld(), getX(), getY(), getZ());
+	}
+	
 }

@@ -47,7 +47,7 @@ public final class KamoofPlugin extends JavaPlugin {
 	public static YamlConfiguration data() {
 		return data;
 	}
-	
+
 	@SneakyThrows
 	public static void saveData() {
 		if (data == null)

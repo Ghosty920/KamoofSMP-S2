@@ -4,10 +4,7 @@ import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.api.KamoofSMP;
 import im.ghosty.kamoof.utils.*;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -35,7 +32,6 @@ public final class RitualHandler {
 		new Vector2d(-4, -4)
 	);
 	public static final NamespacedKey key = new NamespacedKey("kamoofsmp", "ritualstand");
-	public static final AttributeModifier healthBoostModifier = new AttributeModifier(new NamespacedKey("kamoofsmp", "pacte"), KamoofPlugin.config().getInt("ritual.pactes.bloody.hpboost"), AttributeModifier.Operation.ADD_NUMBER, EquipmentSlotGroup.ANY);
 	public static boolean setup = false;
 	public static Location location;
 	
@@ -143,13 +139,13 @@ public final class RitualHandler {
 			return;
 		switch (pacte) {
 			case "1" -> {
-				player.getAttribute(CompatibilityUtils.getMaxHealthAttribute()).addModifier(healthBoostModifier);
+				player.getAttribute(CompatibilityUtils.getMaxHealthAttribute()).addModifier(CompatibilityUtils.getMaxHealthAttributeModifier());
 				Message.send(player, "messages.chose-bloody", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			}
 			case "2" -> {
 				int level = KamoofPlugin.config().getInt("ritual.pactes.forgotten.weakness") - 1;
 				if(level >= 0)
-					player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, Integer.MAX_VALUE, level));
+					player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, -1, level));
 				Message.send(player, "messages.chose-forgotten", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			}
 		}

@@ -5,21 +5,19 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.4.2"
+version = "1.5.0"
 
 repositories {
     mavenCentral()
-    mavenLocal()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
-    //maven("https://haoshoku.xyz:8081/repository/default/")
-    //maven("https://mvn.intelligence-modding.de/haoshoku")
     maven("https://jitpack.io")
 }
 
 dependencies {
     implementation(project(":API"))
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    //compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("net.kyori:adventure-text-minimessage:4.17.0")

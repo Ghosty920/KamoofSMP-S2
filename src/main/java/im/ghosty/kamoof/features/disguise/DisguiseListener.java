@@ -2,11 +2,11 @@ package im.ghosty.kamoof.features.disguise;
 
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.api.KamoofSMP;
+import im.ghosty.kamoof.api.events.KamoofDisguiseEvent;
 import im.ghosty.kamoof.features.Feature;
 import im.ghosty.kamoof.features.drophead.SkullManager;
 import im.ghosty.kamoof.utils.Message;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -59,7 +59,14 @@ public final class DisguiseListener extends Feature {
 		if (name == null)
 			name = SkullManager.getName(event.getItem());
 		
-		event.getItem().setAmount(event.getItem().getAmount() - 1);
+		KamoofDisguiseEvent disguiseEvent = new KamoofDisguiseEvent(player, name);
+		Bukkit.getPluginManager().callEvent(disguiseEvent);
+		if (disguiseEvent.isCancelled())
+			return;
+		
+		if (player.getGameMode() != GameMode.CREATIVE)
+			event.getItem().setAmount(event.getItem().getAmount() - 1);
+		
 		if (KamoofPlugin.config().getBoolean("disguise.give-back") && NickAPI.isNicked(player)) {
 			ItemStack item = SkullManager.getSkull(NickAPI.getName(player));
 			if (!player.getInventory().addItem(item).isEmpty())

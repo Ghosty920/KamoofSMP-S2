@@ -12,13 +12,13 @@ import org.jetbrains.annotations.Range;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static im.ghosty.kamoof.utils.CompatibilityUtils.doBundlesExist;
+
 /**
  * Classe utilitaire pour les inventaires.
  */
 @UtilityClass
 public final class InventoryUtils {
-	
-	private static final boolean scanBundles = Material.getMaterial("BUNDLE") != null;
 	
 	/**
 	 * Renvoie tous les {@link ItemStack} qui sont d'un des {@link Material} de {@code types}
@@ -53,16 +53,19 @@ public final class InventoryUtils {
 			.collect(Collectors.toSet());
 		
 		if (maxDepth > 0) {
-			Arrays.stream(inventory.getStorageContents())
-				.filter(Objects::nonNull).filter(ItemStack::hasItemMeta).map(ItemStack::getItemMeta)
+			ItemMeta[] metaItems = Arrays.stream(inventory.getStorageContents())
+				.filter(Objects::nonNull)
+				.filter(ItemStack::hasItemMeta)
+				.map(ItemStack::getItemMeta).distinct().toArray(ItemMeta[]::new);
+			
+			Arrays.stream(metaItems)
 				.filter(meta -> meta instanceof BlockStateMeta bsMeta && bsMeta.hasBlockState() && bsMeta.getBlockState() instanceof Container)
 				.map(meta -> (Container) (((BlockStateMeta) meta).getBlockState()))
 				.map(Container::getInventory)
 				.forEach(inv -> items.addAll(scanInventory(inv, maxDepth - 1, types)));
 			
-			if (scanBundles) {
-				Arrays.stream(inventory.getStorageContents())
-					.filter(Objects::nonNull).filter(ItemStack::hasItemMeta).map(ItemStack::getItemMeta)
+			if (doBundlesExist()) {
+				Arrays.stream(metaItems)
 					.filter(meta -> meta instanceof BundleMeta)
 					.map(meta -> (BundleMeta) meta)
 					.map(BundleMeta::getItems)
@@ -89,22 +92,12 @@ public final class InventoryUtils {
 		
 		if (maxDepth > 0 && item.hasItemMeta()) {
 			ItemMeta meta = item.getItemMeta();
-			scan:
-			{
-				if (!(meta instanceof BlockStateMeta bsMeta))
-					break scan;
-				if (!bsMeta.hasBlockState() || !(bsMeta.getBlockState() instanceof Container cont))
-					break scan;
+			if (meta instanceof BlockStateMeta bsMeta && bsMeta.hasBlockState() && bsMeta.getBlockState() instanceof Container cont) {
 				items.addAll(scanInventory(cont.getInventory(), maxDepth - 1, types));
 			}
-			if (scanBundles) {
-				scan:
-				{
-					if (!(meta instanceof BundleMeta bMeta))
-						break scan;
-					for (ItemStack it : bMeta.getItems())
-						items.addAll(scanItem(it, maxDepth - 1, types));
-				}
+			if (doBundlesExist() && meta instanceof BundleMeta bMeta) {
+				for (ItemStack it : bMeta.getItems())
+					items.addAll(scanItem(it, maxDepth - 1, types));
 			}
 		}
 		
@@ -134,26 +127,27 @@ public final class InventoryUtils {
 		for (ItemStack item : inventory.getStorageContents()) {
 			if (item == null)
 				continue;
-			for (Material type : types) {
+			for (Material type : types)
 				if (item.getType() == type)
 					return true;
-			}
 		}
 		
 		if (maxDepth > 0) {
-			Set<Inventory> invs = Arrays.stream(inventory.getStorageContents())
-				.filter(Objects::nonNull).filter(ItemStack::hasItemMeta).map(ItemStack::getItemMeta)
+			ItemMeta[] metaItems = Arrays.stream(inventory.getStorageContents())
+				.filter(Objects::nonNull)
+				.filter(ItemStack::hasItemMeta)
+				.map(ItemStack::getItemMeta).distinct().toArray(ItemMeta[]::new);
+			
+			Set<Inventory> invs = Arrays.stream(metaItems)
 				.filter(meta -> meta instanceof BlockStateMeta bsMeta && bsMeta.hasBlockState() && bsMeta.getBlockState() instanceof Container)
 				.map(meta -> (Container) (((BlockStateMeta) meta).getBlockState()))
 				.map(Container::getInventory).collect(Collectors.toSet());
-			for (Inventory inv : invs) {
+			for (Inventory inv : invs)
 				if (hasInventory(inv, maxDepth - 1, types))
 					return true;
-			}
 			
-			if (scanBundles) {
-				Set<List<ItemStack>> bundles = Arrays.stream(inventory.getStorageContents())
-					.filter(Objects::nonNull).filter(ItemStack::hasItemMeta).map(ItemStack::getItemMeta)
+			if (doBundlesExist()) {
+				Set<List<ItemStack>> bundles = Arrays.stream(metaItems)
 					.filter(meta -> meta instanceof BundleMeta)
 					.map(meta -> (BundleMeta) meta)
 					.map(BundleMeta::getItems).collect(Collectors.toSet());
@@ -191,7 +185,7 @@ public final class InventoryUtils {
 				if (hasInventory(cont.getInventory(), maxDepth - 1, types))
 					return true;
 			}
-			if (scanBundles) {
+			if (doBundlesExist()) {
 				scan:
 				{
 					if (!(meta instanceof BundleMeta bMeta))

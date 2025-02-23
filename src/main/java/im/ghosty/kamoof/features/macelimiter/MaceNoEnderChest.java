@@ -2,8 +2,8 @@ package im.ghosty.kamoof.features.macelimiter;
 
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.Feature;
+import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.InventoryUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.*;
 import org.bukkit.event.inventory.*;
@@ -14,7 +14,8 @@ public final class MaceNoEnderChest extends Feature {
 	
 	@Override
 	public boolean isEnabled() {
-		return KamoofPlugin.config().getBoolean("macelimiter.no-enderchest") && Material.getMaterial("MACE") != null;
+		return CompatibilityUtils.isMinecraft1_21()
+			&& KamoofPlugin.config().getBoolean("macelimiter.no-enderchest");
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -38,8 +39,16 @@ public final class MaceNoEnderChest extends Feature {
 		));*/
 		
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
-			if (action == InventoryAction.HOTBAR_SWAP) { // si qql a un fix, merci dm'aider ;(
-				cancel(event);
+			if (action == InventoryAction.HOTBAR_SWAP) {
+				item = event.getWhoClicked().getInventory().getItem(event.getHotbarButton());
+				if (item != null && item.getType() == Material.MACE)
+					cancel(event);
+				return;
+			}
+			
+			if(action == CompatibilityUtils.getPaperPlaceIntoBundleAction()) {
+				if(InventoryUtils.hasItem(item, 1, Material.MACE))
+					cancel(event);
 				return;
 			}
 			

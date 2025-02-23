@@ -2,10 +2,12 @@ package im.ghosty.kamoof.commands;
 
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.api.KamoofSMP;
+import im.ghosty.kamoof.api.events.KamoofUndisguiseEvent;
 import im.ghosty.kamoof.features.disguise.DisguiseManager;
 import im.ghosty.kamoof.features.drophead.SkullManager;
 import im.ghosty.kamoof.utils.Lang;
 import im.ghosty.kamoof.utils.Message;
+import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +31,10 @@ public final class UndisguiseCMD implements CommandExecutor, TabCompleter {
 		
 		if (NickAPI.isNicked(player)) {
 			String disguise = NickAPI.getName(player);
+			
+			Bukkit.getPluginManager().callEvent(new KamoofUndisguiseEvent(player, disguise));
 			DisguiseManager.undisguise(player);
+			
 			if (KamoofPlugin.config().getBoolean("disguise.give-back")) {
 				ItemStack item = SkullManager.getSkull(disguise);
 				if (!player.getInventory().addItem(item).isEmpty())

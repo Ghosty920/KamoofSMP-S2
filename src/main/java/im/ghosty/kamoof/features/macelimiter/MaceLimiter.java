@@ -2,6 +2,7 @@ package im.ghosty.kamoof.features.macelimiter;
 
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.Feature;
+import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import static im.ghosty.kamoof.KamoofPlugin.*;
 
 /**
  * {@link Feature} pour empêcher trop de maces d'être craftées
+ *
  * @since 1.0
  */
 public final class MaceLimiter extends Feature {
@@ -62,7 +64,8 @@ public final class MaceLimiter extends Feature {
 	
 	@Override
 	public boolean isEnabled() {
-		return KamoofPlugin.config().getBoolean("macelimiter.enabled") && Material.getMaterial("MACE") != null;
+		return CompatibilityUtils.isMinecraft1_21()
+			&& KamoofPlugin.config().getBoolean("macelimiter.enabled");
 	}
 	
 	@Override

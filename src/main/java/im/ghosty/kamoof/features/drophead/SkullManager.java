@@ -38,10 +38,10 @@ public final class SkullManager {
 //		meta.setOwnerProfile(profile);
 		
 		String itemName = Placeholder.apply(KamoofPlugin.config().getString("drophead.name"), Map.of("player", player));
+		meta.setDisplayName(itemName);
 		try {
 			meta.setItemName(itemName);
-		} catch (Throwable exc) {
-			meta.setDisplayName(itemName);
+		} catch (Throwable ignored) {
 		}
 		meta.setLore(Placeholder.apply(KamoofPlugin.config().getStringList("drophead.lore"), Map.of("player", player)));
 		

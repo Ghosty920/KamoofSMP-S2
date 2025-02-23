@@ -89,20 +89,27 @@ ritual:
       heads: 3
     forgotten:
       # Le niveau de Weakness du Pacte Oublié
-      weakness: 2
+      weakness: 1
 
   # Les différents paramètres de l'animation du rituel
   animation:
-    # Le temps augmenté dans le monde toutes les 150ms
-    # Veuillez utiliser un diviseur de 18000: https://fr.numberempire.com/18000
+    # Le temps augmenté dans le monde toutes les 100ms (de base)
+    # Veuillez utiliser un diviseur de votre nombre: https://fr.numberempire.com/18000
     time-incr: 250
+    # Le temps au quel l'incrémentation s'arrête
+    # Sur l'officiel, ça semble être 14000, et sur la présentation originelle 18000
+    time-stop: 18000
+    # La vitesse, en ticks, à laquelle l'incrémentation se fait
+    # Sur l'officiel c'est 2, sur la présentation originelle c'est 3
+    time-speed: 2
+
     # La couleur des particules présentes presque partout
     color: "red"
     # La taille des particules présentes presque partout
     size: 1
 
     # La quantité d'éclairs avant l'apparition de la sphère
-    lightning-quantity: 25
+    lightning-quantity: 11
     # L'intervalle entre l'apparation de chaque éclair
     lightning-interval: 2
 
@@ -173,7 +180,7 @@ messages:
   # Tu as choisi le Pacte Oublié
   # %player% = Nom du joueur
   # Si quelqu'un a le vrai message, merci de nous contacter sur discord
-  chose-forgotten: "<gray>Tu as accepté le pacte, voici ton dû, faiblesse <b>2</b>, mais <dark_gray><b>ta tête ne tombera pas"
+  chose-forgotten: "<gray>Tu as accepté le pacte, voici ton dû, faiblesse <b>1</b>, mais <dark_gray><b>ta tête ne tombera pas"
   # Tu as déjà un pacte mais tu essayes d'en choisir un
   # %player% = Nom du joueur
   # Si quelqu'un a le vrai message, merci de nous contacter sur discord

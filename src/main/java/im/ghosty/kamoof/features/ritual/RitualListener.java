@@ -33,7 +33,9 @@ public final class RitualListener extends Feature {
 	
 	@Override
 	public boolean isEnabled() {
-		return config().getBoolean("ritual.enabled");
+		// bugs, flemme de fix donc juste on va désactiver :)
+		return CompatibilityUtils.isMinecraft1_21()
+			&& config().getBoolean("ritual.enabled");
 	}
 	
 	@Override
@@ -46,6 +48,11 @@ public final class RitualListener extends Feature {
 	public void onPlaceHead(PlayerArmorStandManipulateEvent event) {
 		Player player = event.getPlayer();
 		ArmorStand entity = event.getRightClicked();
+		if(entity.getPersistentDataContainer().getOrDefault(RitualHandler.key, PersistentDataType.BOOLEAN, false)) {
+			event.setCancelled(true);
+			return;
+		}
+		
 		boolean contains = false;
 		for (ArmorStand stand : RitualHandler.armorStands) {
 			if (entity.getEntityId() == stand.getEntityId()) {
@@ -58,8 +65,7 @@ public final class RitualListener extends Feature {
 		if (event.getPlayerItem().getType() != Material.PLAYER_HEAD) {
 			if (entity.getEquipment() != null && entity.getEquipment().getHelmet() != null
 				&& entity.getEquipment().getHelmet().getType() == Material.PLAYER_HEAD
-				&& event.getPlayerItem().getType() == Material.AIR
-				&& !entity.getPersistentDataContainer().getOrDefault(RitualHandler.key, PersistentDataType.BOOLEAN, false))
+				&& event.getPlayerItem().getType() == Material.AIR)
 				return;
 			event.setCancelled(true);
 			return;
@@ -123,7 +129,7 @@ public final class RitualListener extends Feature {
 			return;
 		if (pacte.equalsIgnoreCase("1")) {
 			pacte = "bloody";
-			player.getAttribute(CompatibilityUtils.getMaxHealthAttribute()).removeModifier(RitualHandler.healthBoostModifier);
+			player.getAttribute(CompatibilityUtils.getMaxHealthAttribute()).removeModifier(CompatibilityUtils.getMaxHealthAttributeModifier());
 		} else if (pacte.equalsIgnoreCase("2")) {
 			pacte = "forgotten";
 		} else

@@ -92,14 +92,6 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				Lang.send(player, "CONFIG_RELOADED");
 				return true;
 			}
-			case "test": {
-				RitualHandler.runAnimation(player);
-				return true;
-			}
-			case "book": {
-				player.getWorld().dropItemNaturally(player.getLocation(), RitualBook.getBook(RitualHandler.addNewUUID()));
-				return true;
-			}
 			case "setup": {
 				if (!config().getBoolean("ritual.enabled")) {
 					Lang.send(player, "RITUAL_DISABLED");
@@ -135,6 +127,14 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				OfflinePlayer target = Bukkit.getOfflinePlayer(name);
 				KamoofSMP.getInstance().disguise(target, null);
 				Lang.send(player, "UNDISGUISED", KamoofSMP.getInstance().getName(target));
+				return true;
+			}
+			case "pacterun": {
+				RitualHandler.runAnimation(player);
+				return true;
+			}
+			case "pactebook": {
+				player.getWorld().dropItemNaturally(player.getLocation(), RitualBook.getBook(RitualHandler.addNewUUID()));
 				return true;
 			}
 			default: {

@@ -64,20 +64,27 @@ public final class RitualAnimation {
 		}
 		
 		// Modification du temps
-		boolean hasDayCycle = world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE);
+		world.setWeatherDuration(0);
+		world.setThundering(false);
+		world.setStorm(false);
+		
+		final boolean hasDayCycle = world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE);
 		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 		final long previousWorldTime = world.getTime();
-		final long timeIncr = config().getLong("ritual.animation.time-incr");
+		final long timeIncr = config().getLong("ritual.animation.time-incr"),
+			timeStop = config().getLong("ritual.animation.time-stop"),
+			timeSpeed = config().getLong("ritual.animation.time-speed");
 		Bukkit.getScheduler().runTaskTimer(KamoofPlugin.getInstance(), (task) -> {
 			if (stopped) {
 				task.cancel();
 				return;
 			}
 			
+			world.playSound(centeredLoc, Sound.ITEM_GOAT_HORN_SOUND_3, SoundCategory.AMBIENT, 0.1f, 0.7f);
 			world.setTime(Math.round((float) (world.getTime() + timeIncr) / timeIncr) * timeIncr);
-			if (world.getTime() == 18000)
+			if (world.getTime() == timeStop)
 				task.cancel();
-		}, 0L, 3L);
+		}, 0L, timeSpeed);
 		
 		Consumer<Double> drawLargeCircles = (y) -> {
 			drawCircle(world, startX, y, startZ, 4.25, 100, dust);
@@ -92,7 +99,8 @@ public final class RitualAnimation {
 			}
 			
 			double radius = config().getDouble("ritual.animation.sphere.radius");
-			spawnSphere(world, startX, startY + height / 2, startZ, radius);
+			// ne demandez pas d'où sortent ces chiffres, c'est des maths à partir de screenshots mauvaise quali mdrr
+			spawnSphere(world, startX, startY + height / (1 / 0.5625), startZ, radius);
 			
 			Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
 				stopped = true;
@@ -101,6 +109,7 @@ public final class RitualAnimation {
 				Bukkit.spigot().broadcast(Message.toBaseComponent(config().getString("messages.ritualdone")));
 				world.dropItemNaturally(centeredLoc, RitualBook.getBook(RitualHandler.addNewUUID()));
 				world.strikeLightning(centeredLoc.plus(0, radius, 0));
+				world.playSound(centeredLoc, Sound.ENTITY_WITHER_SPAWN, SoundCategory.HOSTILE, 0.2f, 1f);
 				
 				for (ArmorStand entity : RitualHandler.armorStands) {
 					entity.getPersistentDataContainer().set(RitualHandler.key, PersistentDataType.BOOLEAN, false);
@@ -170,6 +179,8 @@ public final class RitualAnimation {
 				return;
 			}
 			
+			world.playSound(centeredLoc, Sound.BLOCK_BEACON_ACTIVATE, SoundCategory.AMBIENT, 0.15f, 1f);
+			
 			for (Vector2d offset : offsets) {
 				double x = startX + offset.x, z = startZ + offset.y;
 				for (int i = 0; i <= 30; i++) {
@@ -188,7 +199,10 @@ public final class RitualAnimation {
 				
 				Vector2d offset = offsets.get(ref.currentOffset);
 				ref.currentOffset++;
-				drawCircle(world, startX + offset.x, startY, startZ + offset.y, 1.5, 40, dust);
+				
+				double x = startX + offset.x, z = startZ + offset.y;
+				drawCircle(world, x, startY, z, 1.5, 40, dust);
+				world.playSound(new Location(world, x, startY, z), Sound.BLOCK_END_PORTAL_FRAME_FILL, 0.2f, 0.95f);
 				
 				if (ref.currentOffset >= offsets.size()) {
 					task2.cancel();

@@ -8,16 +8,25 @@ FEATURE_FAILED: "%PREFIX%<red>Impossible de charger la feature <b>%s</b>."
 
 # Principale Commande & Messages
 MAIN_ARGUMENTS: "<green><b>KamoofSMP Version %s</b><br><br><gold>Arguments possibles:<br>- <yellow><click:run_command:'/kamoofsmp info'><b>info:</b></click> Les infos/crédits du plugin</yellow><br>- <yellow><click:run_command:'/kamoofsmp config'><b>config:</b></click> Configurer le plugin</yellow><br>- <yellow><click:run_command:'/kamoofsmp reload'><b>reload:</b></click> Recharger la configuration</yellow><br>- <yellow><click:run_command:'/kamoofsmp setup'><b>setup:</b></click> Définir le lieu du rituel</yellow><br>- <yellow><click:suggest_command:'/kamoofsmp givehead '><b>givehead:</b></click> Se donner n'importe quelle tête</yellow><br>- <yellow><click:run_command:'/kamoofsmp undisguise '><b>undisguise:</b></click> Retirer un déguisement</yellow>"
-CREDITS: "<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systèmes & Base par <click:open_url:'https://github.com/Ghosty920'><u>Ghosty</u></click></yellow><br>- <yellow>Support & MàJ par <click:open_url:'https://www.youtube.com/@Solmeyt'><u>Solmey</u></click></yellow><br>Contact: <#4444ee><u><click:open_url:'%s'>Discord</click>"
+CREDITS: "<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systèmes & MàJ par <click:open_url:'https://github.com/Ghosty920'><u>Ghosty</u></click></yellow><br>- <yellow>Support & Bugs & Structures par <click:open_url:'https://www.youtube.com/@Solmeyt'><u>Solmey</u></click></yellow><br>Contact: <#4444ee><u><click:open_url:'%s'>Discord</click>"
 HEAD_GIVEN: "%PREFIX%<gray>Vous vous êtes donné la tête de <yellow>%s</yellow>."
 CONFIG_RELOADED: "%PREFIX%<gray>Config rechargée. Si vous avez un problème, n'hésitez pas à relancer le serveur.<br><b><yellow><click:run_command:'/restart'>Relancer</click><white> | <gold><click:run_command:'/reload confirm'>Recharger</click>"
 UNDISGUISE_HOVER: "Clique pour <red>retirer</red> le déguisement de <yellow>%s"
 UNDISGUISED: "<green>Le déguisement de <yellow>%s</yellow> a été retiré avec succès."
 UNDISGUISE_NONE: "<br><red>Personne n'est déguisé."
-SETUP_GIVEN: "<br>Utilise le <red><b>Bloc de verrues du Nether <reset>pour définir l'emplacement des têtes.<br> <gray>- Il suffit de le poser au centre du rituel.</gray><br>Utilise le <yellow><b>Bâton de Blaze <reset>pour construire un rituel au sol.<br>Utilise le <aqua><b>Bâton de Breeze <reset>pour construire un rituel en sous-sol."
+SETUP_GIVEN: "<br>Utilise le <red><b>Bloc de verrues du Nether <reset>pour définir l'emplacement des têtes.<br> <gray>- Il suffit de le poser sur le socle au centre du rituel.</gray><br>Utilise le <aqua><b>Bâton de Breeze <reset>pour construire un rituel comme sur le serveur officiel.<br>Utilise le <yellow><b>Bâton de Blaze <reset>pour construire un rituel comme sur la présentation originelle, avec que la base."
 NEW_RITUAL_LOCATION: "%PREFIX%<gray>Nouveau lieu de Rituel: <#ff9999>%s <#99ff99>%s <#9999ff>%s"
 FIRST_JOIN: "<br><yellow>Merci d'avoir installé le KamoofSMP <red>❤<reset><br><click:run_command:'/kamoofsmp config'>Cliquez ici pour ouvrir la configuration</click><br><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel</click><br><click:suggest_command:'/givehead '><hover:show_text:'Rajoutez le pseudo d'un joueur au choix'>Cliquez ici pour vous donner une tête</hover></click><br>"
 RITUAL_NOT_PLACED: "%PREFIX%<red>Vous n'avez pas encore placé le Rituel !<br><yellow><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel.</click>"
+NOT_MINECRAFT_1_21: "<red>Vous devez avoir la version 1.21 (ou au dessus) de Minecraft pour continuer."
+
+# Rituel
+SETUP_ITEM_FIRST: "§c§lPositionner le Rituel"
+SETUP_ITEM_SECOND: "§b§lPlacer le Rituel §a§o(plaines)"
+SETUP_ITEM_THIRD: "§b§lPlacer le Rituel §c§o(nether)"
+SETUP_ITEM_FIRST_DESC: "§fUtilisé pour définir le lieu du<br>§frituel soi-même. Placez ce bloc<br>§fsur le socle central du rituel."
+SETUP_ITEM_SECOND_DESC: "§fMet la structure utilisée dans le<br>§fserveur officiel à l'endroit cliqué."
+SETUP_ITEM_THIRD_DESC: "§fMet la structure originalement<br>§fprésentée §o(base, style nether)<br>§fà l'endroit cliqué."
 
 # Auto Updater
 UPDATE_CHECKING: "%PREFIX%<gray>Vérification de la dernière version..."
@@ -46,7 +55,7 @@ CFG_DISGUISE_PLACEHEAD: "Têtes placeables|Le fait de pouvoir poser les têtes d
 CFG_DISGUISE_GIVEBACK: "Rendre la tête|Le fait de récupérer la tête de son déguisement quand on en change ou qu'on utilise la commande /undisguise."
 CFG_RESTAURE: "Restaure|Le fait de récupérer son déguisement en se reconnectant au serveur, après un redémarrage, etc."
 CFG_DROPHEAD_ENABLED: "Drop Head|Faire que la tête du joueur tombe à sa mort."
-CFG_DROPHEAD_STACKABLE: "Stackable|Rendre les têtes stackables. Fonctionne davantage avec §3Stackable §3Heads §rcréé par Solme, disponible sur Modrinth."
+CFG_DROPHEAD_STACKABLE: "Stackable|Rendre les têtes stackables. Fonctionne davantage avec §3Stackable §3Heads §rcréé par §eSolmey§r, disponible sur §aModrinth§r."
 
 CFG_TITLE_RITUAL: "Rituel"
 CFG_RITUAL_ENABLED: "Rituel|Activer ou désactiver la mécanique du Rituel et des deux Pactes."

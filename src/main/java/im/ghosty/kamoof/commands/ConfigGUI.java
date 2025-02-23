@@ -1,10 +1,10 @@
 package im.ghosty.kamoof.commands;
 
+import com.samjakob.spigui.buttons.SGButton;
+import com.samjakob.spigui.menu.SGMenu;
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.FeatureManager;
 import im.ghosty.kamoof.utils.*;
-import com.samjakob.spigui.buttons.SGButton;
-import com.samjakob.spigui.menu.SGMenu;
 import net.md_5.bungee.api.ChatMessageType;
 import net.wesjd.anvilgui.AnvilGUI;
 import org.bukkit.*;
@@ -23,26 +23,30 @@ import static im.ghosty.kamoof.KamoofPlugin.*;
  * Menu de Configuration en-jeu global du KamoofSMP.
  * <p>
  * Ouvrable avec <code>/kamoofsmp config</code> en jeu.
+ *
  * @since 1.4
  */
 public final class ConfigGUI {
+	
+	private static void fill(SGMenu menu, Material material) {
+		ItemStack item = new ItemStack(material);
+		try {
+			ItemMeta meta = item.getItemMeta();
+			meta.setHideTooltip(true);
+			item.setItemMeta(meta);
+		} catch (Throwable exc) {
+		}
+		SGButton glassPaneBtn = new SGButton(item);
+		for (int i = 0; i < menu.getPageSize(); i++)
+			menu.setButton(i, glassPaneBtn);
+	}
 	
 	/**
 	 * @return Le {@link SGMenu} principal
 	 */
 	public static SGMenu getMainMenu() {
 		SGMenu menu = KamoofPlugin.getSpiGUI().create("§a§l" + Lang.get("CFG_TITLE_MAIN"), 3);
-		
-		/* Remplissage */
-		{
-			ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-			ItemMeta meta = item.getItemMeta();
-			meta.setHideTooltip(true);
-			item.setItemMeta(meta);
-			SGButton glassPaneBtn = new SGButton(item);
-			for (int i = 0; i < 3 * 9; i++)
-				menu.setButton(i, glassPaneBtn);
-		}
+		fill(menu, Material.BLACK_STAINED_GLASS_PANE);
 		
 		ItemStack itemLang = new ItemStack(Material.DIAMOND);
 		ItemMeta metaLang = itemLang.getItemMeta();
@@ -71,7 +75,12 @@ public final class ConfigGUI {
 		metaRitual.addItemFlags(ItemFlag.values());
 		metaRitual.setDisplayName("§c§l" + Lang.get("CFG_TITLE_RITUAL"));
 		itemRitual.setItemMeta(metaRitual);
-		menu.setButton(14, new SGButton(itemRitual).withListener(event -> event.getWhoClicked().openInventory(getRitualMenu().getInventory())));
+		menu.setButton(14, new SGButton(itemRitual).withListener(event -> {
+			if (!CompatibilityUtils.isMinecraft1_21()) {
+				Lang.send(event.getWhoClicked(), "NOT_MINECRAFT_1_21");
+			}
+			event.getWhoClicked().openInventory(getRitualMenu().getInventory());
+		}));
 		
 		ItemStack itemOther = new ItemStack(Material.COAL);
 		ItemMeta metaOther = itemOther.getItemMeta();
@@ -90,16 +99,7 @@ public final class ConfigGUI {
 	 */
 	public static SGMenu getDisguiseMenu() {
 		SGMenu menu = KamoofPlugin.getSpiGUI().create("§a§l" + Lang.get("CFG_TITLE") + ": §f§l" + Lang.get("CFG_TITLE_DISGUISE"), 3);
-		/* Remplissage */
-		{
-			ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-			ItemMeta meta = item.getItemMeta();
-			meta.setHideTooltip(true);
-			item.setItemMeta(meta);
-			SGButton glassPaneBtn = new SGButton(item);
-			for (int i = 0; i < 3 * 9; i++)
-				menu.setButton(i, glassPaneBtn);
-		}
+		fill(menu, Material.BLACK_STAINED_GLASS_PANE);
 		
 		setButtonMainMenu(menu, 4);
 		
@@ -119,16 +119,7 @@ public final class ConfigGUI {
 	 */
 	public static SGMenu getRitualMenu() {
 		SGMenu menu = KamoofPlugin.getSpiGUI().create("§a§l" + Lang.get("CFG_TITLE") + ": §c§l" + Lang.get("CFG_TITLE_RITUAL"), 6);
-		/* Remplissage */
-		{
-			ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-			ItemMeta meta = item.getItemMeta();
-			meta.setHideTooltip(true);
-			item.setItemMeta(meta);
-			SGButton glassPaneBtn = new SGButton(item);
-			for (int i = 0; i < 6 * 9; i++)
-				menu.setButton(i, glassPaneBtn);
-		}
+		fill(menu, Material.BLACK_STAINED_GLASS_PANE);
 		
 		setButtonMainMenu(menu, 4);
 		
@@ -175,16 +166,7 @@ public final class ConfigGUI {
 	 */
 	public static SGMenu getOtherMenu() {
 		SGMenu menu = KamoofPlugin.getSpiGUI().create("§a§l" + Lang.get("CFG_TITLE") + ": §7§l" + Lang.get("CFG_TITLE_OTHER"), 3);
-		/* Remplissage */
-		{
-			ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-			ItemMeta meta = item.getItemMeta();
-			meta.setHideTooltip(true);
-			item.setItemMeta(meta);
-			SGButton glassPaneBtn = new SGButton(item);
-			for (int i = 0; i < 3 * 9; i++)
-				menu.setButton(i, glassPaneBtn);
-		}
+		fill(menu, Material.BLACK_STAINED_GLASS_PANE);
 		
 		setButtonMainMenu(menu, 4);
 		
@@ -200,6 +182,7 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour retourner au menu principal.
+	 *
 	 * @param menu Le menu à modifier
 	 * @param slot Le slot où placer l'item
 	 */
@@ -214,9 +197,10 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour les notes (menu principal).
+	 *
 	 * @param menu Le menu à modifier (menu principal)
 	 * @param slot Le slot où placer l'item
-	 * @param key La clé de langue
+	 * @param key  La clé de langue
 	 */
 	private static void setButtonNote(SGMenu menu, int slot, String key) {
 		ItemStack item = new ItemStack(Material.SPECTRAL_ARROW);
@@ -245,9 +229,10 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour un booléen.
-	 * @param menu Le menu à modifier
-	 * @param slot Le slot où placer l'item
-	 * @param path La clé du paramètre
+	 *
+	 * @param menu    Le menu à modifier
+	 * @param slot    Le slot où placer l'item
+	 * @param path    La clé du paramètre
 	 * @param strings Les valeurs de langue
 	 */
 	private static void setButtonBool(SGMenu menu, int slot, String path, Duo<String, ArrayList<String>> strings) {
@@ -269,12 +254,13 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour un nombre entier.
-	 * @param menu Le menu à modifier
-	 * @param slot Le slot où placer l'item
-	 * @param path La clé du paramètre
+	 *
+	 * @param menu     Le menu à modifier
+	 * @param slot     Le slot où placer l'item
+	 * @param path     La clé du paramètre
 	 * @param validate La modification (si nécéssaire) à faire de la nouvelle valeur
-	 * @param incr L'incrémentation de la valeur par clic
-	 * @param strings Les valeurs de langue
+	 * @param incr     L'incrémentation de la valeur par clic
+	 * @param strings  Les valeurs de langue
 	 */
 	private static void setButtonInt(SGMenu menu, int slot, String path, Function<Integer, Integer> validate, int incr, Duo<String, ArrayList<String>> strings) {
 		int value = config().getInt(path);
@@ -300,12 +286,13 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour un nombre décimal.
-	 * @param menu Le menu à modifier
-	 * @param slot Le slot où placer l'item
-	 * @param path La clé du paramètre
+	 *
+	 * @param menu     Le menu à modifier
+	 * @param slot     Le slot où placer l'item
+	 * @param path     La clé du paramètre
 	 * @param validate La modification (si nécéssaire) à faire de la nouvelle valeur
-	 * @param incr L'incrémentation de la valeur par clic
-	 * @param strings Les valeurs de langue
+	 * @param incr     L'incrémentation de la valeur par clic
+	 * @param strings  Les valeurs de langue
 	 */
 	private static void setButtonDouble(SGMenu menu, int slot, String path, Function<Double, Double> validate, double incr, Duo<String, ArrayList<String>> strings) {
 		double value = config().getDouble(path);
@@ -332,10 +319,11 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour une valeur parmi une liste.
-	 * @param menu Le menu à modifier
-	 * @param slot Le slot où placer l'item
-	 * @param path La clé du paramètre
-	 * @param values La liste des valeurs acceptées
+	 *
+	 * @param menu    Le menu à modifier
+	 * @param slot    Le slot où placer l'item
+	 * @param path    La clé du paramètre
+	 * @param values  La liste des valeurs acceptées
 	 * @param strings Les valeurs de langue
 	 */
 	private static void setButtonValues(SGMenu menu, int slot, String path, List<?> values, Duo<String, ArrayList<String>> strings) {
@@ -376,11 +364,12 @@ public final class ConfigGUI {
 	
 	/**
 	 * Ajoute un bouton pour un texte.
-	 * @param menu Le menu à modifier
-	 * @param slot Le slot où placer l'item
-	 * @param path La clé du paramètre
+	 *
+	 * @param menu      Le menu à modifier
+	 * @param slot      Le slot où placer l'item
+	 * @param path      La clé du paramètre
 	 * @param predicate La vérification de la valeur
-	 * @param strings Les valeurs de langue
+	 * @param strings   Les valeurs de langue
 	 */
 	private static void setButtonString(SGMenu menu, int slot, String path, Predicate<String> predicate, Duo<String, ArrayList<String>> strings) {
 		String value = config().getString(path);
@@ -411,18 +400,17 @@ public final class ConfigGUI {
 					player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BLOCK, SoundCategory.MASTER, 0.3f, 1.5f);
 					return List.of(AnvilGUI.ResponseAction.close());
 				})
-				.onClose(stateSnapshot -> {
-					stateSnapshot.getPlayer().openInventory(menu.getInventory());
-				})
+				.onClose(stateSnapshot -> stateSnapshot.getPlayer().openInventory(menu.getInventory()))
 				.open(player);
 		}));
 	}
 	
 	/**
 	 * Ajoute un bouton pour une couleur.
-	 * @param menu Le menu à modifier
-	 * @param slot Le slot où placer l'item
-	 * @param path La clé du paramètre
+	 *
+	 * @param menu    Le menu à modifier
+	 * @param slot    Le slot où placer l'item
+	 * @param path    La clé du paramètre
 	 * @param strings Les valeurs de langue
 	 */
 	private static void setButtonColor(SGMenu menu, int slot, String path, Duo<String, ArrayList<String>> strings) {
@@ -431,7 +419,7 @@ public final class ConfigGUI {
 		ItemStack item = new ItemStack(Material.CYAN_WOOL);
 		ItemMeta meta = item.getItemMeta();
 		meta.addItemFlags(ItemFlag.values());
-		meta.setDisplayName("§3§l" + strings.getA() + ": "+ColorResolver.toLegacy(color)+"§l" + value);
+		meta.setDisplayName("§3§l" + strings.getA() + ": " + ColorResolver.toLegacy(color) + "§l" + value);
 		meta.setLore(strings.getB());
 		item.setItemMeta(meta);
 		
@@ -456,9 +444,7 @@ public final class ConfigGUI {
 					player.playSound(player.getLocation(), Sound.ITEM_SHIELD_BLOCK, SoundCategory.MASTER, 0.3f, 1.5f);
 					return List.of(AnvilGUI.ResponseAction.close());
 				})
-				.onClose(stateSnapshot -> {
-					stateSnapshot.getPlayer().openInventory(menu.getInventory());
-				})
+				.onClose(stateSnapshot -> stateSnapshot.getPlayer().openInventory(menu.getInventory()))
 				.open(player);
 		}));
 	}
@@ -469,6 +455,7 @@ public final class ConfigGUI {
 	 * Est retourné en premier élément le nom du paramètre.
 	 * <p>
 	 * Est retourné en second élément la description du paramètre. Celle-ci est divisée en segments de plus ou moins 40 caractères.
+	 *
 	 * @param key La clé de langue
 	 */
 	private static Duo<String, ArrayList<String>> getStrings(String key) {

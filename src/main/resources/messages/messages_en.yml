@@ -8,16 +8,25 @@ FEATURE_FAILED: "%PREFIX%<red>Couldn't load the feature <b>%s</b>."
 
 # Main Command & Messages
 MAIN_ARGUMENTS: "<green><b>KamoofSMP Version %s</b><br><br><gold>Possible arguments:<br>- <yellow><click:run_command:'/kamoofsmp info'><b>info:</b></click> The plugin infos/credits</yellow><br>- <yellow><click:run_command:'/kamoofsmp config'><b>config:</b></click> Configure the plugin</yellow><br>- <yellow><click:run_command:'/kamoofsmp reload'><b>reload:</b></click> Reload the configuration</yellow><br>- <yellow><click:run_command:'/kamoofsmp setup'><b>setup:</b></click> Set the ritual location</yellow><br>- <yellow><click:suggest_command:'/kamoofsmp givehead '><b>givehead:</b></click> Give yourself any head</yellow><br>- <yellow><click:run_command:'/kamoofsmp undisguise '><b>undisguise:</b></click> Remove a disguise</yellow>"
-CREDITS: "<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systems & Base by <click:open_url:'https://github.com/Ghosty920'><u>Ghosty</u></click></yellow><br>- <yellow>Support & Updates by <click:open_url:'https://www.youtube.com/@Solmeyt'><u>Solmey</u></click></yellow><br>Contact: <#4444ee><u><click:open_url:'%s'>Discord</click>"
+CREDITS: "<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systems & Updates by <click:open_url:'https://github.com/Ghosty920'><u>Ghosty</u></click></yellow><br>- <yellow>Support & Bugs & Structures by <click:open_url:'https://www.youtube.com/@Solmeyt'><u>Solmey</u></click></yellow><br>Contact: <#4444ee><u><click:open_url:'%s'>Discord</click>"
 HEAD_GIVEN: "%PREFIX%<gray>Gave yourself the head of <yellow>%s</yellow>."
 CONFIG_RELOADED: "%PREFIX%<gray>Config reloaded. If an issue happens, feel free to restart your server.<br><b><yellow><click:run_command:'/restart'>Restart</click><white> | <gold><click:run_command:'/reload confirm'>Reload</click>"
 UNDISGUISE_HOVER: "Click to <red>remove</red> <yellow>%s</yellow>'s disguise"
 UNDISGUISED: "<yellow>%s<green>'s disguise was removed successfully."
 UNDISGUISE_NONE: "<br><red>Nobody is disguised."
-SETUP_GIVEN: "<br>Use the <red><b>Nether Wart Block <reset>to set the location of the heads.<br> <gray>- You just need to place it at the center.</gray><br>Use the <yellow><b>Blaze Rod <reset>to paste a ritual on the ground.<br>Use the <aqua><b>Breeze Rod <reset>to paste a ritual underground."
+SETUP_GIVEN: "<br>Use the <red><b>Nether Wart Block <reset>to set the location of the heads.<br> <gray>- You just need to place it on the base at the center of the ritual.</gray><br>Use the <aqua><b>Breeze Rod <reset>to paste a ritual like on the official server.<br>Use the <yellow><b>Blaze Rod <reset>to paste a ritual like in the original presentation, with only the base."
 NEW_RITUAL_LOCATION: "%PREFIX%<gray>New Ritual location: <#ff9999>%s <#99ff99>%s <#9999ff>%s"
 FIRST_JOIN: "<br><yellow>Thanks for installing the KamoofSMP <red>❤<reset><br><click:run_command:'/kamoofsmp config'>Click here to open the configuration</click><br><click:run_command:'/kamoofsmp setup'>Click here to place the ritual</click><br><click:suggest_command:'/givehead '><hover:show_text:'Add any player name'>Click here to give you any head</hover></click><br>"
 RITUAL_NOT_PLACED: "%PREFIX%<red>You still haven't placed the Ritual !<br><yellow><click:run_command:'/kamoofsmp setup'>Click here to place the ritual.</click>"
+NOT_MINECRAFT_1_21: "<red>You must have Minecraft version 1.21 (or above) to continue."
+
+# Ritual
+SETUP_ITEM_FIRST: "§c§lRelocate Ritual"
+SETUP_ITEM_SECOND: "§b§lPlace Ritual §a§o(plains)"
+SETUP_ITEM_THIRD: "§b§lPlace Ritual §c§o(nether)"
+SETUP_ITEM_FIRST_DESC: "§fUsed to set the location of the<br>§fritual yourself. Place this block<br>§fon the central base of the ritual."
+SETUP_ITEM_SECOND_DESC: "§fPaste the structure used on the official server at the place clicked."
+SETUP_ITEM_THIRD_DESC: "§fPaste the structure presented at<br>§fthe beggining §o(basics, nether<br>§f§ostyle) at the place clicked."
 
 # Auto Updater
 UPDATE_CHECKING: "%PREFIX%<gray>Checking for the last version available..."
@@ -46,7 +55,7 @@ CFG_DISGUISE_PLACEHEAD: "Placeable Heads|The ability to place player heads."
 CFG_DISGUISE_GIVEBACK: "Give Back Head|The ability to recover your disguise head when changing it or using the /undisguise command."
 CFG_RESTAURE: "Restore|The ability to recover your disguise upon reconnecting to the server, after a restart, etc."
 CFG_DROPHEAD_ENABLED: "Drop Head|Make the player's head drop upon death."
-CFG_DROPHEAD_STACKABLE: "Stackable|Make heads stackable. Works better with §3Stackable §3Heads §rcreated by Solme, available on Modrinth."
+CFG_DROPHEAD_STACKABLE: "Stackable|Make heads stackable. Works better with §3Stackable §3Heads §rcreated by §eSolmey§r, available on §aModrinth§r."
 
 CFG_TITLE_RITUAL: "Ritual"
 CFG_RITUAL_ENABLED: "Ritual|Enable or disable the Ritual mechanic and the two Pacts."

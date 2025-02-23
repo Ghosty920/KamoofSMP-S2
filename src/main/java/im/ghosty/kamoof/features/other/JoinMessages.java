@@ -2,6 +2,7 @@ package im.ghosty.kamoof.features.other;
 
 import im.ghosty.kamoof.features.Feature;
 import im.ghosty.kamoof.features.ritual.RitualHandler;
+import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.Lang;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,7 +16,7 @@ import static im.ghosty.kamoof.KamoofPlugin.*;
  */
 public final class JoinMessages extends Feature {
 	
-	public final boolean ritual = config().getBoolean("ritual.enabled");
+	public final boolean ritual = CompatibilityUtils.isMinecraft1_21() && config().getBoolean("ritual.enabled");
 	public boolean done = data().getBoolean("firstJoinMsg", false);
 	
 	@Override
@@ -25,6 +26,7 @@ public final class JoinMessages extends Feature {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
+		System.out.println(event);
 		Player player = event.getPlayer();
 		if (!player.hasPermission("kamoofsmp.admin") && !player.isOp())
 			return;
