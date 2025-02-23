@@ -107,8 +107,8 @@ public final class RitualSetup extends Feature {
 				}
 				// 27 / 11 / 27
 				SLocation loc = new SLocation(event.getClickedBlock().getLocation());
-				structure.place(loc.plus(-13, -1, -13), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
-				RitualHandler.setRitual(loc.plus(0, 1, 0).toLocation(), player);
+				structure.place(loc.plus(-13, 0, -13), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
+				RitualHandler.setRitual(loc.plus(0, 2, 0).toLocation(), player);
 			}
 			case BLAZE_ROD -> {
 				if (structureBase == null) {
