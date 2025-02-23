@@ -54,7 +54,7 @@ Si vous avez un problème avec l'API, venez sur mon discord.
 
 ## Contribuer
 
-Merci de **Reformater** votre code avec de mettre toute contribution.
+Merci de **Reformater** votre code avant de mettre toute contribution.
 
 Une fois tout terminé et **testé**, [ouvrez un pull request](https://github.com/Ghosty920/KamoofSMP-S2/compare).
 
