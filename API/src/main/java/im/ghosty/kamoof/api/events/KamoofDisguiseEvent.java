@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * {@link Event} {@link Cancellable} appelé quand un joueur se déguise en un autre.
  *
- * @since 1.4.2
+ * @since 1.5
  */
 @RequiredArgsConstructor
 @Getter

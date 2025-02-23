@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * {@link Event} appelé quand un joueur retire son déguisement.
  *
- * @since 1.4.2
+ * @since 1.5
  */
 @RequiredArgsConstructor
 @Getter
