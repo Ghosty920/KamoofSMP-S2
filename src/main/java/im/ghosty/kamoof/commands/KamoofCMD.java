@@ -3,8 +3,7 @@ package im.ghosty.kamoof.commands;
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.api.KamoofSMP;
 import im.ghosty.kamoof.features.ritual.*;
-import im.ghosty.kamoof.utils.Lang;
-import im.ghosty.kamoof.utils.Message;
+import im.ghosty.kamoof.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
@@ -93,6 +92,10 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "setup": {
+				if(!CompatibilityUtils.isMinecraft1_21()) {
+					Lang.send(player, "NOT_MINECRAFT_1_21");
+					return true;
+				}
 				if (!config().getBoolean("ritual.enabled")) {
 					Lang.send(player, "RITUAL_DISABLED");
 					return true;
