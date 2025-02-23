@@ -11,9 +11,10 @@
 </div>
 <br>
 
-Plugin *non officiel, mais identique/meilleur* recréé à partir des vidéos et lives du KamoofSMP Saison 2, pour la version 1.21 de Minecraft.
+Plugin *non officiel, mais identique/meilleur* recréé à partir des vidéos et lives du KamoofSMP Saison 2, pour les version 1.20+ de Minecraft.
 
-Lorsqu'un joueur meurt, il fait tomber sa tête, qui, quand utilisée permet au joueur de voler son apparence et son nom temporairement. En plus de ça, avec 9 têtes il est possible de faire un rituel donnant accès à 2 pactes ayant leur avantage et désavantage opposés.
+Lorsqu'un joueur meurt, il fait tomber sa tête, qui, quand utilisée permet au joueur de voler son apparence et son nom temporairement. En plus de ça, avec 9 têtes il est possible de faire un rituel donnant accès à 2 pactes ayant leur avantage et désavantage opposés (1.21+).
+Une autre fonctionnalité majeure de ce plugin est la limite de masses fabricables et l'impossibilité d'en mettre dans un enderchest.
 
 
 ## Installation
