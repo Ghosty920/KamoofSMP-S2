@@ -19,7 +19,7 @@ Une autre fonctionnalité majeure de ce plugin est la limite de masses fabricabl
 
 ## Installation
 
-1. Ayez un serveur [Paper](https://papermc.io/downloads/paper) (Spigot ou n'importe quel fork)
+1. Ayez un serveur [Paper](https://papermc.io/downloads/paper) (ou n'importe quel fork, de préférence marqué comme compatible)
 2. [Téléchargez le fichier .jar de la dernière version disponible](https://github.com/Ghosty920/KamoofSMP-S2/releases/latest)
 
 <img src="assets/images/install_download.png" alt="Download" style="max-height: 400px">
