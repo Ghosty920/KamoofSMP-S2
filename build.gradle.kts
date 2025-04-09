@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.5.0"
+version = "1.5.1"
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
     implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
 
-    implementation("com.github.Ghosty920.NickAPI:Main:75fe1ec307")
+    implementation("com.github.Ghosty920.NickAPI:Main:ee111c105f")
     implementation("com.samjakob:SpiGUI:v1.3.1")
     implementation("net.wesjd:anvilgui:1.10.4-SNAPSHOT")
 
