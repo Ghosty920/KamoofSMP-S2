@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.5.1"
+version = "1.5.2"
 
 repositories {
     mavenCentral()
@@ -16,20 +16,20 @@ repositories {
 
 dependencies {
     implementation(project(":API"))
-    compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.6-R0.1-SNAPSHOT")
     //compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
 
-    implementation("net.kyori:adventure-api:4.17.0")
-    implementation("net.kyori:adventure-text-minimessage:4.17.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.17.0")
-    implementation("net.kyori:adventure-platform-bungeecord:4.3.4")
+    implementation("net.kyori:adventure-api:4.23.0")
+    implementation("net.kyori:adventure-text-minimessage:4.23.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.23.0")
+    implementation("net.kyori:adventure-platform-bungeecord:4.4.0")
 
-    implementation("com.github.Ghosty920.NickAPI:Main:ee111c105f")
-    implementation("com.samjakob:SpiGUI:v1.3.1")
-    implementation("net.wesjd:anvilgui:1.10.4-SNAPSHOT")
+    implementation("com.github.Ghosty920.NickAPI:Main:38acdca3e0")
+    implementation("com.samjakob:SpiGUI:v1.4.1")
+    implementation("net.wesjd:anvilgui:1.10.6-SNAPSHOT")
 
-    compileOnly("org.projectlombok:lombok:1.18.36")
-    annotationProcessor("org.projectlombok:lombok:1.18.36")
+    compileOnly("org.projectlombok:lombok:1.18.38")
+    annotationProcessor("org.projectlombok:lombok:1.18.38")
 }
 
 java {
