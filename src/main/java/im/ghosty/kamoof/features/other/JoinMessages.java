@@ -26,7 +26,6 @@ public final class JoinMessages extends Feature {
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		System.out.println(event);
 		Player player = event.getPlayer();
 		if (!player.hasPermission("kamoofsmp.admin") && !player.isOp())
 			return;

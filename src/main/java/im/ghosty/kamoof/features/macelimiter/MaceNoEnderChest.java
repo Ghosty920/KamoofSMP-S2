@@ -4,7 +4,7 @@ import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.Feature;
 import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.InventoryUtils;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -29,14 +29,14 @@ public final class MaceNoEnderChest extends Feature {
 		if (item == null || inv == null)
 			return;
 		
-		/*Bukkit.broadcastMessage(String.format(
+		Bukkit.broadcastMessage(String.format(
 			"§e§l%s §c§l%s\n"
 				+ "§a§linv=§f%s §b§linvClicked=§f%s\n"
 				+ "§b§lcursor=§f%s §a§lcurrent=§f%s\n",
 			event.getAction(), event.getEventName(),
 			event.getInventory().getType(), event.getClickedInventory().getType(),
 			event.getCursor().getType(), event.getCurrentItem().getType()
-		));*/
+		));
 		
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
 			if (action == InventoryAction.HOTBAR_SWAP) {
