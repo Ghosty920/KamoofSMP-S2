@@ -26,7 +26,7 @@ dependencies {
 
     implementation("com.github.Ghosty920.NickAPI:Main:38acdca3e0")
     implementation("com.samjakob:SpiGUI:v1.4.1")
-    implementation("net.wesjd:anvilgui:1.10.6-SNAPSHOT")
+    implementation("net.wesjd:anvilgui:1.10.8-SNAPSHOT")
 
     compileOnly("org.projectlombok:lombok:1.18.38")
     annotationProcessor("org.projectlombok:lombok:1.18.38")
