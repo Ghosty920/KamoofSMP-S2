@@ -5,18 +5,19 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.5.2"
+version = "1.5.3"
 
 repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.codemc.io/repository/maven-snapshots/")
+    maven("https://repo.codemc.io/repository/ghosty920/")
     maven("https://jitpack.io")
 }
 
 dependencies {
     implementation(project(":API"))
-    compileOnly("org.spigotmc:spigot-api:1.21.6-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.7-R0.1-SNAPSHOT")
     //compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-api:4.23.0")
@@ -24,7 +25,7 @@ dependencies {
     implementation("net.kyori:adventure-text-serializer-legacy:4.23.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.4.0")
 
-    implementation("com.github.Ghosty920.NickAPI:Main:38acdca3e0")
+    implementation("xyz.haoshoku.nick:Main:v1.0.4")
     implementation("com.samjakob:SpiGUI:v1.4.1")
     implementation("net.wesjd:anvilgui:1.10.8-SNAPSHOT")
 
@@ -49,7 +50,7 @@ tasks {
         archiveFileName.set("${project.name}-${project.version}.jar")
         minimize {
             exclude(project(":API"))
-            exclude(dependency("com.github.Ghosty920.NickAPI:Main:.*"))
+            exclude(dependency("xyz.haoshoku.nick:Main:.*"))
             exclude(dependency("net.wesjd:anvilgui:.*"))
         }
         relocate("com.samjakob.spigui", "im.ghosty.kamoof.deps.com.samjakob.spigui")
