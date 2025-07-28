@@ -46,7 +46,8 @@ public final class MaceNoEnderChest extends Feature {
 				return;
 			}
 			
-			if(action == CompatibilityUtils.getPaperPlaceIntoBundleAction()) {
+			if(action == CompatibilityUtils.getPaperPlaceIntoBundleAction()
+			    || action == CompatibilityUtils.getPaperPlaceFromBundleAction()) {
 				if(InventoryUtils.hasItem(item, 1, Material.MACE))
 					cancel(event);
 				return;

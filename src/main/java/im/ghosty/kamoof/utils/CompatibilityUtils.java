@@ -16,7 +16,7 @@ public final class CompatibilityUtils {
 	private static final boolean DO_BUNDLES_EXIST = Material.getMaterial("BUNDLE") != null;
 	private static Attribute MAX_HEALTH_ATTRIBUTE;
 	private static AttributeModifier MAX_HEALTH_ATTRIBUTE_MODIFIER;
-	private static InventoryAction PAPER_PLACE_INTO_BUNDLE_ACTION;
+	private static InventoryAction PAPER_PLACE_INTO_BUNDLE_ACTION, PAPER_PLACE_FROM_BUNDLE_ACTION;
 	
 	public static boolean isMinecraft1_21() {
 		// 1.21
@@ -67,6 +67,20 @@ public final class CompatibilityUtils {
 			PAPER_PLACE_INTO_BUNDLE_ACTION = InventoryAction.UNKNOWN;
 		}
 		return PAPER_PLACE_INTO_BUNDLE_ACTION;
+	}
+
+	public static InventoryAction getPaperPlaceFromBundleAction() {
+		if (PAPER_PLACE_FROM_BUNDLE_ACTION != null)
+		    return PAPER_PLACE_FROM_BUNDLE_ACTION;
+
+		try {
+			// Ajout de Paper
+			PAPER_PLACE_FROM_BUNDLE_ACTION = InventoryAction.valueOf("PLACE_FROM_BUNDLE");
+		} catch (Throwable exc) {
+			// Spigot utilise autre chose, mais ici on s'en fout un peu
+			PAPER_PLACE_FROM_BUNDLE_ACTION = InventoryAction.UNKNOWN;
+		}
+		return PAPER_PLACE_FROM_BUNDLE_ACTION;
 	}
 	
 }
