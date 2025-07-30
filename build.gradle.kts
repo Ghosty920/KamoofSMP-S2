@@ -23,7 +23,7 @@ dependencies {
     implementation("net.kyori:adventure-api:4.23.0")
     implementation("net.kyori:adventure-text-minimessage:4.23.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.23.0")
-    implementation("net.kyori:adventure-platform-bungeecord:4.4.0")
+    implementation("net.kyori:adventure-platform-bungeecord:4.4.1")
 
     implementation("xyz.haoshoku.nick:Main:v1.0.5b")
     implementation("com.samjakob:SpiGUI:v1.4.1")
