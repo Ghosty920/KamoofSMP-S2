@@ -1,8 +1,8 @@
 package im.ghosty.kamoof.features.other;
 
-import com.google.gson.*;
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.Feature;
+import com.google.gson.*;
 import im.ghosty.kamoof.utils.*;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
@@ -34,10 +34,6 @@ public final class UpdateChecker extends Feature {
 	private BaseComponent[] message;
 	private BukkitTask task;
 	
-	public UpdateChecker() {
-		currentVersion = KamoofPlugin.getInstance().getDescription().getVersion().trim().toLowerCase();
-	}
-	
 	@Override
 	public boolean isEnabled() {
 		return config().getBoolean("autoupdate.fetch");
@@ -46,7 +42,7 @@ public final class UpdateChecker extends Feature {
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		
+
 		final boolean[] shouldRestart = {true};
 		task = Bukkit.getScheduler().runTaskTimerAsynchronously(KamoofPlugin.getInstance(), () -> {
 			boolean download = config().getBoolean("autoupdate.download");
@@ -63,6 +59,10 @@ public final class UpdateChecker extends Feature {
 		super.onDisable();
 		task.cancel();
 		task = null;
+	}
+	
+	public UpdateChecker() {
+		currentVersion = KamoofPlugin.getInstance().getDescription().getVersion().trim().toLowerCase();
 	}
 	
 	public boolean checkForUpdate() {
@@ -120,7 +120,7 @@ public final class UpdateChecker extends Feature {
 				}});
 			
 			URL location = KamoofPlugin.class.getProtectionDomain().getCodeSource().getLocation();
-			if (location.getPath().contains(".paper-remapped")) {
+			if(location.getPath().contains(".paper-remapped")) {
 				String[] split = location.getPath().split("/");
 				location = new File(new File(location.toURI()).getParentFile().getParent(), split[split.length - 1]).toURI().toURL();
 			}

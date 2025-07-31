@@ -14,6 +14,7 @@ import xyz.haoshoku.nick.NickAPI;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.*;
 
 import static im.ghosty.kamoof.KamoofPlugin.config;
 
@@ -91,7 +92,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "setup": {
-				if (!CompatibilityUtils.isMinecraft1_21()) {
+				if(!CompatibilityUtils.isMinecraft1_21()) {
 					Lang.send(player, "NOT_MINECRAFT_1_21");
 					return true;
 				}

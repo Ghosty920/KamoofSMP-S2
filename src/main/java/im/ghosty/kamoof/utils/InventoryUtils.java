@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Range;
 
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static im.ghosty.kamoof.utils.CompatibilityUtils.doBundlesExist;

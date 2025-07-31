@@ -4,7 +4,7 @@ import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.features.Feature;
 import im.ghosty.kamoof.utils.CompatibilityUtils;
 import im.ghosty.kamoof.utils.InventoryUtils;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -46,12 +46,14 @@ public final class MaceNoEnderChest extends Feature {
 				return;
 			}
 			
-			if (action == CompatibilityUtils.getPaperPlaceIntoBundleAction()
-				|| action == CompatibilityUtils.getPaperPlaceFromBundleAction()) {
-				if (InventoryUtils.hasItem(item, 1, Material.MACE))
+			if(action == CompatibilityUtils.getPaperPlaceIntoBundleAction()
+			    || action == CompatibilityUtils.getPaperPlaceFromBundleAction()) {
+				if(InventoryUtils.hasItem(item, 1, Material.MACE))
 					cancel(event);
 				return;
-			} else if (action != InventoryAction.PLACE_ALL
+			}
+			
+			else if (action != InventoryAction.PLACE_ALL
 				&& action != InventoryAction.PLACE_SOME
 				&& action != InventoryAction.PLACE_ONE
 				&& action != InventoryAction.SWAP_WITH_CURSOR)

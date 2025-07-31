@@ -56,7 +56,7 @@ public final class CompatibilityUtils {
 	}
 	
 	public static InventoryAction getPaperPlaceIntoBundleAction() {
-		if (PAPER_PLACE_INTO_BUNDLE_ACTION != null)
+		if(PAPER_PLACE_INTO_BUNDLE_ACTION != null)
 			return PAPER_PLACE_INTO_BUNDLE_ACTION;
 		
 		try {
@@ -68,11 +68,11 @@ public final class CompatibilityUtils {
 		}
 		return PAPER_PLACE_INTO_BUNDLE_ACTION;
 	}
-	
+
 	public static InventoryAction getPaperPlaceFromBundleAction() {
 		if (PAPER_PLACE_FROM_BUNDLE_ACTION != null)
-			return PAPER_PLACE_FROM_BUNDLE_ACTION;
-		
+		    return PAPER_PLACE_FROM_BUNDLE_ACTION;
+
 		try {
 			// Ajout de Paper
 			PAPER_PLACE_FROM_BUNDLE_ACTION = InventoryAction.valueOf("PLACE_FROM_BUNDLE");

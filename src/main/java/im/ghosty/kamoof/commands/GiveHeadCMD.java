@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 /**
  * La commande <code>/givehead</code> (ou accessoirement <code>/kamoofsmp givehead</code>), permettant de se donner la tête de n'importe quel joueur.
- *
  * @since 1.0
  */
 public final class GiveHeadCMD implements CommandExecutor, TabCompleter {
@@ -23,9 +22,8 @@ public final class GiveHeadCMD implements CommandExecutor, TabCompleter {
 	
 	/**
 	 * Éxecute la commande pour le joueur donné.
-	 *
 	 * @param player La cible
-	 * @param user   Le nom de la tête
+	 * @param user Le nom de la tête
 	 */
 	public static void execute(Player player, String user) {
 		if (!usernamePattern.matcher(user).matches()) {

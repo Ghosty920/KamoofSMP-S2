@@ -15,7 +15,7 @@ package im.ghosty.kamoof.utils;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
@@ -143,5 +143,4 @@ public final class HTTPUtils {
 	 */
 	public record RawResponse(int status, byte[] response) {
 	}
-	
 }

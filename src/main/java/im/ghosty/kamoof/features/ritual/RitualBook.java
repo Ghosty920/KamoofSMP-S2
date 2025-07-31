@@ -11,11 +11,12 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.*;
+
 import static im.ghosty.kamoof.KamoofPlugin.config;
 
 /**
  * Classe qui gère le livre des Pactes du Rituel.
- *
  * @since 1.0
  */
 @UtilityClass

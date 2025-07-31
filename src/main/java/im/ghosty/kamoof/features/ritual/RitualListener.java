@@ -27,7 +27,6 @@ import static im.ghosty.kamoof.KamoofPlugin.config;
 
 /**
  * {@link Feature} pour gérer les actions du rituel.
- *
  * @since 1.0
  */
 public final class RitualListener extends Feature {
@@ -49,7 +48,7 @@ public final class RitualListener extends Feature {
 	public void onPlaceHead(PlayerArmorStandManipulateEvent event) {
 		Player player = event.getPlayer();
 		ArmorStand entity = event.getRightClicked();
-		if (entity.getPersistentDataContainer().getOrDefault(RitualHandler.key, PersistentDataType.BOOLEAN, false)) {
+		if(entity.getPersistentDataContainer().getOrDefault(RitualHandler.key, PersistentDataType.BOOLEAN, false)) {
 			event.setCancelled(true);
 			return;
 		}
@@ -112,7 +111,7 @@ public final class RitualListener extends Feature {
 		
 		KamoofRitualHeadEvent headEvent = new KamoofRitualHeadEvent(player, event.getPlayerItem(), entity, canRunRitual);
 		Bukkit.getPluginManager().callEvent(headEvent);
-		if (headEvent.isCancelled()) {
+		if(headEvent.isCancelled()) {
 			event.setCancelled(true);
 			return;
 		}
@@ -151,7 +150,7 @@ public final class RitualListener extends Feature {
 	
 	@EventHandler
 	public void onTotem(EntityResurrectEvent event) {
-		if (!(event.getEntity() instanceof Player player))
+		if(!(event.getEntity() instanceof Player player))
 			return;
 		if (!player.isOnline())
 			return;

@@ -5,7 +5,6 @@ import lombok.Data;
 
 /**
  * Classe utilitaire pour stocker 2 valeurs.
- *
  * @param <A> Premier type
  * @param <B> Second type
  */

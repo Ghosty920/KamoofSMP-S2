@@ -47,22 +47,22 @@ public final class Message {
 	}
 	
 	public static void send(CommandSender sender, String path, Map<String, Object> placeholders) {
-		if (sender == null)
+		if(sender == null)
 			return;
-		if (sender instanceof OfflinePlayer player && !player.isOnline())
+		if(sender instanceof OfflinePlayer player && !player.isOnline())
 			return;
 		String msg = KamoofPlugin.config().getString(path);
-		if (msg.isBlank())
+		if(msg.isBlank())
 			return;
 		sender.spigot().sendMessage(toBaseComponent(Placeholder.apply(msg, placeholders)));
 	}
 	
 	public static void send(CommandSender sender, String message) {
-		if (sender == null)
+		if(sender == null)
 			return;
-		if (sender instanceof OfflinePlayer player && !player.isOnline())
+		if(sender instanceof OfflinePlayer player && !player.isOnline())
 			return;
-		if (message == null || message.isBlank())
+		if(message == null || message.isBlank())
 			return;
 		sender.spigot().sendMessage(toBaseComponent(message));
 	}

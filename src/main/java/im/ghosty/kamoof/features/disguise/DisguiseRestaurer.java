@@ -7,22 +7,26 @@ import im.ghosty.kamoof.utils.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
+import org.bukkit.event.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import xyz.haoshoku.nick.NickAPI;
 
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static im.ghosty.kamoof.KamoofPlugin.*;
 
 /**
  * La Feature
- *
  * @since 1.0
  */
 public final class DisguiseRestaurer extends Feature {
+	
+	@Override
+	public boolean isEnabled() {
+		return config().getBoolean("disguise.restaure");
+	}
 	
 	public static String get(UUID uuid) {
 		return data().getString("restaurer." + uuid);
@@ -40,23 +44,18 @@ public final class DisguiseRestaurer extends Feature {
 		data().getConfigurationSection("restaurer").getValues(false).forEach((uuid, disguise) -> {
 			try {
 				OfflinePlayer player = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
-				if (player.getName() == null)
+				if(player.getName() == null)
 					throw new RuntimeException();
 				map.put(player, (String) disguise);
-			} catch (Throwable exc) {
-				data().set("restaurer." + uuid, null);
+			} catch(Throwable exc) {
+				data().set("restaurer."+uuid, null);
 				shouldSaveData.set(true);
 			}
 		});
 		
-		if (shouldSaveData.get())
+		if(shouldSaveData.get())
 			saveData();
 		return map;
-	}
-	
-	@Override
-	public boolean isEnabled() {
-		return config().getBoolean("disguise.restaure");
 	}
 	
 	@Override
@@ -80,7 +79,7 @@ public final class DisguiseRestaurer extends Feature {
 	@Override
 	public void onStop() {
 		super.onStop();
-		if (!isEnabled()) {
+		if(!isEnabled()) {
 			data().set("restaurer", null);
 			saveData();
 			return;
@@ -124,5 +123,4 @@ public final class DisguiseRestaurer extends Feature {
 		} catch (Throwable ignored) {
 		}
 	}
-	
 }

@@ -1,6 +1,5 @@
 package im.ghosty.kamoof;
 
-import com.samjakob.spigui.SpiGUI;
 import im.ghosty.kamoof.commands.*;
 import im.ghosty.kamoof.features.FeatureManager;
 import im.ghosty.kamoof.features.disguise.DisguiseListener;
@@ -8,10 +7,10 @@ import im.ghosty.kamoof.features.disguise.DisguiseRestaurer;
 import im.ghosty.kamoof.features.drophead.HeadDropper;
 import im.ghosty.kamoof.features.macelimiter.MaceLimiter;
 import im.ghosty.kamoof.features.macelimiter.MaceNoEnderChest;
-import im.ghosty.kamoof.features.other.JoinMessages;
-import im.ghosty.kamoof.features.other.UpdateChecker;
+import im.ghosty.kamoof.features.other.*;
 import im.ghosty.kamoof.features.ritual.RitualListener;
 import im.ghosty.kamoof.features.ritual.RitualSetup;
+import com.samjakob.spigui.SpiGUI;
 import im.ghosty.kamoof.utils.*;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -48,7 +47,7 @@ public final class KamoofPlugin extends JavaPlugin {
 	public static YamlConfiguration data() {
 		return data;
 	}
-	
+
 	@SneakyThrows
 	public static void saveData() {
 		if (data == null)

@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * {@link Event} {@link Cancellable} appellé quand un joueur place une tête sur un socle du rituel. (voir RitualListener#onPlaceHead)
- *
  * @since 1.4
  */
 @RequiredArgsConstructor

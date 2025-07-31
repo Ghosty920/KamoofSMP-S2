@@ -25,8 +25,8 @@ public final class KamoofAPI extends KamoofSMP {
 	
 	@Override
 	public void disguise(OfflinePlayer player, String name) {
-		if (player instanceof Player p) {
-			if (name != null)
+		if(player instanceof Player p) {
+			if(name != null)
 				DisguiseManager.disguise(p, name);
 			else
 				DisguiseManager.undisguise(p);
@@ -37,8 +37,8 @@ public final class KamoofAPI extends KamoofSMP {
 	
 	@Override
 	public String getDisguise(OfflinePlayer player) {
-		if (player instanceof Player p) {
-			if (!NickAPI.isNicked(p))
+		if(player instanceof Player p) {
+			if(!NickAPI.isNicked(p))
 				return null;
 			return NickAPI.getName(p);
 		} else {
