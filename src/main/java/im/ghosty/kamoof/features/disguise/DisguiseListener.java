@@ -119,15 +119,4 @@ public final class DisguiseListener extends Feature {
 		});
 	}
 	
-	/**
-	 * Fix du fix "You logged in from another location" proposé par NickAPI v7, qui dérange particulièrement...
-	 *
-	 * @since 1.0
-	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onJoin(PlayerJoinEvent event) {
-		if (event.getJoinMessage() != null)
-			event.setJoinMessage(event.getJoinMessage().replaceFirst("\\(formerly known as [A-Za-z0-9_]{1,16}\\) ", ""));
-	}
-	
 }

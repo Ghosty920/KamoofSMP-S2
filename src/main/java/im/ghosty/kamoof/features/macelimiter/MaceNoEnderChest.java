@@ -29,14 +29,14 @@ public final class MaceNoEnderChest extends Feature {
 		if (item == null || inv == null)
 			return;
 		
-		Bukkit.broadcastMessage(String.format(
+		/*Bukkit.broadcastMessage(String.format(
 			"§e§l%s §c§l%s\n"
 				+ "§a§linv=§f%s §b§linvClicked=§f%s\n"
 				+ "§b§lcursor=§f%s §a§lcurrent=§f%s\n",
 			event.getAction(), event.getEventName(),
 			event.getInventory().getType(), event.getClickedInventory().getType(),
 			event.getCursor().getType(), event.getCurrentItem().getType()
-		));
+		));*/
 		
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
 			if (action == InventoryAction.HOTBAR_SWAP) {
