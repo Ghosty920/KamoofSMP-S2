@@ -10,12 +10,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.joml.Vector2d;
 
-import java.util.*;
-
 import static im.ghosty.kamoof.KamoofPlugin.*;
 
 /**
  * Classe qui gère entièrement le Rituel et les Pactes.
+ *
  * @since 1.0
  */
 public final class RitualHandler {
@@ -144,7 +143,7 @@ public final class RitualHandler {
 			}
 			case "2" -> {
 				int level = KamoofPlugin.config().getInt("ritual.pactes.forgotten.weakness") - 1;
-				if(level >= 0)
+				if (level >= 0)
 					player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, -1, level));
 				Message.send(player, "messages.chose-forgotten", Map.of("player", KamoofSMP.getInstance().getName(player)));
 			}

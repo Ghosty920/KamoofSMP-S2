@@ -6,8 +6,9 @@ import org.bukkit.plugin.Plugin;
  * Exception quand l'instance du KamoofSMP est appellé mais n'est pas encore chargée.
  * <p>
  * Ceci peut-être dû à l'absence de la dépendance dans le <code>plugin.yml</code>, ou à un appel de {@link KamoofSMP#getInstance} avant le {@link Plugin#onEnable}
- * @since 1.4
+ *
  * @author Ghosty
+ * @since 1.4
  */
 public final class KamoofNotInitializedException extends RuntimeException {
 	

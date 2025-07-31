@@ -7,6 +7,7 @@ import xyz.haoshoku.nick.NickAPI;
 
 /**
  * Classe utilitaire pour déguiser un joueur avec n'importe quel pseudo à l'aide de {@link NickAPI}.
+ *
  * @since 1.0
  */
 @UtilityClass
@@ -14,8 +15,9 @@ public final class DisguiseManager {
 	
 	/**
 	 * Déguiser le {@link Player} donné avec le pseudo <code>name</code>.
+	 *
 	 * @param player La cible
-	 * @param name Le déguisement
+	 * @param name   Le déguisement
 	 */
 	public static void disguise(Player player, String name) {
 		player.setDisplayName(player.getDisplayName().replace(player.getName(), name));
@@ -29,6 +31,7 @@ public final class DisguiseManager {
 	
 	/**
 	 * Retirer le déguisement du {@link Player} donné.
+	 *
 	 * @param player La cible
 	 */
 	public static void undisguise(Player player) {

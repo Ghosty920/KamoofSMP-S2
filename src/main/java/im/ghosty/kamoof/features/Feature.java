@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 
 /**
  * Une Feature est un composant essentiel du KamoofSMP. Ils sont disponibles dans les différents sous-packages.
+ *
  * @since 1.4
  */
 public abstract class Feature implements Listener {

@@ -12,6 +12,7 @@ import static im.ghosty.kamoof.KamoofPlugin.*;
 
 /**
  * {@link Feature} pour rappeller au joueur de placer le rituel, et guide de départ
+ *
  * @since 1.0
  */
 public final class JoinMessages extends Feature {

@@ -20,13 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.function.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
@@ -360,7 +356,7 @@ public final class Metrics {
 			}
 			StringBuilder builder = new StringBuilder();
 			try (BufferedReader bufferedReader =
-					 new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+				     new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 				String line;
 				while ((line = bufferedReader.readLine()) != null) {
 					builder.append(line);
@@ -392,6 +388,7 @@ public final class Metrics {
 				}
 			}
 		}
+		
 	}
 	
 	public static class AdvancedBarChart extends CustomChart {
@@ -432,6 +429,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
 		}
+		
 	}
 	
 	public abstract static class CustomChart {
@@ -466,6 +464,7 @@ public final class Metrics {
 		}
 		
 		protected abstract JsonObjectBuilder.JsonObject getChartData() throws Exception;
+		
 	}
 	
 	public static class DrilldownPie extends CustomChart {
@@ -510,6 +509,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
 		}
+		
 	}
 	
 	public static class AdvancedPie extends CustomChart {
@@ -550,6 +550,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
 		}
+		
 	}
 	
 	public static class SimpleBarChart extends CustomChart {
@@ -580,6 +581,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
 		}
+		
 	}
 	
 	public static class SingleLineChart extends CustomChart {
@@ -606,6 +608,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("value", value).build();
 		}
+		
 	}
 	
 	public static class MultiLineChart extends CustomChart {
@@ -646,6 +649,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
 		}
+		
 	}
 	
 	public static class SimplePie extends CustomChart {
@@ -672,6 +676,7 @@ public final class Metrics {
 			}
 			return new JsonObjectBuilder().appendField("value", value).build();
 		}
+		
 	}
 	
 	/**
@@ -877,6 +882,9 @@ public final class Metrics {
 			public String toString() {
 				return value;
 			}
+			
 		}
+		
 	}
+	
 }

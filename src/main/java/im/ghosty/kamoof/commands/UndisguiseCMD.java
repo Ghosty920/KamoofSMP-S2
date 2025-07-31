@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * La commande <code>/undisguise</code>, permettant de retirer son propre déguisement.
+ *
  * @since 1.0
  */
 public final class UndisguiseCMD implements CommandExecutor, TabCompleter {

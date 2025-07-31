@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * {@link Feature} pour gérer le drop de têtes à la mort d'un joueur.
+ *
  * @since 1.0
  */
 public final class HeadDropper extends Feature {

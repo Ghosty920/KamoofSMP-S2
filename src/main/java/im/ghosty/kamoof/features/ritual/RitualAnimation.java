@@ -14,7 +14,6 @@ import org.bukkit.scheduler.BukkitTask;
 import org.joml.Vector2d;
 
 import java.net.URL;
-import java.util.*;
 import java.util.function.Consumer;
 
 import static im.ghosty.kamoof.KamoofPlugin.config;
@@ -23,6 +22,7 @@ import static im.ghosty.kamoof.utils.Utils.interpolate;
 
 /**
  * Classe qui gère l'animation du Rituel.
+ *
  * @since 1.0
  */
 public final class RitualAnimation {
@@ -169,7 +169,7 @@ public final class RitualAnimation {
 					
 				}, 15L, interval);
 				
-				Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), part4, (interval*quantity)+10L /* 60L */);
+				Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), part4, (interval * quantity) + 10L /* 60L */);
 			}, 20L);
 		};
 		
