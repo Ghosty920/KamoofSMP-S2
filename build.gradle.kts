@@ -20,9 +20,9 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT")
     //compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
 
-    implementation("net.kyori:adventure-api:4.23.0")
-    implementation("net.kyori:adventure-text-minimessage:4.23.0")
-    implementation("net.kyori:adventure-text-serializer-legacy:4.23.0")
+    implementation("net.kyori:adventure-api:4.24.0")
+    implementation("net.kyori:adventure-text-minimessage:4.24.0")
+    implementation("net.kyori:adventure-text-serializer-legacy:4.24.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.4.1")
 
     implementation("xyz.haoshoku.nick:Main:v1.0.5b")
