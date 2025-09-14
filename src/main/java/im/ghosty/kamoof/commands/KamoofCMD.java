@@ -2,6 +2,7 @@ package im.ghosty.kamoof.commands;
 
 import im.ghosty.kamoof.KamoofPlugin;
 import im.ghosty.kamoof.api.KamoofSMP;
+import im.ghosty.kamoof.features.other.JoinMessages;
 import im.ghosty.kamoof.features.ritual.*;
 import im.ghosty.kamoof.utils.*;
 import org.bukkit.Bukkit;
@@ -14,9 +15,13 @@ import xyz.haoshoku.nick.NickAPI;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
-import static im.ghosty.kamoof.KamoofPlugin.config;
+import static im.ghosty.kamoof.KamoofPlugin.*;
 
 /**
  * La commande <code>/kamoofsmp</code>, permettant d'accéder aux paramètres du plugin, aux crédits... à différentes sous-commandes.
@@ -81,9 +86,9 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				return true;
 			}
 			case "reload": {
-				KamoofPlugin.getInstance().reloadConfig();
+				getInstance().reloadConfig();
 				try {
-					NickAPI.setupConfig(new File(KamoofPlugin.getInstance().getDataFolder(), "nickapi.yml"));
+					NickAPI.setupConfig(new File(getInstance().getDataFolder(), "nickapi.yml"));
 				} catch (IOException e) {
 					NickAPI.setupConfig((ConfigurationSection) null);
 				}
@@ -118,18 +123,30 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 							String value = values.get(i);
 							message.append(String.format("<br><click:run_command:'/kamoofsmp undisguise %s'><hover:show_text:\"" + Lang.get("UNDISGUISE_HOVER") + "\"><white>%s <gray>→ <#ffddff>%s</hover></click>", key, key, key, value));
 						}
-						Message.send(player, message.toString());
-						return true;
 					} else {
 						message.append(Lang.get("UNDISGUISE_NONE"));
-						Message.send(player, message.toString());
-						return true;
 					}
+					Message.send(player, message.toString());
+					return true;
 				}
 				String name = args[1];
 				OfflinePlayer target = Bukkit.getOfflinePlayer(name);
 				KamoofSMP.getInstance().disguise(target, null);
 				Lang.send(player, "UNDISGUISED", KamoofSMP.getInstance().getName(target));
+				return true;
+			}
+			case "english": {
+				// set la langue en anglais
+				config().set("language", "en");
+				getInstance().saveConfig();
+				Lang.init();
+				// fais réapparaître le message de first join
+				JoinMessages.done = false;
+				data().set("firstJoinMsg", false);
+				saveData();
+				// confirmation
+				String message = Lang.PREFIX + "<white>The language has been set to <b>English</b>!<br>Reconnect to receive the first-time instructions in English as well.";
+				Message.send(player, message);
 				return true;
 			}
 			case "pacterun": {
@@ -138,6 +155,27 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 			}
 			case "pactebook": {
 				player.getWorld().dropItemNaturally(player.getLocation(), RitualBook.getBook(RitualHandler.addNewUUID()));
+				return true;
+			}
+			case "ignorespigotcrash": {
+				JoinMessages.ignoreSpigot = true;
+				data().set("ignoreSpigotCrash", true);
+				saveData();
+				Lang.send(player, "SPIGOT_IGNORED");
+				return true;
+			}
+			case "removenickapi": {
+				String fileName = null;
+				try {
+					File file = Utils.findNickAPIFile();
+					fileName = file.getName();
+					file = Utils.getParentPluginFile(file.toURI().toURL());
+					Files.delete(Path.of(file.getPath()));
+					Lang.send(player, "NICKAPI_REMOVED");
+				} catch(Throwable exc) {
+					exc.printStackTrace();
+					Lang.send(player, "NICKAPI_REMOVE_FAIL" + (fileName == null ? "_WHAT" : ""), fileName);
+				}
 				return true;
 			}
 			default: {
@@ -197,7 +235,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	 * @return <code>true</code>
 	 */
 	public boolean showArgs(CommandSender sender) {
-		String version = KamoofPlugin.getInstance().getDescription().getVersion();
+		String version = getInstance().getDescription().getVersion();
 		Lang.send(sender, "MAIN_ARGUMENTS", version);
 		return true;
 	}
@@ -209,7 +247,7 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 	 * @return <code>true</code>
 	 */
 	public boolean showCredits(CommandSender sender) {
-		String version = KamoofPlugin.getInstance().getDescription().getVersion();
+		String version = getInstance().getDescription().getVersion();
 		Lang.send(sender, "CREDITS", version, Lang.SUPPORT);
 		return true;
 	}

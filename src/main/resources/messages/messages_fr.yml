@@ -16,9 +16,19 @@ UNDISGUISED: "<green>Le déguisement de <yellow>%s</yellow> a été retiré avec
 UNDISGUISE_NONE: "<br><red>Personne n'est déguisé."
 SETUP_GIVEN: "<br>Utilise le <red><b>Bloc de verrues du Nether <reset>pour définir l'emplacement des têtes.<br> <gray>- Il suffit de le poser sur le socle au centre du rituel.</gray><br>Utilise le <aqua><b>Bâton de Breeze <reset>pour construire un rituel comme sur le serveur officiel.<br>Utilise le <yellow><b>Bâton de Blaze <reset>pour construire un rituel comme sur la présentation originelle, avec que la base."
 NEW_RITUAL_LOCATION: "%PREFIX%<gray>Nouveau lieu de Rituel: <#ff9999>%s <#99ff99>%s <#9999ff>%s"
-FIRST_JOIN: "<br><yellow>Merci d'avoir installé le KamoofSMP <red>❤<reset><br><click:run_command:'/kamoofsmp config'>Cliquez ici pour ouvrir la configuration</click><br><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel</click><br><click:suggest_command:'/givehead '><hover:show_text:'Rajoutez le pseudo d'un joueur au choix'>Cliquez ici pour vous donner une tête</hover></click><br>"
-RITUAL_NOT_PLACED: "%PREFIX%<red>Vous n'avez pas encore placé le Rituel !<br><yellow><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel.</click>"
 NOT_MINECRAFT_1_21: "<red>Vous devez avoir la version 1.21 (ou au dessus) de Minecraft pour continuer."
+
+# Messages de join
+FIRST_JOIN: "<br><yellow>Merci d'avoir installé le KamoofSMP <red>❤<reset><br><click:run_command:'/kamoofsmp config'>Cliquez ici pour ouvrir la configuration</click><br><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel</click><br><click:suggest_command:'/givehead '><hover:show_text:'Rajoutez le pseudo d''un joueur au choix'>Cliquez ici pour vous donner une tête</hover></click><br><click:run_command:'/kamoofsmp english'><#BBBBBB>Set language to English</#BBBBBB></click><br>"
+RITUAL_NOT_PLACED: "%PREFIX%<red>Vous n'avez pas encore placé le Rituel !<br><yellow><click:run_command:'/kamoofsmp setup'>Cliquez ici pour placer le rituel.</click><br>"
+SPIGOT_FOUND: "%PREFIX%<red>Vous semblez utiliser Spigot!<br>Un crash peut arriver si vous utilisez le rituel.<br>Considérez améliorer votre serveur sur <gold><b><click:open_url:'https://papermc.io/downloads/all?project=paper'><hover:show_text:'Ouvre la page de téléchargement'>Paper</hover></click></b></gold>. (100% compatible)<br><dark_red><b><click:run_command:'/kammofsmp ignorespigotcrash'>[IGNORER LE RISQUE]<br>"
+SPIGOT_IGNORED: "%PREFIX%<gold>Vous ne serez plus prévénu concernant Spigot."
+NICKAPI_FOUND: "%PREFIX%<red>Le plugin NickAPI a été trouvé - il est devenu <gold><hover:show_text:'NickAPI est maintenant inclus avec le KamoofSMP'>inutile</hover></gold> depuis la version 1.4"
+NICKAPI_FOUND_PAPER: "<gold>Vous semblez utiliser Paper. <yellow><click:run_command:'/kamoofsmp removenickapi'>Cliquez ici</click></yellow> pour retirer NickAPI automatiquement.<br>"
+NICKAPI_FOUND_SPIGOT: "<red>Veuillez <click:run_command:'/stop'><hover:show_text:'Clique pour éteindre le serveur'>éteindre le serveur</hover></click> et retirer le fichier au chemin <gold>plugins/%s</gold><br>"
+NICKAPI_REMOVED: "%PREFIX%<green>NickAPI a été retiré.<br><gold><b><hover:show_text:'Clique pour relancer le serveur'><click:run_command:/restart>[RELANCER LE SERVEUR]"
+NICKAPI_REMOVE_FAIL: "%PREFIX%<red>NickAPI n'a pas pu être retiré.<br>Veuillez <click:run_command:'/stop'><hover:show_text:'Clique pour éteindre le serveur'>éteindre le serveur</hover></click> et retirer le fichier au chemin <gold>plugins/%s</gold>"
+NICKAPI_REMOVE_FAIL_WHAT: "%PREFIX%<red>NickAPI n'a pas pu être retiré.<br>Veuillez <click:run_command:'/stop'><hover:show_text:'Clique pour éteindre le serveur'>éteindre le serveur</hover></click> et retirer le fichier du plugin."
 
 # Rituel
 SETUP_ITEM_FIRST: "§c§lPositionner le Rituel"

@@ -51,5 +51,16 @@ tasks {
                 version = project.version.toString()
             }
         }
+
+        repositories {
+            maven("https://repo.codemc.io/repository/Ghosty920/") {
+                val mavenUsername = System.getenv("GRADLE_PROJECT_MAVEN_USERNAME")
+                val mavenPassword = System.getenv("GRADLE_PROJECT_MAVEN_PASSWORD")
+                credentials {
+                    username = mavenUsername
+                    password = mavenPassword
+                }
+            }
+        }
     }
 }

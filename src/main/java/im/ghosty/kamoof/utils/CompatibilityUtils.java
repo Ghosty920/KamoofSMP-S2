@@ -12,11 +12,23 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 @UtilityClass
 public final class CompatibilityUtils {
 	
+	public static final boolean IS_RUNNING_PAPER;
 	private static final boolean IS_MINECRAFT_1_21 = Material.getMaterial("MACE") != null;
 	private static final boolean DO_BUNDLES_EXIST = Material.getMaterial("BUNDLE") != null;
 	private static Attribute MAX_HEALTH_ATTRIBUTE;
 	private static AttributeModifier MAX_HEALTH_ATTRIBUTE_MODIFIER;
 	private static InventoryAction PAPER_PLACE_INTO_BUNDLE_ACTION, PAPER_PLACE_FROM_BUNDLE_ACTION;
+	
+	static {
+		boolean isPaper;
+		try {
+			Class.forName("com.destroystokyo.paper.ParticleBuilder");
+			isPaper = true;
+		} catch (ClassNotFoundException ignored) {
+			isPaper = false;
+		}
+		IS_RUNNING_PAPER = isPaper;
+	}
 	
 	public static boolean isMinecraft1_21() {
 		// 1.21

@@ -120,11 +120,8 @@ public final class UpdateChecker extends Feature {
 				}});
 			
 			URL location = KamoofPlugin.class.getProtectionDomain().getCodeSource().getLocation();
-			if(location.getPath().contains(".paper-remapped")) {
-				String[] split = location.getPath().split("/");
-				location = new File(new File(location.toURI()).getParentFile().getParent(), split[split.length - 1]).toURI().toURL();
-			}
-			Files.write(Path.of(location.toURI()), response.response());
+			File pluginFile = Utils.getParentPluginFile(location);
+			Files.write(Path.of(pluginFile.toURI()), response.response());
 			
 			sendMessage("UPDATE_DOWNLOADED");
 			

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "im.ghosty"
-version = "1.5.3"
+version = "1.5.4"
 
 repositories {
     mavenCentral()
@@ -74,5 +74,17 @@ tasks {
                 version = project.version.toString()
             }
         }
+
+        repositories {
+            maven("https://repo.codemc.io/repository/Ghosty920/") {
+                val mavenUsername = System.getenv("GRADLE_PROJECT_MAVEN_USERNAME")
+                val mavenPassword = System.getenv("GRADLE_PROJECT_MAVEN_PASSWORD")
+                credentials {
+                    username = mavenUsername
+                    password = mavenPassword
+                }
+            }
+        }
     }
 }
+
