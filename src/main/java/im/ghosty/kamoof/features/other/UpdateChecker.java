@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static im.ghosty.kamoof.KamoofPlugin.config;
+import static im.ghosty.kamoof.KamoofPlugin.*;
 
 public final class UpdateChecker extends Feature {
 	
@@ -36,7 +36,7 @@ public final class UpdateChecker extends Feature {
 	
 	@Override
 	public boolean isEnabled() {
-		return config().getBoolean("autoupdate.fetch");
+		return config().getBoolean("autoupdate.fetch") && !data().getBoolean("debug", false);
 	}
 	
 	@Override

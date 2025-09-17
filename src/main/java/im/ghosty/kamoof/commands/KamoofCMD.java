@@ -178,17 +178,30 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				}
 				return true;
 			}
+			case "debug": {
+				boolean val = !data().getBoolean("debug", false);
+				data().set("debug", val);
+				saveData();
+				Message.send(player, Lang.PREFIX + (val ? "<b><white>DEBUG MODE!!" : "<red>Debug Mode disabled."));
+			}
 			default: {
 				return showArgs(player);
 			}
 		}
 	}
 	
+	private static final List<String> validArgs = Arrays.asList("info", "config", "reload", "setup", "givehead", "undisguise"),
+		devArgs = new ArrayList<>(validArgs);
+	
+	static {
+		devArgs.addAll(Arrays.asList("english", "pacterun", "pactebook", "ignorespigotcrash", "removenickapi", "debug"));
+	}
+	
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		if (sender.hasPermission("kamoofsmp.admin")) {
 			if (args.length <= 1) {
-				return Arrays.asList("info", "config", "reload", "setup", "givehead", "undisguise");
+				return data().getBoolean("debug", false) ? devArgs : validArgs;
 			}
 			if (args[0].equalsIgnoreCase("givehead")) {
 				ArrayList<String> values = new ArrayList<>();
