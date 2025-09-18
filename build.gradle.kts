@@ -4,7 +4,7 @@ plugins {
     id("com.gradleup.shadow") version "8.3.9"
 }
 
-group = "im.ghosty"
+group = "im.ghosty.kamoof"
 version = "1.5.4"
 
 repositories {
