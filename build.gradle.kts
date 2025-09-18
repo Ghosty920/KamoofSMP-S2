@@ -29,8 +29,8 @@ dependencies {
     implementation("com.samjakob:SpiGUI:v1.4.1")
     implementation("net.wesjd:anvilgui:1.10.8-SNAPSHOT")
 
-    compileOnly("org.projectlombok:lombok:1.18.40")
-    annotationProcessor("org.projectlombok:lombok:1.18.40")
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
 }
 
 java {
