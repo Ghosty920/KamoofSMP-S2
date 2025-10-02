@@ -25,7 +25,7 @@ dependencies {
     implementation("net.kyori:adventure-text-serializer-legacy:4.24.0")
     implementation("net.kyori:adventure-platform-bungeecord:4.4.1")
 
-    implementation("xyz.haoshoku.nick:Main:v1.0.6")
+    implementation("xyz.haoshoku.nick:Main:v1.0.7")
     implementation("com.samjakob:SpiGUI:v1.4.1")
     implementation("net.wesjd:anvilgui:1.10.8-SNAPSHOT")
 
