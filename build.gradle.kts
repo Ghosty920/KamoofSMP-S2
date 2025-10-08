@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation(project(":API"))
-    compileOnly("org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot-api:1.21.10-R0.1-SNAPSHOT")
     //compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
 
     implementation("net.kyori:adventure-api:4.24.0")
