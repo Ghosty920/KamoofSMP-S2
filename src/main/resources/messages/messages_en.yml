@@ -8,8 +8,8 @@ FEATURE_FAILED: "%PREFIX%<red>Couldn't load the feature <b>%s</b>."
 
 # Main Command & Messages
 MAIN_ARGUMENTS: "<green><b>KamoofSMP Version %s</b><br><br><gold>Possible arguments:<br>- <yellow><click:run_command:'/kamoofsmp info'><b>info:</b></click> The plugin infos/credits</yellow><br>- <yellow><click:run_command:'/kamoofsmp config'><b>config:</b></click> Configure the plugin</yellow><br>- <yellow><click:run_command:'/kamoofsmp reload'><b>reload:</b></click> Reload the configuration</yellow><br>- <yellow><click:run_command:'/kamoofsmp setup'><b>setup:</b></click> Set the ritual location</yellow><br>- <yellow><click:suggest_command:'/kamoofsmp givehead '><b>givehead:</b></click> Give yourself any head</yellow><br>- <yellow><click:run_command:'/kamoofsmp undisguise '><b>undisguise:</b></click> Remove a disguise</yellow>"
-CREDITS: "<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systems & Updates by <click:open_url:'https://github.com/Ghosty920'><u>Ghosty</u></click></yellow><br>- <yellow>Support & Bugs & Structures by <click:open_url:'https://www.youtube.com/@Solmeyt'><u>Solmey</u></click></yellow><br>Contact: <#4444ee><u><click:open_url:'%s'>Discord</click>"
-HEAD_GIVEN: "%PREFIX%<gray>Gave yourself the head of <yellow>%s</yellow>."
+CREDITS: "<green><b>KamoofSMP Version %s</b><br><br><gold>- <yellow>Systems & Updates by <click:open_url:'https://ghosty.im'><u>Ghosty</u></click></yellow><br>- <yellow>Support & Bugs & Structures by <click:open_url:'https://www.youtube.com/@Solmeyt'><u>Solmey</u></click></yellow><br>Contact: <#4444ee><u><click:open_url:'%s'>Discord</click>"
+HEAD_GIVEN: "%PREFIX%<gray>You gave yourself the head of <yellow>%s</yellow>."
 CONFIG_RELOADED: "%PREFIX%<gray>Config reloaded. If an issue happens, feel free to restart your server.<br><b><yellow><click:run_command:'/restart'>Restart</click><white> | <gold><click:run_command:'/reload confirm'>Reload</click>"
 UNDISGUISE_HOVER: "Click to <red>remove</red> <yellow>%s</yellow>'s disguise"
 UNDISGUISED: "<yellow>%s<green>'s disguise was removed successfully."
@@ -21,7 +21,7 @@ NOT_MINECRAFT_1_21: "<red>You must have Minecraft version 1.21 (or above) to con
 # Join messages
 FIRST_JOIN: "<br><yellow>Thanks for installing the KamoofSMP <red>❤<reset><br><click:run_command:'/kamoofsmp config'>Click here to open the configuration</click><br><click:run_command:'/kamoofsmp setup'>Click here to place the ritual</click><br><click:suggest_command:'/givehead '><hover:show_text:'Add any player name'>Click here to give yourself any head</hover></click><br>"
 RITUAL_NOT_PLACED: "%PREFIX%<red>You still haven't placed the Ritual !<br><yellow><click:run_command:'/kamoofsmp setup'>Click here to place the ritual.</click><br>"
-SPIGOT_FOUND: "%PREFIX%<red>You seem to use Spigot!<br>A crash can happen if you start the ritual.<br>Consider upgrading your server to <gold><b><click:open_url:'https://papermc.io/downloads/all?project=paper'><hover:show_text:'Ouvre la page de téléchargement'>Paper</hover></click></b></gold>. (100% compatible)<br><dark_red><b><click:run_command:'/kammofsmp ignorespigotcrash'>[IGNORE THE RISK]<br>"
+SPIGOT_FOUND: "%PREFIX%<red>You seem to use Spigot!<br>A crash can happen if you start the ritual.<br>Consider upgrading your server to <gold><b><click:open_url:'https://papermc.io/downloads/all?project=paper'><hover:show_text:'Ouvre la page de téléchargement'>Paper</hover></click></b></gold>. (100% compatible)<br><dark_red><b><click:run_command:'/kamoofsmp ignorespigotcrash'>[IGNORE THE RISK]<br>"
 SPIGOT_IGNORED: "%PREFIX%<gold>You will no longer be notified about Spigot."
 NICKAPI_FOUND: "%PREFIX%<red>The plugin NickAPI was found - it became <gold><hover:show_text:'NickAPI is now included with KamoofSMP'>useless</hover></gold> since version 1.4"
 NICKAPI_FOUND_PAPER: "<gold>You seem to use Paper. <yellow><click:run_command:'/kamoofsmp removenickapi'>Click here</click></yellow> to remove NickAPI automatically.<br>"

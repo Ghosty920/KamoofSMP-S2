@@ -8,6 +8,7 @@ import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.profile.PlayerProfile;
 
 import java.util.Map;
 
@@ -30,12 +31,7 @@ public final class SkullManager {
 		SkullMeta meta = (SkullMeta) item.getItemMeta();
 		
 		OfflinePlayer target = Bukkit.getOfflinePlayer(player);
-		meta.setOwnerProfile(target.getPlayerProfile());
-//		meta.setOwningPlayer(target);
-//		PlayerProfile profile = Bukkit.createPlayerProfile(target.getUniqueId(), player);
-//		PlayerTextures textures = profile.getTextures();
-//		profile.setTextures(textures);
-//		meta.setOwnerProfile(profile);
+		meta.setOwningPlayer(target);
 		
 		String itemName = Placeholder.apply(KamoofPlugin.config().getString("drophead.name"), Map.of("player", player));
 		meta.setDisplayName(itemName);
@@ -61,7 +57,20 @@ public final class SkullManager {
 			return null;
 		if (!(item.getItemMeta() instanceof SkullMeta meta))
 			return null;
-		return meta.getOwningPlayer();
+		
+		OfflinePlayer player = meta.getOwningPlayer();
+		if(player != null)
+			return player;
+		
+		PlayerProfile profile = meta.getOwnerProfile();
+		if(profile != null)
+			return Bukkit.getOfflinePlayer(profile.getUniqueId());
+		
+		String name = meta.getPersistentDataContainer().get(keyPlayer, PersistentDataType.STRING);
+		if(name != null)
+			return Bukkit.getOfflinePlayer(name);
+			
+		return null;
 	}
 	
 	/**

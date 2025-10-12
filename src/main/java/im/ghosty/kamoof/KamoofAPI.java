@@ -48,7 +48,12 @@ public final class KamoofAPI extends KamoofSMP {
 	
 	@Override
 	public String getName(OfflinePlayer player) {
-		return player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName();
+		try {
+			return player instanceof Player p ? NickAPI.getOriginalName(p) : player.getName();
+		} catch (Throwable exc) {
+			exc.printStackTrace();
+			return null;
+		}
 	}
 	
 }

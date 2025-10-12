@@ -52,7 +52,7 @@ public final class RitualAnimation {
 		// Modification des têtes
 		ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
 		SkullMeta meta = (SkullMeta) skull.getItemMeta();
-		PlayerProfile ownerProfile = Bukkit.createPlayerProfile(UUID.randomUUID());
+		PlayerProfile ownerProfile = Bukkit.createPlayerProfile(UUID.randomUUID(), "_");
 		PlayerTextures textures = ownerProfile.getTextures();
 		textures.setSkin(new URL("http://textures.minecraft.net/texture/f8912bc1ad3ddbe39a19b734a42d8548964bb0a9ce58a52f1a6ae37121524"));
 		ownerProfile.setTextures(textures);

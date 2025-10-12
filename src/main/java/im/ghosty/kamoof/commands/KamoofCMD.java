@@ -182,7 +182,8 @@ public final class KamoofCMD implements CommandExecutor, TabCompleter {
 				boolean val = !data().getBoolean("debug", false);
 				data().set("debug", val);
 				saveData();
-				Message.send(player, Lang.PREFIX + (val ? "<b><white>DEBUG MODE!!" : "<red>Debug Mode disabled."));
+				Message.send(player, Lang.PREFIX + (val ? "<b><white>DEBUG MODE!! :3" : "<red>Debug Mode disabled."));
+				return true;
 			}
 			default: {
 				return showArgs(player);

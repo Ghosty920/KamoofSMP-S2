@@ -19,6 +19,8 @@ public abstract class KamoofSMP {
 	private static KamoofSMP instance;
 	
 	/**
+	 * Récupère l'instance de l'API.
+	 *
 	 * @return L'instance du plugin et de l'API.
 	 * @throws KamoofNotInitializedException Si l'instance n'est pas encore chargée. N'oubliez pas d'ajouter le plugin en tant que dépendence au votre.
 	 */
