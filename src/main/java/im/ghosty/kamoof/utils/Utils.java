@@ -1,6 +1,8 @@
 package im.ghosty.kamoof.utils;
 
 import com.google.common.base.Joiner;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import im.ghosty.kamoof.KamoofPlugin;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
@@ -8,6 +10,8 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
 import java.io.File;
 import java.net.URL;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 /**
  * Classe utilitaire en tout genre..
@@ -33,7 +37,7 @@ public final class Utils {
 			//Class<?> clazz = Class.forName("xyz.haoshoku.nick.NickPlugin"); // fsr ne marche pas???
 			URL url = clazz.getProtectionDomain().getCodeSource().getLocation();
 			return new File(url.toURI());
-		} catch(Throwable exc) {
+		} catch (Throwable exc) {
 			return null;
 		}
 	}
@@ -44,15 +48,26 @@ public final class Utils {
 	 */
 	public static File getParentPluginFile(URL url) {
 		try {
-			if(url.getPath().contains(".paper-remapped")) {
+			if (url.getPath().contains(".paper-remapped")) {
 				String[] split = url.getPath().split("/");
 				url = new File(new File(url.toURI()).getParentFile().getParent(), split[split.length - 1]).toURI().toURL();
 			}
 			return new File(url.toURI());
-		} catch(Throwable exc) {
+		} catch (Throwable exc) {
 			exc.printStackTrace();
 			return null;
 		}
+	}
+	
+	public JsonElement getFirstMatchArray(JsonArray array, Predicate<JsonElement> predicate) {
+		for (JsonElement element : array) {
+			try {
+				if (predicate.test(element))
+					return element;
+			} catch (Throwable ignored) {
+			}
+		}
+		return null;
 	}
 	
 }

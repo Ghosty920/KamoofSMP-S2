@@ -34,6 +34,10 @@ public final class UpdateChecker extends Feature {
 	private BaseComponent[] message;
 	private BukkitTask task;
 	
+	public UpdateChecker() {
+		currentVersion = KamoofPlugin.getInstance().getDescription().getVersion().trim().toLowerCase();
+	}
+	
 	@Override
 	public boolean isEnabled() {
 		return config().getBoolean("autoupdate.fetch") && !data().getBoolean("debug", false);
@@ -42,7 +46,7 @@ public final class UpdateChecker extends Feature {
 	@Override
 	public void onEnable() {
 		super.onEnable();
-
+		
 		final boolean[] shouldRestart = {true};
 		task = Bukkit.getScheduler().runTaskTimerAsynchronously(KamoofPlugin.getInstance(), () -> {
 			boolean download = config().getBoolean("autoupdate.download");
@@ -61,10 +65,6 @@ public final class UpdateChecker extends Feature {
 		task = null;
 	}
 	
-	public UpdateChecker() {
-		currentVersion = KamoofPlugin.getInstance().getDescription().getVersion().trim().toLowerCase();
-	}
-	
 	public boolean checkForUpdate() {
 		try {
 			sendMessage("UPDATE_CHECKING");
@@ -72,7 +72,12 @@ public final class UpdateChecker extends Feature {
 				new HashMap<>() {{
 					put("User-Agent", "github: @Ghosty920/KamoofSMP-S2/v" + currentVersion);
 				}}).response();
-			JsonObject object = JsonParser.parseString(data).getAsJsonArray().get(0).getAsJsonObject();
+			JsonObject object = Utils.getFirstMatchArray(JsonParser.parseString(data).getAsJsonArray(), elem ->
+				Utils.getFirstMatchArray(
+					elem.getAsJsonObject().get("loaders").getAsJsonArray(),
+					loader -> loader.getAsString().equals("bukkit")
+				) != null
+			).getAsJsonObject();
 			newVersion = object.get("version_number").getAsString().trim().toLowerCase();
 			
 			if (Arrays.compare(currentVersion.getBytes(), newVersion.getBytes()) != 0) {
