@@ -5,6 +5,8 @@ import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 import xyz.haoshoku.nick.NickAPI;
 
+import java.util.Objects;
+
 /**
  * Classe utilitaire pour déguiser un joueur avec n'importe quel pseudo à l'aide de {@link NickAPI}.
  * @since 1.0
@@ -18,6 +20,20 @@ public final class DisguiseManager {
 	 * @param name Le déguisement
 	 */
 	public static void disguise(Player player, String name) {
+		// nom invalide, on part de l'idée que c'est un undisguise (on déguise en rien)
+		if(name == null || name.isEmpty()) {
+			undisguise(player);
+			return;
+		}
+		// B (A) -> B, inutile
+		if(Objects.equals(KamoofSMP.getInstance().getDisguise(player), name))
+			return;
+		// B (A) -> A, il utilise sa propre tête, autant retirer son déguisement
+		if(Objects.equals(player.getName(), name)) {
+			undisguise(player);
+			return;
+		}
+		
 		player.setDisplayName(player.getDisplayName().replace(player.getName(), name));
 		
 		NickAPI.nick(player, name);
@@ -32,6 +48,9 @@ public final class DisguiseManager {
 	 * @param player La cible
 	 */
 	public static void undisguise(Player player) {
+		// s'il n'est pas déguisé, évitons de refresh dans le vide
+		if(!NickAPI.isNicked(player)) return;
+		
 		player.setDisplayName(player.getDisplayName().replace(NickAPI.getName(player), KamoofSMP.getInstance().getName(player)));
 		
 		NickAPI.resetNick(player);

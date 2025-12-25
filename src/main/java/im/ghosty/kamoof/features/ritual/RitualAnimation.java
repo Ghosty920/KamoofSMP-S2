@@ -68,8 +68,8 @@ public final class RitualAnimation {
 		world.setThundering(false);
 		world.setStorm(false);
 		
-		final boolean hasDayCycle = world.getGameRuleValue(GameRule.DO_DAYLIGHT_CYCLE);
-		world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		final boolean hasDayCycle = world.getGameRuleValue(CompatibilityUtils.getDaylightCycle());
+		world.setGameRule(CompatibilityUtils.getDaylightCycle(), false);
 		final long previousWorldTime = world.getTime();
 		final long timeIncr = config().getLong("ritual.animation.time-incr"),
 			timeStop = config().getLong("ritual.animation.time-stop"),
@@ -105,7 +105,7 @@ public final class RitualAnimation {
 			Bukkit.getScheduler().runTaskLater(KamoofPlugin.getInstance(), () -> {
 				stopped = true;
 				world.setTime(previousWorldTime);
-				world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, hasDayCycle);
+				world.setGameRule(CompatibilityUtils.getDaylightCycle(), hasDayCycle);
 				Bukkit.spigot().broadcast(Message.toBaseComponent(config().getString("messages.ritualdone")));
 				world.dropItemNaturally(centeredLoc, RitualBook.getBook(RitualHandler.addNewUUID()));
 				world.strikeLightning(centeredLoc.plus(0, radius, 0));

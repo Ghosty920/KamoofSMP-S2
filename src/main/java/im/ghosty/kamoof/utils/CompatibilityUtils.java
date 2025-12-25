@@ -2,8 +2,7 @@ package im.ghosty.kamoof.utils;
 
 import im.ghosty.kamoof.KamoofPlugin;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.event.inventory.InventoryAction;
@@ -18,6 +17,7 @@ public final class CompatibilityUtils {
 	private static Attribute MAX_HEALTH_ATTRIBUTE;
 	private static AttributeModifier MAX_HEALTH_ATTRIBUTE_MODIFIER;
 	private static InventoryAction PAPER_PLACE_INTO_BUNDLE_ACTION, PAPER_PLACE_FROM_BUNDLE_ACTION;
+	private static GameRule<Boolean> DAYLIGHT_CYCLE;
 	
 	static {
 		boolean isPaper;
@@ -93,6 +93,23 @@ public final class CompatibilityUtils {
 			PAPER_PLACE_FROM_BUNDLE_ACTION = InventoryAction.UNKNOWN;
 		}
 		return PAPER_PLACE_FROM_BUNDLE_ACTION;
+	}
+	
+	public static GameRule<Boolean> getDaylightCycle() {
+		if(DAYLIGHT_CYCLE != null)
+			return DAYLIGHT_CYCLE;
+		
+		try {
+			// 1.21.11
+			DAYLIGHT_CYCLE = GameRule.ADVANCE_TIME;
+		} catch(Throwable exc) {
+			try {
+				DAYLIGHT_CYCLE = (GameRule<Boolean>) GameRule.class.getField("DO_DAYLIGHT_CYCLE").get(null);
+			} catch(Throwable exc2) {
+				throw new RuntimeException(exc2);
+			}
+		}
+		return DAYLIGHT_CYCLE;
 	}
 	
 }
